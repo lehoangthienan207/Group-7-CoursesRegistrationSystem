@@ -1,8 +1,9 @@
-#include <iostream>
-#include <string>
-#include "CoursesRegistrationSystem.h"
+//#include <iostream>
+//#include <string>
+#include "PROJECT.h"
+#include "Project.cpp"
 
-using namespace std;
+//using namespace std;
 
 int main()
 {

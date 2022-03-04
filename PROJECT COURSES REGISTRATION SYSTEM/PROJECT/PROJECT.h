@@ -9,11 +9,6 @@ struct SignIn {
 	string Password{};
 	SignIn* pNext{};
 };
-struct Classes {
-	int NumberOfStudents{};
-	Students* pHead{};
-	Classes* pNext{};
-};
 struct DoB {
 	int day{};
 	int month{};
@@ -29,6 +24,12 @@ struct Students
 	DoB DateOfBirth{};
 	Students* pNext{};
 };
+struct Classes {
+	int NumberOfStudents{};
+	Students* pHead{};
+	Classes* pNext{};
+};
+
 struct ScoreBoardOfCourse {
 	string CourseID{};
 	string CourseName{};
