@@ -69,3 +69,9 @@ void CreateSchoolYear(int& Year);
 void CreateSemester(int& Semester);
 void CreateClasses(Classes* pHead);
 
+// Newly added function
+void CreateCourses(Courses*& pHead);
+void PrintCoursesList(Courses* pHead);
+void UpdateCourses(Courses*& pHead);
+void RemoveCourses(Courses*& pHead);
+void PrintClassesList(Classes* pHead);
