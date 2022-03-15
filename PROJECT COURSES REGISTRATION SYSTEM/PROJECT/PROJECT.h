@@ -2,7 +2,10 @@
 
 #include <string>
 #include <iostream>
+#include <fstream>
 using namespace std;
+
+fstream input, output;
 
 struct SignIn {
 	int StudentID{};

@@ -19,3 +19,23 @@ void CreateCourses(Courses*& pHead)
 {
     
 }
+
+void LogInCredentials(fstream& input, SignIn)
+{
+    
+}
+
+void LogIn(SignIn* pHead, fstream& input)
+{
+    
+}
+
+void ChangePassword(string& Password)
+{
+
+}
+
+void LogOut()
+{
+
+}
