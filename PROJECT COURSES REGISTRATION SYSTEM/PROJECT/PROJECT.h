@@ -65,6 +65,7 @@ struct Courses {
 void ChooseTypeOfUser(int& type);
 void SignUp(SignIn*& pHead);
 void LogIn(SignIn*& pHead);
+void LogInCredentials(fstream& input);
 void ChangePassword(string& Password);
 
 // Staff
