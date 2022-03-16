@@ -5,7 +5,8 @@
 #include <fstream>
 using namespace std;
 
-fstream input, output;
+//fstream input, output;
+//Hải: nếu không nhất thiết phải dùng thì đừng dùng biến toàn cục
 
 struct SignIn {
 	int StudentID{};

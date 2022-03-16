@@ -17,7 +17,15 @@ void PrintCoursesList(Courses* pHead)
 }
 void CreateCourses(Courses*& pHead)
 {
-    
+    Courses *pCurr = pHead;
+    while (true)
+    {
+        if (pHead == nullptr)
+        {
+            pHead = new Courses;
+            
+        }
+    }
 }
 
 void LogInCredentials(fstream& input, SignIn)
