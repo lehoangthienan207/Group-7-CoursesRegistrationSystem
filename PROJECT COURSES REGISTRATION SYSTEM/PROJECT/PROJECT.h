@@ -3,6 +3,7 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <cstring>
 using namespace std;
 
 //fstream input, output;
@@ -80,3 +81,8 @@ void PrintCoursesList(Courses* pHead);
 void UpdateCourses(Courses*& pHead);
 void RemoveCourses(Courses*& pHead);
 void PrintClassesList(Classes* pHead);
+void InputStudent(Classes*& pHead);
+void PrintStudentsListInClass(Students* pHead);
+void PrintStudentListInCourse(Students* pHead);
+void InputScoreBoard(ScoreBoardOfCourse*& pHead);
+void PrintScoreBoard(ScoreBoardOfCourse* pHead);

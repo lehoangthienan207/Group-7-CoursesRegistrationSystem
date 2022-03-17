@@ -47,3 +47,32 @@ void LogOut()
 {
 
 }
+
+void InputStudent(Classes*& pHead)
+{
+    
+}
+
+void PrintStudentsListInClass(Students* pHead)
+{
+    string name;
+    cout << "Enter name of class: "; getline(cin, name);
+    ifstream input;
+    input.open(name.c_str());
+    while (!input.eof()) {
+        input >> pHead->No >> pHead->StudentID >> pHead->SocialID >> pHead->Name >> pHead->Gender >> pHead->DateOfBirth.day >> pHead->DateOfBirth.month >> pHead->DateOfBirth.year;
+    }
+    Students* pCur = pHead;
+    cout << "\tTHE LIST OF STUDENTS IN CLASS " << name << "\t";
+    while (pCur)
+    {
+        cout << pCur->No << "   ";
+        cout << pCur->StudentID << "   ";
+        cout << pCur->SocialID << "   ";
+        cout << pCur->Name << "   ";
+        cout << pCur->Gender << "   ";
+        cout << pCur->DateOfBirth.day << "/" << pCur->DateOfBirth.month << "/" << pCur->DateOfBirth.year << "\n";
+        pCur = pCur->pNext;
+    }
+
+}
