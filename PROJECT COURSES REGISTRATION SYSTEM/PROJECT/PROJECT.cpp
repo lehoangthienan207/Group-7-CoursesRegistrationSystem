@@ -18,13 +18,27 @@ void PrintCoursesList(Courses* pHead)
 void CreateCourses(Courses*& pHead)
 {
     Courses *pCurr = pHead;
-    while (true)
+    if (pHead == nullptr)
     {
-        if (pHead == nullptr)
-        {
-            pHead = new Courses;
-            
-        }
+        pHead = new Courses; 
+        cout << "Input course's ID: ";
+        cin >> pHead->CourseID;
+        cout << "Input name of course: ";
+        cin.ignore();
+        getline(cin,pHead->CourseName);
+        cout << "Input session: ";
+        cin.ignore();
+        getline(cin,pHead->session);
+        cout << "Input maximum: "; //maximum??
+        cin >> pHead->Maximum;
+        cout << "Input Number of credits: ";
+        cin >> pHead->Credits;
+        cout << "Input teacher's name: ";
+        cin.ignore();
+        getline(cin, pHead->TeacherName);
+        cout << "Input number of days: ";
+        cin >> pHead->Day;
+        pCurr = pHead->pNext; //Needed a variable to store the pTail of the linked list
     }
 }
 

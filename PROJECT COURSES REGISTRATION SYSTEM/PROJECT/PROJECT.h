@@ -24,6 +24,7 @@ struct Students
 	int No{};
 	int StudentID{};
 	int SocialID{};
+	string classID{};
 	string Name{};
 	int Gender;
 	DoB DateOfBirth{};
