@@ -76,3 +76,98 @@ void PrintStudentsListInClass(Students* pHead)
     }
 
 }
+
+
+// Students
+
+void EnrollCourses(Courses*& pHead, Courses*& pStudents)
+{
+	int n = 0;
+	char opt = 'Y';
+	do {
+		PrintCoursesList(pHead);
+		cout << "Please input the number of courses that you wanna pick: ";
+		cin >> n;
+		Courses* pCur = pStudents;
+		Courses* pCurrent = pHead;
+		for (int i = 0; i < n; i++)
+		{
+			if (pStudents == nullptr)
+			{
+				pStudents = new Courses;
+				cout << "Please input the Course ID (Ex: MTH00005) " << i + 1 << ": ";
+				getline(cin, pStudents->CourseID);
+				cout << "Please input the day of week to study this course (Ex: MON, TUE, WED) " << i + 1 << ": ";
+				cin.getline(pStudents->Day, 3);
+				cout << "Please input the session of day to study this course (Ex: 07h30, 13h30) " << i + 1 << ": ";
+				cin.getline(pStudents->session, 4);
+				pStudents->pNext = nullptr;
+				pCur = pStudents;
+				Courses* pPrev = pHead;
+				while (pCurrent != nullptr)
+				{
+					if (pStudents->CourseID == pCurrent->CourseID && pStudents->Day == pCurrent->Day && pStudents->session == pCurrent->session)
+					{
+						if (pCurrent->Maximum > 1)
+							pCurrent->Maximum--;
+						else {
+							if (pCurrent == pHead)
+							{
+								pCurrent = pHead->pNext;
+								delete pHead;
+								pHead = pCurrent;
+							}
+							else {
+								pPrev->pNext = pCurrent->pNext;
+								delete pCurrent;
+								pCurrent = pPrev->pNext;
+							}
+						}
+					}
+					pPrev = pCurrent;
+					pCurrent = pCurrent->pNext;
+				}
+			}
+			else {
+				pCur->pNext = new Courses;
+				pCur = pCur->pNext;
+				cout << "Please input the Course ID (Ex: MTH00005) " << i + 1 << ": ";
+				getline(cin, pCur->CourseID);
+				cout << "Please input the day of week to study this course (Ex: MON, TUE, WED) " << i + 1 << ": ";
+				cin.getline(pCur->Day, 3);
+				cout << "Please input the session of day to study this course (Ex: 07h30, 13h30) " << i + 1 << ": ";
+				cin.getline(pCur->session, 4);
+				pCur->pNext = nullptr;
+				Courses* pPrev = pHead;
+				while (pCurrent != nullptr)
+				{
+					if (pCur->CourseID == pCurrent->CourseID && pCur->Day == pCurrent->Day && pCur->session == pCurrent->session)
+					{
+						if (pCurrent->Maximum > 1)
+							pCurrent->Maximum--;
+						else {
+							if (pCurrent == pHead)
+							{
+								pCurrent = pHead->pNext;
+								delete pHead;
+								pHead = pCurrent;
+							}
+							else {
+								pPrev->pNext = pCurrent->pNext;
+								delete pCurrent;
+								pCurrent = pPrev->pNext;
+							}
+						}
+					}
+					pPrev = pCurrent;
+					pCurrent = pCurrent->pNext;
+				}
+			}
+
+		}
+		cout << "Do you wanna add more courses or view the list of the courses?" << endl;
+		cout << "Input 'Y' if you wanna add courses and 'N' if you wanna view the list." << endl;
+		cout << "Please choose: "; cin >> opt;
+	} while (opt == 'Y' || opt == 'y');
+	PrintCoursesList(pStudents);
+}

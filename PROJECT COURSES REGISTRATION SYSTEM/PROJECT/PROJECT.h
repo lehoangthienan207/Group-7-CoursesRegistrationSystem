@@ -55,7 +55,7 @@ struct ScoreBoardOfStudent {
 struct Courses {
 	string CourseID{};
 	string CourseName{};
-	string session{};
+	char session[4];
 	int Maximum{};
 	int Credits{};
 	string TeacherName{};
@@ -86,3 +86,9 @@ void PrintStudentsListInClass(Students* pHead);
 void PrintStudentListInCourse(Students* pHead);
 void InputScoreBoard(ScoreBoardOfCourse*& pHead);
 void PrintScoreBoard(ScoreBoardOfCourse* pHead);
+
+// Student
+void EnrollCourses(Courses*& pHead, Courses*& pStudents);
+void PrintEnrolledCourses(Courses* pHead);
+void RemoveEnrolledCourses(Courses*& pHead);
+void PrintScoreBoardOfStudents(ScoreBoardOfStudent*& pHead);
