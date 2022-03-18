@@ -15,7 +15,7 @@ void PrintCoursesList(Courses* pHead)
         pCurr = pCurr->pNext;
     }
 }
-void CreateCourses(Courses*& pHead)
+void CreateCourses(Courses*& pHead, Courses *&pCurr)
 {
     Courses *pCurr = pHead;
     if (pHead == nullptr)
