@@ -81,6 +81,7 @@ void CreateCourses(Courses*& pHead);
 void CreateCourses(Courses*& pHead, Courses *&pCurr);
 void UpdateCourses(Courses*& pHead);
 void RemoveCourses(Courses*& pHead);
+void PrintCoursesList(Courses* pHead);
 void PrintClassesList(Classes* pHead);
 
 void InputStudent(Classes*& pHead);

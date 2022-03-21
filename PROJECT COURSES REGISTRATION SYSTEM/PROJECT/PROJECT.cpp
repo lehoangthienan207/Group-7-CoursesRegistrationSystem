@@ -1,20 +1,6 @@
 #include "PROJECT.h"
 //#include <string>
-void PrintCoursesList(Courses* pHead)
-{
-    Courses *pCurr = pHead;
-    while (pCurr != nullptr)
-    {
-        cout << pCurr->CourseID << "\n";
-        cout << pCurr->CourseName << "\n";
-        cout << pCurr->session << "\n";
-        cout << pCurr->Maximum << "\n";
-        cout << pCurr->Credits << "\n";
-        cout << pCurr->TeacherName << "\n";
-        cout << pCurr->Day << "\n";
-        pCurr = pCurr->pNext;
-    }
-}
+
 void CreateCourses(Courses*& pHead, Courses *&pCurr)
 {
     Courses *pCurr = pHead;
@@ -39,6 +25,50 @@ void CreateCourses(Courses*& pHead, Courses *&pCurr)
         cout << "Input number of days: ";
         cin >> pHead->Day;
         pCurr = pHead->pNext; //Needed a variable to store the pTail of the linked list
+    }
+}
+void PrintCoursesList(Courses* pHead)
+{
+    Courses *pCurr = pHead;
+    while (pCurr != nullptr)
+    {
+        cout << pCurr->CourseID << "\n";
+        cout << pCurr->CourseName << "\n";
+        cout << pCurr->session << "\n";
+        cout << pCurr->Maximum << "\n";
+        cout << pCurr->Credits << "\n";
+        cout << pCurr->TeacherName << "\n";
+        cout << pCurr->Day << "\n";
+        pCurr = pCurr->pNext;
+    }
+}
+void UpdateCourses(Courses*& pHead)
+{
+    cout << "Input courseID you want to update";
+    string a;
+    cin >> a;
+    Courses *pCurr = pHead;
+    while (pCurr!= nullptr && pCurr->CourseID != a)
+        pCurr = pCurr->pNext;
+    if (pCurr != nullptr)
+    {
+        cout << "Input course's ID: ";
+        cin >> pCurr->CourseID;
+        cout << "Input name of course: ";
+        cin.ignore();
+        getline(cin,pCurr->CourseName);
+        cout << "Input session: ";
+        cin.ignore();
+        getline(cin,pCurr->session);
+        cout << "Input maximum: "; //maximum??
+        cin >> pCurr->Maximum;
+        cout << "Input Number of credits: ";
+        cin >> pCurr->Credits;
+        cout << "Input teacher's name: ";
+        cin.ignore();
+        getline(cin, pCurr->TeacherName);
+        cout << "Input number of days: ";
+        cin >> pCurr->Day;
     }
 }
 
