@@ -91,6 +91,30 @@ void LogOut()
 {
 
 }
+//Long:biến Year này thì sẽ ảnh hưởng gì đến các biến khác?
+//Long: Tui coi không thấy khai báo biến "Year" trong file header í
+void CreateSchoolYear(int& Year)
+{
+
+}
+//Long: Có vẻ như là cần thêm biến Semester vào struct ScoreBoardOfCourse
+void CreateSemester(int& Semester)
+{
+
+}
+//Long:tạo lớp học mới bằng stack, khi đó truy cập vào những lớp mới sẽ nhanh hơn. 
+//Long: chỗ để tên lớp nằm ở đâu nhỉ
+void CreateClasses(Classes*& pHead)
+{
+    if (pHead == nullptr)
+    {
+        pHead = new Classes;
+    }
+    else 
+    {
+
+    }
+}
 
 void InputStudent(Classes*& pHead)
 {
