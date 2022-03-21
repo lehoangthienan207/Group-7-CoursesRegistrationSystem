@@ -31,6 +31,7 @@ struct Students
 	Students* pNext{};
 };
 struct Classes {
+	string Name{};
 	int NumberOfStudents{};
 	Students* pHead{};
 	Classes* pNext{};

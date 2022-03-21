@@ -40,6 +40,7 @@ void PrintCoursesList(Courses* pHead)
         cout << pCurr->TeacherName << "\n";
         cout << pCurr->Day << "\n";
         pCurr = pCurr->pNext;
+        cout << "---------------------------------\n";
     }
 }
 void UpdateCourses(Courses*& pHead)
@@ -71,7 +72,45 @@ void UpdateCourses(Courses*& pHead)
         cin >> pCurr->Day;
     }
 }
-
+void RemoveCourses(Courses*& pHead)
+{
+    string a;
+    cout << "Input courseID you want to remove: ";
+    cin >> a;
+    if (pHead->CourseID == a)
+    {
+        Courses *pCurr = pHead;
+        pHead = pHead->pNext;
+        delete pCurr;
+        return;
+    }
+    else
+    {
+        Courses *pCurr = pHead;
+        while (pCurr->pNext != nullptr && pCurr->pNext->CourseID != a)
+            pCurr = pCurr->pNext;
+        if (pCurr->pNext != nullptr)
+        {
+            Courses *pTemp = pCurr->pNext;
+            pCurr->pNext = pCurr->pNext->pNext;
+            delete pTemp;
+            return;
+        }
+    }
+    cout << "No course found.";
+}
+void PrintClassesList(Classes* pHead)
+{
+    Classes *pCurr = pHead;
+    while (pCurr != pHead)
+    {
+        cout << pCurr->Name << "\n";
+        cout << pCurr->NumberOfStudents << "\n";
+        cout << "---------------------\n";
+        pCurr = pCurr->pNext;
+    }
+    
+}
 void LogInCredentials(fstream& input, SignIn)
 {
     
