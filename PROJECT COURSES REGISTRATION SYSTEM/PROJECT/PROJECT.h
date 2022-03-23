@@ -23,6 +23,7 @@ struct Students
 {
 	int No{};
 	int StudentID{};
+	string classID{};
 	int SocialID{};
 	string classID{};
 	string Name{};
