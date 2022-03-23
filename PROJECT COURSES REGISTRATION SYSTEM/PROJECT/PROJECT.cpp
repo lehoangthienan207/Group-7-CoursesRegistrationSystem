@@ -23,7 +23,30 @@ void CreateCourses(Courses*& pHead, Courses *&pCurr)
         getline(cin, pHead->TeacherName);
         cout << "Input number of days: ";
         cin >> pHead->Day;
-        pCurr = pHead->pNext; //Needed a variable to store the pTail of the linked list
+        pCurr = pHead; //Needed a variable to store the pTail of the linked list
+    }
+    else
+    {
+        pCurr->pNext = new Courses;
+        pCurr = pCurr->pNext;
+        cout << "Input course's ID: ";
+        cin >> pCurr->CourseID;
+        cout << "Input name of course: ";
+        cin.ignore();
+        getline(cin,pCurr->CourseName);
+        cout << "Input session: ";
+        cin.ignore();
+        getline(cin,pCurr->session);
+        cout << "Input maximum: "; //maximum??
+        cin >> pCurr->Maximum;
+        cout << "Input Number of credits: ";
+        cin >> pCurr->Credits;
+        cout << "Input teacher's name: ";
+        cin.ignore();
+        getline(cin, pCurr->TeacherName);
+        cout << "Input number of days: ";
+        cin >> pCurr->Day;
+        pCurr->pNext = nullptr;
     }
 }
 void PrintCoursesList(Courses* pHead)
@@ -70,6 +93,8 @@ void UpdateCourses(Courses*& pHead)
         cout << "Input number of days: ";
         cin >> pCurr->Day;
     }
+    else
+        cout << "No course found.";
 }
 void RemoveCourses(Courses*& pHead)
 {
@@ -197,13 +222,15 @@ int menuOfGeneral(int type)
         // each type of user has different function except of general.
     }
     cout << "0. Log out\n";
-    cout << "Input what you want to do.\n";
+    cout << "99. Exit the system\n";
+  
     int a;
     do{
-    cin >> a;
-    if (a != 1 || a!= 2 || a!= 0)
-        cout << "Invalid input. Please try again.";
-    }while(a != 1 || a!= 2 || a!= 0);
+        cout << "Input what you want to do.\n";
+        cin >> a;
+        if (a != 1 || a!= 2 || a!= 0 || a != 99)
+            cout << "Invalid input. Please try again.\n";
+    }while(a != 1 || a!= 2 || a!= 0 || a!= 99);
     return a;
 }
 
@@ -224,5 +251,13 @@ void doSomething(int menuOfGeneral, int type, SignIn *&pHead)
     {
         // placeholder for function of each type of users;
     }
+}
+
+
+/////////////////////////////////////////////////////////////
+//these functions only exist if user input type of user
+void showInformation(int type)
+{
 
 }
+////////////////////////////////////////////////////////////
