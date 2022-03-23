@@ -10,7 +10,7 @@ using namespace std;
 //Hải: nếu không nhất thiết phải dùng thì đừng dùng biến toàn cục
 
 struct SignIn {
-	int StudentID{};
+	int ID{};
 	string Password{};
 	SignIn* pNext{};
 };
@@ -78,7 +78,7 @@ void CreateSemester(int& Semester);
 void CreateClasses(Classes* pHead);
 
 // Newly added function
-void CreateCourses(Courses*& pHead);
+//void CreateCourses(Courses*& pHead);
 void CreateCourses(Courses*& pHead, Courses *&pCurr);
 void UpdateCourses(Courses*& pHead);
 void RemoveCourses(Courses*& pHead);
@@ -90,3 +90,13 @@ void PrintStudentsListInClass(Students* pHead);
 void PrintStudentListInCourse(Students* pHead);
 void InputScoreBoard(ScoreBoardOfCourse*& pHead);
 void PrintScoreBoard(ScoreBoardOfCourse* pHead);
+
+//Main function (Mostly menu functions)
+int menuOfGeneral(int type);
+
+
+//https://stackoverflow.com/questions/48495724/naming-an-output-file-from-a-user-entered-string
+//THe link above contains info about how to output a specific name and file type.
+
+void doSomething(int menuOfGeneral,int type,SignIn *&pHead);
+

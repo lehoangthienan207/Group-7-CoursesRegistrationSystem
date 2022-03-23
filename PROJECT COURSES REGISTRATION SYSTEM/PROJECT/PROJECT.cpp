@@ -3,7 +3,6 @@
 
 void CreateCourses(Courses*& pHead, Courses *&pCurr)
 {
-    Courses *pCurr = pHead;
     if (pHead == nullptr)
     {
         pHead = new Courses; 
@@ -113,17 +112,21 @@ void PrintClassesList(Classes* pHead)
 }
 void LogInCredentials(fstream& input, SignIn)
 {
-    
+    //this is optional
 }
 
-void LogIn(SignIn* pHead, fstream& input)
+void LogIn(SignIn* &pHead)
 {
     
 }
 
 void ChangePassword(string& Password)
 {
-
+    //Hải: làm giúp luôn tại cái này ez =))
+    string newPass = "";
+    cout << "Input new password: ";
+    cin >> newPass;
+    Password = newPass;
 }
 
 void LogOut()
@@ -180,6 +183,46 @@ void PrintStudentsListInClass(Students* pHead)
         cout << pCur->Gender << "   ";
         cout << pCur->DateOfBirth.day << "/" << pCur->DateOfBirth.month << "/" << pCur->DateOfBirth.year << "\n";
         pCur = pCur->pNext;
+    }
+
+}
+
+int menuOfGeneral(int type)
+{
+    cout << "1. View profile info\n";
+    cout << "2. Change password\n";
+    if (type == 1)
+    {
+        // placeholder for future function
+        // each type of user has different function except of general.
+    }
+    cout << "0. Log out\n";
+    cout << "Input what you want to do.\n";
+    int a;
+    do{
+    cin >> a;
+    if (a != 1 || a!= 2 || a!= 0)
+        cout << "Invalid input. Please try again.";
+    }while(a != 1 || a!= 2 || a!= 0);
+    return a;
+}
+
+void doSomething(int menuOfGeneral, int type, SignIn *&pHead)
+{
+    if (menuOfGeneral == 1)
+    {
+        if (type = 1)
+        {
+           // if type of users is there, this will be implement later 
+        }
+    }
+    else if (menuOfGeneral == 2)
+    {
+        ChangePassword(pHead->Password);
+    }
+    else if (true)
+    {
+        // placeholder for function of each type of users;
     }
 
 }
