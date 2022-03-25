@@ -25,7 +25,6 @@ struct Students
 	int StudentID{};
 	string classID{};
 	int SocialID{};
-	string classID{};
 	string Name{};
 	int Gender;
 	DoB DateOfBirth{};
@@ -58,7 +57,7 @@ struct ScoreBoardOfStudent {
 struct Courses {
 	string CourseID{};
 	string CourseName{};
-	string session{};
+	char session[4];
 	int Maximum{};
 	int Credits{};
 	string TeacherName{};
@@ -88,16 +87,13 @@ void PrintClassesList(Classes* pHead);
 
 void InputStudent(Classes*& pHead);
 void PrintStudentsListInClass(Students* pHead);
-void PrintStudentListInCourse(Students* pHead);
+void PrintStudentListInCourse(Students* pHead, Courses*pH);
 void InputScoreBoard(ScoreBoardOfCourse*& pHead);
 void PrintScoreBoard(ScoreBoardOfCourse* pHead);
 
-//Main function (Mostly menu functions)
-int menuOfGeneral(int type);
-
-
-//https://stackoverflow.com/questions/48495724/naming-an-output-file-from-a-user-entered-string
-//THe link above contains info about how to output a specific name and file type.
-
-void doSomething(int menuOfGeneral,int type,SignIn *&pHead);
-
+// Thư: sao có nhiều hàm student ở đây bị mất vậy mọi người? tui nhớ là lần trước mới add vô :<
+// Student // tui add lại ở đây, đừng xóa nữa nhen :<
+void EnrollCourses(Courses*& pHead, Courses*& pStudents);
+void PrintEnrolledCourses(Courses* pHead);
+void RemoveEnrolledCourses(Courses*& pHead);
+void PrintScoreBoardOfStudents(ScoreBoardOfStudent*& pHead);
