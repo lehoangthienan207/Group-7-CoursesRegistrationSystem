@@ -14,7 +14,7 @@ void CreateCourses(Courses*& pHead, Courses*& pCurr)
         cout << "Input session: ";
         cin.ignore();
         getline(cin, pHead->session);
-        cout << "Input maximum: "; //maximum??
+        cout << "Input maximum: "; //maximum?? // Thư: là số lượng học sinh tối đa có thể đăng ký (default là 50)
         cin >> pHead->Maximum;
         cout << "Input Number of credits: ";
         cin >> pHead->Credits;
@@ -169,8 +169,8 @@ void CreateSemester(int& Semester)
 {
 
 }
-//Long:tạo lớp học mới bằng stack, khi đó truy cập vào những lớp mới sẽ nhanh hơn. 
-//Long: chỗ để tên lớp nằm ở đâu nhỉ
+//Long:tạo lớp học mới bằng stack, khi đó truy cập vào những lớp mới sẽ nhanh hơn. // Thư: theo tui thấy cách mình đang là Stack á.
+//Long: chỗ để tên lớp nằm ở đâu nhỉ // Thư: ý Long là sao ha? tui chưa hiểu lắm...
 void CreateClasses(Classes*& pHead)
 {
     if (pHead == nullptr)
@@ -216,7 +216,7 @@ void PrintStudentsListInClass(Students* pHead)
 
     // Students
 
-    void EnrollCourses(Courses * &pHead, Courses * &pStudents)
+void EnrollCourses(Courses * &pHead, Courses * &pStudents)
 {
     int n = 0;
     char opt = 'Y';
@@ -306,6 +306,30 @@ void PrintStudentsListInClass(Students* pHead)
         cout << "Please choose: "; cin >> opt;
     } while (opt == 'Y' || opt == 'y');
     PrintCoursesList(pStudents);
+}
+void PrintEnrolledCourses(Courses* pHead)
+{
+    cout << setw(15) << left << "Course ID";
+    cout << setw(20) << left << "Course Name";
+    cout << setw(10) << left << "Credit";
+    cout << setw(5) << right << "Day";
+    cout << setw(15) << right << "Session";
+    cout << setw(20) << right << "Teacher";
+    cout << endl;
+    cout << setfill('-') << setw(85) << '-';
+    cout << endl;
+    Courses* pCur = pHead;
+    while (pCur != nullptr)
+    {
+        cout << setw(15) << left << pCur->CourseID;
+        cout << setw(20) << left << pCur->CourseName;
+        cout << setw(10) << left << pCur->Credits;
+        cout << setw(5) << right << pCur->Day;
+        cout << setw(15) << right << pCur->session;
+        cout << setw(20) << right << pCur->TeacherName;
+        cout << endl;
+        pCur = pCur->pNext;
+    }
 }
 ====== =
 int menuOfGeneral(int type)

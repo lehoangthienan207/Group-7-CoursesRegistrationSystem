@@ -91,3 +91,10 @@ void PrintStudentsListInClass(Students* pHead);
 void PrintStudentListInCourse(Students* pHead);
 void InputScoreBoard(ScoreBoardOfCourse*& pHead);
 void PrintScoreBoard(ScoreBoardOfCourse* pHead);
+
+// Thư: sao có nhiều hàm student ở đây bị mất vậy mọi người? tui nhớ là lần trước mới add vô :<
+// Student // tui add lại ở đây, đừng xóa nữa nhen :<
+void EnrollCourses(Courses*& pHead, Courses*& pStudents);
+void PrintEnrolledCourses(Courses* pHead);
+void RemoveEnrolledCourses(Courses*& pHead);
+void PrintScoreBoardOfStudents(ScoreBoardOfStudent*& pHead);
