@@ -10,7 +10,7 @@ using namespace std;
 //Hải: nếu không nhất thiết phải dùng thì đừng dùng biến toàn cục
 
 struct SignIn {
-	int StudentID{};
+	int ID{};
 	string Password{};
 	SignIn* pNext{};
 };
@@ -23,13 +23,16 @@ struct Students
 {
 	int No{};
 	int StudentID{};
+	string classID{};
 	int SocialID{};
+	string classID{};
 	string Name{};
 	int Gender;
 	DoB DateOfBirth{};
 	Students* pNext{};
 };
 struct Classes {
+	string Name{};
 	int NumberOfStudents{};
 	Students* pHead{};
 	Classes* pNext{};
@@ -76,19 +79,15 @@ void CreateSemester(int& Semester);
 void CreateClasses(Classes* pHead);
 
 // Newly added function
-void CreateCourses(Courses*& pHead);
-void PrintCoursesList(Courses* pHead);
+//void CreateCourses(Courses*& pHead);
+void CreateCourses(Courses*& pHead, Courses *&pCurr);
 void UpdateCourses(Courses*& pHead);
 void RemoveCourses(Courses*& pHead);
+void PrintCoursesList(Courses* pHead);
 void PrintClassesList(Classes* pHead);
+
 void InputStudent(Classes*& pHead);
 void PrintStudentsListInClass(Students* pHead);
 void PrintStudentListInCourse(Students* pHead);
 void InputScoreBoard(ScoreBoardOfCourse*& pHead);
 void PrintScoreBoard(ScoreBoardOfCourse* pHead);
-
-// Student
-void EnrollCourses(Courses*& pHead, Courses*& pStudents);
-void PrintEnrolledCourses(Courses* pHead);
-void RemoveEnrolledCourses(Courses*& pHead);
-void PrintScoreBoardOfStudents(ScoreBoardOfStudent*& pHead);
