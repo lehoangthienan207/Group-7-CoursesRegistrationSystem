@@ -88,7 +88,7 @@ void PrintClassesList(Classes* pHead);
 
 void InputStudent(Classes*& pHead);
 void PrintStudentsListInClass(Students* pHead);
-void PrintStudentListInCourse(Students* pHead);
+void PrintStudentListInCourse(Students* pHead, Courses*pH);
 void InputScoreBoard(ScoreBoardOfCourse*& pHead);
 void PrintScoreBoard(ScoreBoardOfCourse* pHead);
 
