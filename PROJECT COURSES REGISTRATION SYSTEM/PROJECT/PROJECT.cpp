@@ -156,7 +156,25 @@ void ChangePassword(string& Password)
 
 void LogOut()
 {
-
+    int temp;
+    bool fact = true;
+    while (fact)
+    {
+        cout << "Are you sure you want to logout?" << endl;
+        cout << "If yes, press 1; press 0 to cancel: ";
+        cin >> temp; 
+        switch(temp)
+        {
+            case 1:
+                exit(0);
+            case 0:
+                break;
+            default:
+            {                
+                cout << "I don't understand...";
+                break;
+            }
+        }
 }
 //Long:biến Year này thì sẽ ảnh hưởng gì đến các biến khác?
 //Long: Tui coi không thấy khai báo biến "Year" trong file header í
