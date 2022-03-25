@@ -13,7 +13,7 @@ void CreateCourses(Courses*& pHead, Courses*& pCurr)
         getline(cin, pHead->CourseName);
         cout << "Input session: ";
         cin.ignore();
-        getline(cin, pHead->session);
+        cin.getline(pHead->session,4);
         cout << "Input maximum: "; //maximum?? // Thư: là số lượng học sinh tối đa có thể đăng ký (default là 50)
         cin >> pHead->Maximum;
         cout << "Input Number of credits: ";
@@ -36,7 +36,7 @@ void CreateCourses(Courses*& pHead, Courses*& pCurr)
         getline(cin, pCurr->CourseName);
         cout << "Input session: ";
         cin.ignore();
-        getline(cin, pCurr->session);
+        cin.getline(pCurr->session,4);
         cout << "Input maximum: "; //maximum??
         cin >> pCurr->Maximum;
         cout << "Input Number of credits: ";
@@ -82,7 +82,7 @@ void UpdateCourses(Courses*& pHead)
         getline(cin, pCurr->CourseName);
         cout << "Input session: ";
         cin.ignore();
-        getline(cin, pCurr->session);
+        cin.getline(pCurr->session,4);
         cout << "Input maximum: "; //maximum??
         cin >> pCurr->Maximum;
         cout << "Input Number of credits: ";
@@ -96,7 +96,7 @@ void UpdateCourses(Courses*& pHead)
     else
         cout << "No course found.";
 }
-void RemoveCourses(Courses*& pHead)
+void RemoveCourses(Courses*& pHead) 
 {
     string a;
     cout << "Input courseID you want to remove: ";
@@ -239,9 +239,6 @@ void PrintStudentListInCourse(Students* pHead, Courses* pH) {
         }
     }
 }
-
-<<<<<< < HEAD
-
     // Students
 
 void EnrollCourses(Courses * &pHead, Courses * &pStudents)
@@ -359,7 +356,6 @@ void PrintEnrolledCourses(Courses* pHead)
         pCur = pCur->pNext;
     }
 }
-====== =
 int menuOfGeneral(int type)
 {
     cout << "1. View profile info\n";
@@ -409,4 +405,3 @@ void showInformation(int type)
 
 }
 ////////////////////////////////////////////////////////////
->>>>>> > 8347da38d9dbd98e3bace8f0fe62b6d3bdef0a2a
