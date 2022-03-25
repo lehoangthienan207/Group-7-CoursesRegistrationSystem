@@ -162,7 +162,7 @@ void LogOut()
 //Long: Tui coi không thấy khai báo biến "Year" trong file header í
 void CreateSchoolYear(int& Year)
 {
-
+    
 }
 //Long: Có vẻ như là cần thêm biến Semester vào struct ScoreBoardOfCourse
 void CreateSemester(int& Semester)
