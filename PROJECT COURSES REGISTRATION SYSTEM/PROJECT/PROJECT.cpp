@@ -175,6 +175,7 @@ void LogOut()
                 break;
             }
         }
+    }
 }
 //Long:biến Year này thì sẽ ảnh hưởng gì đến các biến khác?
 //Long: Tui coi không thấy khai báo biến "Year" trong file header í
@@ -189,15 +190,26 @@ void CreateSemester(int& Semester)
 }
 //Long:tạo lớp học mới bằng stack, khi đó truy cập vào những lớp mới sẽ nhanh hơn. // Thư: theo tui thấy cách mình đang là Stack á.
 //Long: chỗ để tên lớp nằm ở đâu nhỉ // Thư: ý Long là sao ha? tui chưa hiểu lắm...
-void CreateClasses(Classes*& pHead)
+void CreateClasses(Classes*& pHead, Classes*& pCurr)
 {
     if (pHead == nullptr)
     {
         pHead = new Classes;
+        cout << "Input new class name: ";
+        cin >> pHead->Name;
+        cout << "Input the number of students: ";
+        cin >> pHead -> NumberOfStudents;
+        pCurr = pHead; //Needed a variable to store the pTail of the linked list
     }
     else
     {
-
+        pCurr->pNext = new Classes;
+        pCurr = pCurr->pNext;
+        cout << "Input new class name: ";
+        cin >> pCurr->Name;
+        cout << "Input the number of : ";
+        cin >> pCurr -> NumberOfStudents;
+        pCurr->pNext = nullptr;
     }
 }
 
