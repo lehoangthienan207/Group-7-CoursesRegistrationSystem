@@ -4,6 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <cstring>
+#include <iomanip>
 using namespace std;
 
 //fstream input, output;
@@ -47,6 +48,8 @@ struct ScoreBoardOfCourse {
 	float Finalterm{};
 	float OtherScore{};
 	float Overall{};
+	int Semester{};
+	int Year{};
 	ScoreBoardOfCourse* pNext{};
 };
 struct ScoreBoardOfStudent {

@@ -183,7 +183,7 @@ void CreateSchoolYear(int& Year)
 {
     
 }
-//Long: Có vẻ như là cần thêm biến Semester vào struct ScoreBoardOfCourse
+//Long: Có vẻ như là cần thêm biến Semester vào struct ScoreBoardOfCourse //Thư: Okay tui thêm nha
 void CreateSemester(int& Semester)
 {
 
@@ -386,6 +386,40 @@ void PrintEnrolledCourses(Courses* pHead)
         pCur = pCur->pNext;
     }
 }
+void PrintScoreBoardOfStudents(ScoreBoardOfStudent*& pHead)
+{
+    int year;
+    int semester;
+    cout << "Please enter the Year: "; cin >> year;
+    cout << "Please enter the Semester: "; cin >> semester;
+    cout << setw(15) << left << "Course ID";
+    cout << setw(20) << left << "Course Name";
+    cout << setw(12) << left << "Midterm";
+    cout << setw(12) << right << "Finalterm";
+    cout << setw(12) << right << "Other Score";
+    cout << setw(12) << right << "Overall";
+    cout << endl;
+    cout << setfill('-') << setw(83) << '-';
+    cout << endl;
+    ScoreBoardOfCourse* pCur = pHead->pHead;
+    while (pCur != nullptr && pCur->Year == year && pCur->Semester == semester)
+    {
+        cout << setw(15) << left << pCur->CourseID;
+        cout << setw(20) << left << pCur->CourseName;
+        cout << setw(12) << left << pCur->Midterm;
+        cout << setw(12) << right << pCur->Finalterm;
+        cout << setw(12) << right << pCur->OtherScore;
+        cout << setw(12) << right << pCur->Overall;
+        cout << endl;
+        pCur = pCur->pNext;
+    }
+}
+
+
+
+
+
+
 int menuOfGeneral(int type)
 {
     cout << "1. View profile info\n";
