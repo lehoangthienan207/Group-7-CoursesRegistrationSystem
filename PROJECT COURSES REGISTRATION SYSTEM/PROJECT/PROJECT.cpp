@@ -220,8 +220,11 @@ void InputStudent(Classes*& pHead)
 
 void PrintStudentsListInClass(Students* pHead)
 {
+    // cin.ignore() trước getline nha
     string name;
-    cout << "Enter name of class: "; getline(cin, name);
+    cout << "Enter name of class: "; 
+    cin.ignore();
+    getline(cin, name);
     ifstream input;
     input.open(name.c_str());
     while (!input.eof()) {
@@ -245,8 +248,8 @@ void PrintStudentsListInClass(Students* pHead)
 void PrintStudentListInCourse(Students* pHead, Courses* pH) {
     string Coursesname = "";
     cout << "Enter the name of courses: ";
-    getline(cin, Coursesname);
     cin.ignore();
+    getline(cin, Coursesname);
     Students* pCur = pHead;
     while (pCur)
     {
@@ -264,8 +267,8 @@ void PrintStudentListInCourse(Students* pHead, Courses* pH) {
         {
             cout << "This course does not exist.\n";
             cout << "Please re-enter the course name: ";
-            getline(cin, Coursesname);
             cin.ignore();
+            getline(cin, Coursesname);
         }
     }
 }
@@ -325,8 +328,10 @@ void EnrollCourses(Courses * &pHead, Courses * &pStudents)
                 cout << "Please input the Course ID (Ex: MTH00005) " << i + 1 << ": ";
                 getline(cin, pCur->CourseID);
                 cout << "Please input the day of week to study this course (Ex: MON, TUE, WED) " << i + 1 << ": ";
+                cin.ignore();
                 cin.getline(pCur->Day, 3);
                 cout << "Please input the session of day to study this course (Ex: 07h30, 13h30) " << i + 1 << ": ";
+                cin.ignore();
                 cin.getline(pCur->session, 4);
                 pCur->pNext = nullptr;
                 Courses* pPrev = pHead;
