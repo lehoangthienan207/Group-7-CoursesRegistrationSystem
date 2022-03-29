@@ -272,6 +272,25 @@ void PrintStudentListInCourse(Students* pHead, Courses* pH) {
         }
     }
 }
+void PrintScoreBoard(ScoreBoardOfCourse* pHead)
+{
+    ScoreBoardOfCourse* pCur = pHead;
+    while (pCur)
+    {
+        cout << pCur->CourseID << " ";
+        cout << pCur->CourseName << " ";
+        cout << pCur->No << " ";
+        cout << pCur->StudentID << " ";
+        cout << pCur->StudentName << " ";
+        cout << pCur->Midterm << " ";
+        cout << pCur->Finalterm << " ";
+        cout << pCur->OtherScore << " ";
+        cout << pCur->Overall << " ";
+        cout << pCur->Semester << " ";
+        cout << pCur->Year << " ";
+    }
+    cout << endl;
+}
     // Students
 
 void EnrollCourses(Courses * &pHead, Courses * &pStudents)

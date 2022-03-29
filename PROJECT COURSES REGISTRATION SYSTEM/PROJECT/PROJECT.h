@@ -91,6 +91,7 @@ void PrintClassesList(Classes* pHead);
 void InputStudent(Classes*& pHead);
 void PrintStudentsListInClass(Students* pHead);
 void PrintStudentListInCourse(Students* pHead, Courses*pH);
+//Input scoreboard này tui thấy mình input trong hàm main cũng được nha
 void InputScoreBoard(ScoreBoardOfCourse*& pHead);
 void PrintScoreBoard(ScoreBoardOfCourse* pHead);
 
