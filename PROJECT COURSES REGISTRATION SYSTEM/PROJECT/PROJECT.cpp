@@ -407,19 +407,59 @@ void PrintScoreBoardOfStudents(ScoreBoardOfStudent*& pHead)
     cout << setfill('-') << setw(83) << '-';
     cout << endl;
     ScoreBoardOfCourse* pCur = pHead->pHead;
-    while (pCur != nullptr && pCur->Year == year && pCur->Semester == semester)
+    while (pCur != nullptr )
     {
-        cout << setw(15) << left << pCur->CourseID;
-        cout << setw(20) << left << pCur->CourseName;
-        cout << setw(12) << left << pCur->Midterm;
-        cout << setw(12) << right << pCur->Finalterm;
-        cout << setw(12) << right << pCur->OtherScore;
-        cout << setw(12) << right << pCur->Overall;
-        cout << endl;
+        if (pCur->Year == year && pCur->Semester == semester)
+        {
+            cout << setw(15) << left << pCur->CourseID;
+            cout << setw(20) << left << pCur->CourseName;
+            cout << setw(12) << left << pCur->Midterm;
+            cout << setw(12) << right << pCur->Finalterm;
+            cout << setw(12) << right << pCur->OtherScore;
+            cout << setw(12) << right << pCur->Overall;
+            cout << endl;
+        }
         pCur = pCur->pNext;
     }
 }
-
+void RemoveEnrolledCourses(Courses*& pHead)
+{
+    string ID;
+    char* DAY = new char[3];
+    char* session = new char[5];
+    char opt = 'N';
+    do {
+        cout << "Please input the ID of the course that you wanna remove: "; getline(cin, ID);
+        cout << "Please input the DAY of the course that you wanna remove: "; cin.getline(DAY, 3);
+        cout << "Please input the session of the course that you wanna remove: "; cin.getline(session, 5);
+        Courses* pCur = pHead;
+        Courses* pPrev = pCur;
+        while (pCur != nullptr)
+        {
+            if (pCur->CourseID == ID && pCur->Day == DAY && pCur->session == session)
+            {
+                if (pCur == pHead)
+                {
+                    Courses* pTemp = pHead;
+                    pHead = pHead->pNext;
+                    delete pTemp;
+                }
+                else {
+                    pPrev->pNext = pCur->pNext;
+                    delete pCur;
+                    pCur = pPrev->pNext;
+                }
+            }
+            else {
+                pPrev = pCur;
+                pCur = pCur->pNext;
+            }
+        }
+        cout << "Do you wanna remove more courses or you wanna print your all enrolled courses?" << endl;
+        cout << "Please enter 'Y' if you wanna remove more and 'N' if you wanna print courses" << endl;
+        cout << "Please enter here: "; cin >> opt;
+    } while (opt == 'Y' || opt == 'y');
+}
 
 
 
