@@ -7,8 +7,8 @@
 
 int main()
 {
-	readFilesBeforeLogin();
-	fstream input, output;	
+	//readFilesBeforeLogin();
+	//fstream input, output;	
 	//input.open("Student.csv", ios::in); // tạm thời mình bỏ cái này nha
 	//Thư: theo tui thấy thì có lẽ phải đọc file trong vòng while 
 	while (true)
@@ -33,7 +33,7 @@ int main()
 		doSomething(menuOfGeneral(type),type,pHead);
 
 	}
-	input.close();
+	//input.close();
 	return 0;
 	
 }

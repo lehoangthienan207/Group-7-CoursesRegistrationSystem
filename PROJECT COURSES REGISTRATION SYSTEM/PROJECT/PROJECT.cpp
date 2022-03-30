@@ -14,7 +14,6 @@ void readFilesBeforeLogin(Students *&pHStudent)
             InputStudent(pHStudent,classInput);
         }
     }
-   
 }
 void CreateCourses(Courses*& pHead, Courses*& pCurr)
 {
