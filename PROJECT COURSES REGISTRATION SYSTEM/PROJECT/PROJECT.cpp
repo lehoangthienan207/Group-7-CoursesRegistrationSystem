@@ -581,3 +581,59 @@ int typeOfUser()
 void clrscr(){
     cout << "\033[2J\033[1;1H";
 }
+
+void deleteClasses(Classes *&pHead)
+{
+    while(pHead != nullptr)
+    {
+        Classes *pCurr = pHead;
+        pHead = pHead->pNext;
+        delete pCurr;
+    }
+}
+
+void deleteStudents(Students *&pHead)
+{
+    while(pHead != nullptr)
+    {
+        Students *pCurr = pHead;
+        pHead = pHead->pNext;
+        delete pCurr;
+    }
+}
+void deleteSignIn(SignIn *&pHead)
+{
+    while(pHead != nullptr)
+    {
+        SignIn *pCurr = pHead;
+        pHead = pHead->pNext;
+        delete pCurr;
+    }
+}
+void deleteCourses(Courses *&pHead)
+{
+    while(pHead != nullptr)
+    {
+        Courses *pCurr = pHead;
+        pHead = pHead->pNext;
+        delete pCurr;
+    }
+}
+void deleteScoreBoardOfCourse(ScoreBoardOfCourse *&pHead)
+{
+    while(pHead != nullptr)
+    {
+        ScoreBoardOfCourse *pCurr = pHead;
+        pHead = pHead->pNext;
+        delete pCurr;
+    }
+}
+void deleteScoreBoardOfStudent(ScoreBoardOfStudent *&pHead)
+{
+    while(pHead != nullptr)
+    {
+        ScoreBoardOfStudent *pCurr = pHead;
+        pHead = pHead->pNext;
+        delete pCurr;
+    }
+}

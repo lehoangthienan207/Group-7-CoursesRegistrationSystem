@@ -105,3 +105,11 @@ void PrintScoreBoardOfStudents(ScoreBoardOfStudent*& pHead);
 
 // clear screen
 void clrscr();
+
+// delete function
+void deleteClasses(Classes *&pHead);
+void deleteStudents(Students *&pHead);
+void deleteSignIn(SignIn *&pHead);
+void deleteCourses(Courses *&pHead);
+void deleteScoreBoardOfCourse(ScoreBoardOfCourse *&pHead);
+void deleteScoreBoardOfStudent(ScoreBoardOfStudent *&pHead);
