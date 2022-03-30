@@ -1,13 +1,10 @@
-﻿//#include <iostream>
-//#include <string>
-#include "PROJECT.h"
+﻿#include "PROJECT.h"
 #include "PROJECT.cpp"
-
-//using namespace std;
-
 int main()
 {
-	//readFilesBeforeLogin();
+	
+	Classes *pHClasses = nullptr;
+	readFilesBeforeLogin(pHClasses);
 	//fstream input, output;	
 	//input.open("Student.csv", ios::in); // tạm thời mình bỏ cái này nha
 	//Thư: theo tui thấy thì có lẽ phải đọc file trong vòng while 

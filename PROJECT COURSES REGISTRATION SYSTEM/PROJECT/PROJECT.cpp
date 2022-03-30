@@ -4,17 +4,50 @@ bool isEmpty(ifstream& pFile)
 {
     return pFile.peek() == ifstream::traits_type::eof();
 }
-void readFilesBeforeLogin(Students *&pHStudent)
+void readFilesBeforeLogin(Classes *&pHClasses)
 {
+    //mở file txt chứa tên các lớp
     ifstream classInput("listOfClasses.txt");
-    if (!isEmpty(classInput))
+    Classes *pCClasses = pHClasses;
+    if (!classInput && !isEmpty(classInput))
     {
         while (!classInput.eof())
         {
-            InputStudent(pHStudent,classInput);
+
+            if (pHClasses == nullptr)
+            {   //tạo các lớp và nhập tên các lớp vào
+                pHClasses = new Classes;
+                classInput.ignore();
+                getline(classInput,pHClasses->Name);
+                ifstream studentInput(pHClasses->Name + "." + "csv");
+
+                // nhập số học sinh
+                classInput >> pHClasses->NumberOfStudents;
+                InputStudent(pHClasses->pHead,studentInput);
+                pHClasses->pNext = nullptr;
+                pCClasses = pHClasses;
+            }
+            else
+            {   //tạo các lớp và nhập tên các lớp vào
+                pCClasses->pNext = new Classes;
+                pCClasses = pCClasses->pNext;
+                classInput.ignore();
+                getline(classInput,pCClasses->Name);
+                ifstream studentInput(pCClasses->Name + "." + "csv");
+
+                // nhập số học sinh
+                classInput >> pCClasses->NumberOfStudents;
+                InputStudent(pCClasses->pHead,studentInput);
+                pCClasses->pNext = nullptr;
+            }
         }
     }
 }
+//phần bên trên có thể chưa xong
+
+
+
+
 void CreateCourses(Courses*& pHead, Courses*& pCurr)
 {
     if (pHead == nullptr)
@@ -217,13 +250,17 @@ void CreateSemester(int& Semester)
 //Long: chỗ để tên lớp nằm ở đâu nhỉ // Thư: ý Long là sao ha? tui chưa hiểu lắm...
 void CreateClasses(Classes*& pHead, Classes*& pCurr)
 {
+    ofstream listOfClasses("listOfClasses.txt");
     if (pHead == nullptr)
     {
         pHead = new Classes;
         cout << "Input new class name: ";
         cin >> pHead->Name;
+        listOfClasses << pHead->Name;
         cout << "Input the number of students: ";
         cin >> pHead -> NumberOfStudents;
+        listOfClasses << " " << pHead->NumberOfStudents;
+        pHead->pNext = nullptr;
         pCurr = pHead; //Needed a variable to store the pTail of the linked list
     }
     else
@@ -232,13 +269,15 @@ void CreateClasses(Classes*& pHead, Classes*& pCurr)
         pCurr = pCurr->pNext;
         cout << "Input new class name: ";
         cin >> pCurr->Name;
+        listOfClasses << pHead->Name;
         cout << "Input the number of : ";
         cin >> pCurr -> NumberOfStudents;
+        listOfClasses << " " << pHead->NumberOfStudents;
         pCurr->pNext = nullptr;
     }
 }
 
-void InputStudent(Students*& pHead, ifstream &studentInput)
+void InputStudent(Students *& pHead, ifstream &studentInput)
 {
     Students *pCurr = pHead;
     if (pHead == nullptr)
@@ -323,9 +362,9 @@ void PrintStudentListInCourse(Students* pHead, Courses* pH) {
         else
         {
             cout << "This course does not exist.\n";
-            cout << "Please re-enter the course name: ";
-            cin.ignore();
-            getline(cin, Coursesname);
+            //cout << "Please re-enter the course name: ";
+            //cin.ignore();
+            //getline(cin, Coursesname);
         }
     }
 }
@@ -347,10 +386,13 @@ void EnrollCourses(Courses * &pHead, Courses * &pStudents)
             {
                 pStudents = new Courses;
                 cout << "Please input the Course ID (Ex: MTH00005) " << i + 1 << ": ";
+                cin.ignore();
                 getline(cin, pStudents->CourseID);
                 cout << "Please input the day of week to study this course (Ex: MON, TUE, WED) " << i + 1 << ": ";
+                cin.ignore();
                 cin.getline(pStudents->Day, 3);
                 cout << "Please input the session of day to study this course (Ex: 07h30, 13h30) " << i + 1 << ": ";
+                cin.ignore();
                 cin.getline(pStudents->session, 4);
                 pStudents->pNext = nullptr;
                 pCur = pStudents;
@@ -576,5 +618,13 @@ void showInformation(int type)
 
 int typeOfUser()
 {
-    
+    cout << "-------------------------------------\n";
+    cout << "Please choose type of user \n";
+    cout << "        1. Staff \n";
+    cout << "        2. Student \n";
+    cout << "        3. Exit \n";
+    cout << "Your input: ";
+    int a;
+    cin >> a;
+    return a;
 }

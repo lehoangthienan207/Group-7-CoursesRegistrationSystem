@@ -88,7 +88,7 @@ void RemoveCourses(Courses*& pHead);
 void PrintCoursesList(Courses* pHead);
 void PrintClassesList(Classes* pHead);
 
-void InputStudent(Classes*& pHead);
+void InputStudent(Students *& pHead, ifstream &studentInput);
 void PrintStudentsListInClass(Students* pHead);
 void PrintStudentListInCourse(Students* pHead, Courses*pH);
 //Input scoreboard này tui thấy mình input trong hàm main cũng được nha
