@@ -14,8 +14,13 @@ void CreateCourses(Courses*& pHead, Courses*& pCurr)
         cout << "Input session: ";
         cin.ignore();
         cin.getline(pHead->session,4);
-        cout << "Input maximum: "; //maximum?? // Thư: là số lượng học sinh tối đa có thể đăng ký (default là 50)
-        cin >> pHead->Maximum;
+        cout << "Input maximum number of students (Default: 50): "; //maximum?? // Thư: là số lượng học sinh tối đa có thể đăng ký (default là 50)
+        string maximum="";
+        cin.ignore();
+        getline(cin,maximum);
+        if (!maximum.empty())
+            pHead->Maximum = stoi(maximum);
+        else pHead->Maximum = 50;
         cout << "Input Number of credits: ";
         cin >> pHead->Credits;
         cout << "Input teacher's name: ";
@@ -37,8 +42,13 @@ void CreateCourses(Courses*& pHead, Courses*& pCurr)
         cout << "Input session: ";
         cin.ignore();
         cin.getline(pCurr->session,4);
-        cout << "Input maximum: "; //maximum??
-        cin >> pCurr->Maximum;
+        cout << "Input maximum number of students (Default: 50): ";
+        string maximum ="";
+        cin.ignore();
+        getline(cin,maximum);
+        if (!maximum.empty())
+            pCurr->Maximum = stoi(maximum);
+        else pCurr->Maximum = 50;
         cout << "Input Number of credits: ";
         cin >> pCurr->Credits;
         cout << "Input teacher's name: ";
@@ -83,8 +93,13 @@ void UpdateCourses(Courses*& pHead)
         cout << "Input session: ";
         cin.ignore();
         cin.getline(pCurr->session,4);
-        cout << "Input maximum: "; //maximum??
-        cin >> pCurr->Maximum;
+        cout << "Input maximum number of students (Default: 50): ";
+        string maximum ="";
+        cin.ignore();
+        getline(cin,maximum);
+        if (!maximum.empty())
+            pCurr->Maximum = stoi(maximum);
+        else pCurr->Maximum = 50;
         cout << "Input Number of credits: ";
         cin >> pCurr->Credits;
         cout << "Input teacher's name: ";
@@ -135,11 +150,6 @@ void PrintClassesList(Classes* pHead)
     }
 
 }
-void LogInCredentials(fstream& input, SignIn)
-{
-    //this is optional
-}
-
 void LogIn(SignIn*& pHead)
 {
 
@@ -271,25 +281,6 @@ void PrintStudentListInCourse(Students* pHead, Courses* pH) {
             getline(cin, Coursesname);
         }
     }
-}
-void PrintScoreBoard(ScoreBoardOfCourse* pHead)
-{
-    ScoreBoardOfCourse* pCur = pHead;
-    while (pCur)
-    {
-        cout << pCur->CourseID << " ";
-        cout << pCur->CourseName << " ";
-        cout << pCur->No << " ";
-        cout << pCur->StudentID << " ";
-        cout << pCur->StudentName << " ";
-        cout << pCur->Midterm << " ";
-        cout << pCur->Finalterm << " ";
-        cout << pCur->OtherScore << " ";
-        cout << pCur->Overall << " ";
-        cout << pCur->Semester << " ";
-        cout << pCur->Year << " ";
-    }
-    cout << endl;
 }
     // Students
 
