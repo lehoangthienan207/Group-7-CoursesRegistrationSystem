@@ -573,3 +573,8 @@ void showInformation(int type)
 
 }
 ////////////////////////////////////////////////////////////
+
+int typeOfUser()
+{
+    
+}
