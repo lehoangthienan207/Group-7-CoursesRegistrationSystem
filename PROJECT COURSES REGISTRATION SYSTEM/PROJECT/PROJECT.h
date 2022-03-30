@@ -24,11 +24,11 @@ struct Students
 {
 	int No{};
 	int StudentID{};
-	string classID{};
-	int SocialID{};
-	string Name{};
-	int Gender;
+	string FirstName{};
+	string LastName{};
+	string Gender{};
 	DoB DateOfBirth{};
+	int SocialID{}; 
 	Students* pNext{};
 };
 struct Classes {

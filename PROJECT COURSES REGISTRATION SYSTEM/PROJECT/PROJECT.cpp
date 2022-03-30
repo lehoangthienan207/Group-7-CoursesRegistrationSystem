@@ -1,6 +1,21 @@
 #include "PROJECT.h"
 //#include <string>
-
+bool isEmpty(ifstream& pFile)
+{
+    return pFile.peek() == ifstream::traits_type::eof();
+}
+void readFilesBeforeLogin(Students *&pHStudent)
+{
+    ifstream classInput("listOfClasses.txt");
+    if (!isEmpty(classInput))
+    {
+        while (!classInput.eof())
+        {
+            InputStudent(pHStudent,classInput);
+        }
+    }
+   
+}
 void CreateCourses(Courses*& pHead, Courses*& pCurr)
 {
     if (pHead == nullptr)
@@ -165,7 +180,8 @@ void ChangePassword(string& Password)
 }
 
 void LogOut()
-{
+{ 
+    //logout thì quay về login chứ đâu có exit
     int temp;
     bool fact = true;
     while (fact)
@@ -223,9 +239,39 @@ void CreateClasses(Classes*& pHead, Classes*& pCurr)
     }
 }
 
-void InputStudent(Classes*& pHead)
+void InputStudent(Students*& pHead, ifstream &studentInput)
 {
-
+    Students *pCurr = pHead;
+    if (pHead == nullptr)
+    {
+        pHead = new Students;
+        studentInput >> pHead->No >> pHead->StudentID;
+        studentInput.ignore();
+        getline(studentInput,pHead->FirstName);
+        studentInput.ignore();
+        getline(studentInput,pHead->LastName);
+        studentInput.ignore();
+        getline(studentInput,pHead->Gender);
+        studentInput >> pHead->DateOfBirth.day >> pHead->DateOfBirth.month >>pHead->DateOfBirth.year;
+        studentInput >> pHead->SocialID;
+        pHead->pNext = nullptr;
+        pCurr = pHead;
+    }
+    else
+    {
+        pCurr->pNext = new Students;
+        pCurr = pCurr->pNext;
+        studentInput >> pCurr->No >> pCurr->StudentID;
+        studentInput.ignore();
+        getline(studentInput,pCurr->FirstName);
+        studentInput.ignore();
+        getline(studentInput,pCurr->LastName);
+        studentInput.ignore();
+        getline(studentInput,pCurr->Gender);
+        studentInput >> pCurr->DateOfBirth.day >> pCurr->DateOfBirth.month >>pCurr->DateOfBirth.year;
+        studentInput >> pCurr->SocialID;
+        pCurr->pNext = nullptr;
+    }
 }
 
 void PrintStudentsListInClass(Students* pHead)
@@ -238,7 +284,7 @@ void PrintStudentsListInClass(Students* pHead)
     ifstream input;
     input.open(name.c_str());
     while (!input.eof()) {
-        input >> pHead->No >> pHead->StudentID >> pHead->SocialID >> pHead->Name >> pHead->Gender >> pHead->DateOfBirth.day >> pHead->DateOfBirth.month >> pHead->DateOfBirth.year;
+        input >> pHead->No >> pHead->StudentID >> pHead->SocialID >> pHead->FirstName >> pHead->LastName >> pHead->Gender >> pHead->DateOfBirth.day >> pHead->DateOfBirth.month >> pHead->DateOfBirth.year;
     }
     Students* pCur = pHead;
     cout << "\tTHE LIST OF STUDENTS IN CLASS " << name << "\t";
@@ -247,7 +293,8 @@ void PrintStudentsListInClass(Students* pHead)
         cout << pCur->No << "   ";
         cout << pCur->StudentID << "   ";
         cout << pCur->SocialID << "   ";
-        cout << pCur->Name << "   ";
+        cout << pCur->FirstName << "   ";
+        cout << pCur->LastName << "   ";
         cout << pCur->Gender << "   ";
         cout << pCur->DateOfBirth.day << "/" << pCur->DateOfBirth.month << "/" << pCur->DateOfBirth.year << "\n";
         pCur = pCur->pNext;
@@ -268,7 +315,8 @@ void PrintStudentListInCourse(Students* pHead, Courses* pH) {
             cout << pCur->No << "   ";
             cout << pCur->StudentID << "   ";
             cout << pCur->SocialID << "   ";
-            cout << pCur->Name << "   ";
+            cout << pCur->FirstName << "   ";
+            cout << pCur->LastName << "   ";
             cout << pCur->Gender << "   ";
             cout << pCur->DateOfBirth.day << "/" << pCur->DateOfBirth.month << "/" << pCur->DateOfBirth.year << "\n";
             pCur = pCur->pNext;
@@ -510,6 +558,8 @@ void doSomething(int menuOfGeneral, int type, SignIn*& pHead)
     {
         ChangePassword(pHead->Password);
     }
+    else if (menuOfGeneral == 0)
+        LogOut();
     else if (true)
     {
         // placeholder for function of each type of users;
