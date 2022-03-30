@@ -101,3 +101,7 @@ void EnrollCourses(Courses*& pHead, Courses*& pStudents);
 void PrintEnrolledCourses(Courses* pHead);
 void RemoveEnrolledCourses(Courses*& pHead);
 void PrintScoreBoardOfStudents(ScoreBoardOfStudent*& pHead);
+
+
+// clear screen
+void clrscr();

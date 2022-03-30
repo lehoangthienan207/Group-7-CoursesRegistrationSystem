@@ -560,71 +560,24 @@ void RemoveEnrolledCourses(Courses*& pHead)
     } while (opt == 'Y' || opt == 'y');
 }
 
-
-
-
-
-int menuOfGeneral(int type)
-{
-    cout << "1. View profile info\n";
-    cout << "2. Change password\n";
-    if (type == 1)
-    {
-        // placeholder for future function
-        // each type of user has different function except of general.
-    }
-    cout << "0. Log out\n";
-    cout << "99. Exit the system\n";
-
-    int a;
-    do {
-        cout << "Input what you want to do.\n";
-        cin >> a;
-        if (a != 1 || a != 2 || a != 0 || a != 99)
-            cout << "Invalid input. Please try again.\n";
-    } while (a != 1 || a != 2 || a != 0 || a != 99);
-    return a;
-}
-
-void doSomething(int menuOfGeneral, int type, SignIn*& pHead)
-{
-    if (menuOfGeneral == 1)
-    {
-        if (type = 1)
-        {
-            // if type of users is there, this will be implement later 
-        }
-    }
-    else if (menuOfGeneral == 2)
-    {
-        ChangePassword(pHead->Password);
-    }
-    else if (menuOfGeneral == 0)
-        LogOut();
-    else if (true)
-    {
-        // placeholder for function of each type of users;
-    }
-}
-
-
-/////////////////////////////////////////////////////////////
-//these functions only exist if user input type of user
-void showInformation(int type)
-{
-
-}
-////////////////////////////////////////////////////////////
-
 int typeOfUser()
 {
-    cout << "-------------------------------------\n";
-    cout << "Please choose type of user \n";
-    cout << "        1. Staff \n";
-    cout << "        2. Student \n";
-    cout << "        3. Exit \n";
-    cout << "Your input: ";
+    cout << "----------------------------------------\n";
+    cout << "----------------LOGIN-------------------\n";
+    cout << "      Please choose type of user \n";
+    cout << "          1. Staff \n";
+    cout << "          2. Student \n";
+    cout << "          99. Exit \n";
+    cout << "----------------------------------------\n";
+    cout << "----------------------------------------\n";
+    cout << "          Your input: ";
     int a;
     cin >> a;
     return a;
+}
+
+
+//clear scr function
+void clrscr(){
+    cout << "\033[2J\033[1;1H";
 }
