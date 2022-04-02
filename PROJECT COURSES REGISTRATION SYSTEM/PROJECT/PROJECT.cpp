@@ -195,11 +195,37 @@ void PrintClassesList(Classes* pHead)
         cout << "---------------------\n";
         pCurr = pCurr->pNext;
     }
-
 }
-void LogIn(SignIn*& pHead)
-{
 
+//Long: thêm giúp mình cái pTail trong thông tin đăng nhập nha
+//để chương trình biết khi nào phải dừng í
+void LogIn(SignIn*& pHead, SignIn*& pTail, SignIn)
+{
+    bool status = true;
+    int id_input;
+    string psw_input;
+    while (status)
+    {
+        cout << "Input ID: "; cin >> id_input;
+        cout << "Input password: "; cin >> psw_input;
+        SignIn* pCurr = pHead;
+        while (pCurr != pTail)
+        {
+            if (id_input == pCurr -> ID && psw_input == pCurr -> Password)
+            {
+                cout << "Sign-in successful" << endl;
+                status = false;
+                continue;
+            }
+            else
+            {
+                pCurr = pCurr -> pNext;
+                continue;
+            }
+        }
+        if (status)
+            cout << "Login failed" << endl;
+    }
 }
 
 void ChangePassword(string& Password)
