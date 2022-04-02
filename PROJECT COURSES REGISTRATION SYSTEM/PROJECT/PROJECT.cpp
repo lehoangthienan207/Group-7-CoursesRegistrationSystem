@@ -60,7 +60,7 @@ void CreateCourses(Courses*& pHead, Courses*& pCurr)
         getline(cin, pHead->CourseName);
         cout << "Input session: ";
         cin.ignore();
-        cin.getline(pHead->session,4);
+        cin.getline(pHead->session,5);
         cout << "Input maximum number of students (Default: 50): "; //maximum?? // Thư: là số lượng học sinh tối đa có thể đăng ký (default là 50)
         string maximum="";
         cin.ignore();
@@ -88,7 +88,7 @@ void CreateCourses(Courses*& pHead, Courses*& pCurr)
         getline(cin, pCurr->CourseName);
         cout << "Input session: ";
         cin.ignore();
-        cin.getline(pCurr->session,4);
+        cin.getline(pCurr->session,5);
         cout << "Input maximum number of students (Default: 50): ";
         string maximum ="";
         cin.ignore();
@@ -139,7 +139,7 @@ void UpdateCourses(Courses*& pHead)
         getline(cin, pCurr->CourseName);
         cout << "Input session: ";
         cin.ignore();
-        cin.getline(pCurr->session,4);
+        cin.getline(pCurr->session,5);
         cout << "Input maximum number of students (Default: 50): ";
         string maximum ="";
         cin.ignore();
@@ -393,7 +393,7 @@ void EnrollCourses(Courses * &pHead, Courses * &pStudents)
                 cin.getline(pStudents->Day, 3);
                 cout << "Please input the session of day to study this course (Ex: 07h30, 13h30) " << i + 1 << ": ";
                 cin.ignore();
-                cin.getline(pStudents->session, 4);
+                cin.getline(pStudents->session, 5);
                 pStudents->pNext = nullptr;
                 pCur = pStudents;
                 Courses* pPrev = pHead;
@@ -431,7 +431,7 @@ void EnrollCourses(Courses * &pHead, Courses * &pStudents)
                 cin.getline(pCur->Day, 3);
                 cout << "Please input the session of day to study this course (Ex: 07h30, 13h30) " << i + 1 << ": ";
                 cin.ignore();
-                cin.getline(pCur->session, 4);
+                cin.getline(pCur->session, 5);
                 pCur->pNext = nullptr;
                 Courses* pPrev = pHead;
                 while (pCurrent != nullptr)
