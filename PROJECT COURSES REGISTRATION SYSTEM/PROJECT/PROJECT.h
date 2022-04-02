@@ -74,6 +74,7 @@ void SignUp(SignIn*& pHead);
 void LogIn(SignIn*& pHead);
 void LogInCredentials(fstream& input);
 void ChangePassword(string& Password);
+void LogOut();
 
 // Staff
 void CreateSchoolYear(int& Year);
