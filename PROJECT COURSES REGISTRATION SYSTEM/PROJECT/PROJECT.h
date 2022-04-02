@@ -60,7 +60,7 @@ struct ScoreBoardOfStudent {
 struct Courses {
 	string CourseID{};
 	string CourseName{};
-	char session[4];
+	char session[5];
 	int Maximum{};
 	int Credits{};
 	string TeacherName{};
