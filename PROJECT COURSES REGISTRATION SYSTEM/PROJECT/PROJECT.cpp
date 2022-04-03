@@ -115,16 +115,16 @@ void PrintCoursesList(Courses* pHead)
     Courses* pCurr = pHead;
     while (pCurr != nullptr)
     {
-        cout << pCurr->No << setw(10);
-        cout << pCurr->CourseID << setw(10);
-        cout << pCurr->CourseName << setw(10);
-        cout << pCurr->session << setw(10);
-        cout << pCurr->Maximum << setw(10);
-        cout << pCurr->Credits << setw(10);
-        cout << pCurr->startDate << setw(10);
-        cout << pCurr->endDate << setw(10);
-        cout << pCurr->TeacherName << setw(10);
-        cout << pCurr->Day << setw(10);
+        cout << pCurr->No << "         ";
+        cout << pCurr->CourseID << "         ";
+        cout << pCurr->CourseName << "         ";
+        cout << pCurr->session << "         ";
+        cout << pCurr->Maximum << "         ";
+        cout << pCurr->Credits << "         ";
+        cout << pCurr->startDate << "         ";
+        cout << pCurr->endDate << "         ";
+        cout << pCurr->TeacherName << "         ";
+        cout << pCurr->Day << "         ";
         pCurr = pCurr->pNext;
         cout << "\n";
     }
