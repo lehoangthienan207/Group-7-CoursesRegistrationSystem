@@ -23,7 +23,7 @@ void readFilesBeforeLogin(Classes *&pHClasses)
 
                 // nhập số học sinh
                 classInput >> pHClasses->NumberOfStudents;
-                InputStudent(pHClasses->pHead,studentInput);
+                InputStudent(pHClasses->pStudent,studentInput);
                 pHClasses->pNext = nullptr;
                 pCClasses = pHClasses;
             }
@@ -37,7 +37,7 @@ void readFilesBeforeLogin(Classes *&pHClasses)
 
                 // nhập số học sinh
                 classInput >> pCClasses->NumberOfStudents;
-                InputStudent(pCClasses->pHead,studentInput);
+                InputStudent(pCClasses->pStudent,studentInput);
                 pCClasses->pNext = nullptr;
             }
         }
@@ -48,11 +48,12 @@ void readFilesBeforeLogin(Classes *&pHClasses)
 
 
 
-void CreateCourses(Courses*& pHead, Courses*& pCurr)
+void CreateCourses(Courses*& pHead, Courses*& pCurr, int &i)
 {
     if (pHead == nullptr)
     {
         pHead = new Courses;
+        pHead->No = i;
         cout << "Input course's ID: ";
         cin >> pHead->CourseID;
         cout << "Input name of course: ";
@@ -75,12 +76,14 @@ void CreateCourses(Courses*& pHead, Courses*& pCurr)
         getline(cin, pHead->TeacherName);
         cout << "Input number of days: ";
         cin >> pHead->Day;
+        ++i;
         pCurr = pHead; //Needed a variable to store the pTail of the linked list
     }
     else
     {
         pCurr->pNext = new Courses;
         pCurr = pCurr->pNext;
+        pCurr->No = i;
         cout << "Input course's ID: ";
         cin >> pCurr->CourseID;
         cout << "Input name of course: ";
@@ -103,6 +106,7 @@ void CreateCourses(Courses*& pHead, Courses*& pCurr)
         getline(cin, pCurr->TeacherName);
         cout << "Input number of days: ";
         cin >> pCurr->Day;
+        ++i;
         pCurr->pNext = nullptr;
     }
 }
@@ -111,15 +115,18 @@ void PrintCoursesList(Courses* pHead)
     Courses* pCurr = pHead;
     while (pCurr != nullptr)
     {
-        cout << pCurr->CourseID << "\n";
-        cout << pCurr->CourseName << "\n";
-        cout << pCurr->session << "\n";
-        cout << pCurr->Maximum << "\n";
-        cout << pCurr->Credits << "\n";
-        cout << pCurr->TeacherName << "\n";
-        cout << pCurr->Day << "\n";
+        cout << pCurr->No << setw(10);
+        cout << pCurr->CourseID << setw(10);
+        cout << pCurr->CourseName << setw(10);
+        cout << pCurr->session << setw(10);
+        cout << pCurr->Maximum << setw(10);
+        cout << pCurr->Credits << setw(10);
+        cout << pCurr->startDate << setw(10);
+        cout << pCurr->endDate << setw(10);
+        cout << pCurr->TeacherName << setw(10);
+        cout << pCurr->Day << setw(10);
         pCurr = pCurr->pNext;
-        cout << "---------------------------------\n";
+        cout << "\n";
     }
 }
 void UpdateCourses(Courses*& pHead)
@@ -185,17 +192,7 @@ void RemoveCourses(Courses*& pHead)
     }
     cout << "No course found.";
 }
-void PrintClassesList(Classes* pHead)
-{
-    Classes* pCurr = pHead;
-    while (pCurr != pHead)
-    {
-        cout << pCurr->Name << "\n";
-        cout << pCurr->NumberOfStudents << "\n";
-        cout << "---------------------\n";
-        pCurr = pCurr->pNext;
-    }
-}
+
 
 //Long: thêm giúp mình cái pTail trong thông tin đăng nhập nha
 //để chương trình biết khi nào phải dừng í
@@ -261,45 +258,172 @@ void LogOut()
         }
     }
 }
+
 //Long:biến Year này thì sẽ ảnh hưởng gì đến các biến khác?
 //Long: Tui coi không thấy khai báo biến "Year" trong file header í
-void CreateSchoolYear(int& Year)
+void PrintClassesList(Classes* pHead)
 {
-    
+    Classes* pCurr = pHead;
+    while (pCurr != pHead)
+    {
+        cout << pCurr->No << setw(10);
+        cout << pCurr->Name << setw(10);
+        cout << pCurr->NumberOfStudents << setw(10);
+        cout << "\n";
+        pCurr = pCurr->pNext;
+    }
+}
+void CreateSchoolYear(SchoolYear *&pHead, SchoolYear *&pCurr)
+{
+    if (pHead == nullptr)
+    {
+        pHead = new SchoolYear;
+        cout << "Input school year (example: 2020-2021): ";
+        cin >> pHead->years;
+        Classes *pCurrY = pHead->pClass;
+        int i = 1;
+        while (true)
+        {
+            CreateClasses(pHead->pClass,pCurrY,i);
+            cout << "Continue? (Yes: y, No: n): ";
+            char check;
+            cin >> check;
+            if (check != 'y')
+                break;
+        } 
+        //pCurrY = pHead->pClass;
+        cout << "Input classID you want to add student: ";
+        PrintClassesList(pHead->pClass);
+        while (true)
+        {
+            int x;
+            cin >> x;
+            Classes *pTemp = pHead->pClass;
+            while (pTemp != nullptr && pTemp->No != x) pTemp = pTemp->pNext;
+            if (pTemp != nullptr)
+            {
+                ifstream studentInClass(pTemp->Name + "." + "csv");
+                InputStudent(pTemp->pStudent,studentInClass);
+            }
+            else
+                cout << "No class found.";
+            cout << "Continue? (Yes: y, No: n): ";
+            char check;
+            cin >> check;
+            if (check != 'y')
+                break;
+        }
+        pHead->pNext = nullptr;
+        pCurr = pHead;
+    }
+    else
+    {
+        pCurr->pNext = new SchoolYear;
+        pCurr = pCurr->pNext;
+        cout << "Input school year (example: 2020-2021): ";
+        cin >> pCurr->years;
+        Classes *pCurrY = pCurr->pClass;
+        int i = 1;
+        while (true)
+        {
+            CreateClasses(pCurr->pClass,pCurrY,i);
+            cout << "Continue? (Yes: y, No: n): ";
+            char check;
+            cin >> check;
+            if (check != 'y')
+                break;
+        } 
+        //pCurrY = pCurr->pClass;
+        cout << "Input classID you want to add student: ";
+        PrintClassesList(pCurr->pClass);
+        while (true)
+        {
+            int x;
+            cin >> x;
+            Classes *pTemp = pCurr->pClass;
+            while (pTemp != nullptr && pTemp->No != x) pTemp = pTemp->pNext;
+            if (pTemp != nullptr)
+            {
+                ifstream studentInClass(pTemp->Name + "." + "csv");
+                InputStudent(pTemp->pStudent,studentInClass);
+            }
+            else
+                cout << "No class found.";
+            cout << "Continue? (Yes: y, No: n): ";
+            char check;
+            cin >> check;
+            if (check != 'y')
+                break;
+        }
+        pCurr->pNext = nullptr;
+    }
 }
 //Long: Có vẻ như là cần thêm biến Semester vào struct ScoreBoardOfCourse //Thư: Okay tui thêm nha
-void CreateSemester(int& Semester)
+void CreateSemester(SchoolYear *pHead)
 {
-
+    int x;
+    cout << "Input semester number: ";
+    cin >> x;
+    
+    SchoolYear *pCurr = pHead;
+    char check = 'n';
+    while (true)
+    {
+        cout << "Input school year this semester belong to (Example: 2020-2021): ";
+        string s;
+        cin >> s;
+        while (pCurr != nullptr && pCurr->years != s) pCurr=pCurr->pNext;
+        if (pCurr != nullptr)
+        {
+            pCurr->pSemester->No = x;
+            break;
+        }
+        else
+        {
+            cout << "No school year found.";
+            cout << "\nTry Again? (Yes: y, No: n): ";
+            cin >> check;
+            if (check != 'y')
+                break;
+        }
+    }
+    if (check == 'y')
+        return;
+    
+    
 }
 //Long:tạo lớp học mới bằng stack, khi đó truy cập vào những lớp mới sẽ nhanh hơn. // Thư: theo tui thấy cách mình đang là Stack á.
 //Long: chỗ để tên lớp nằm ở đâu nhỉ // Thư: ý Long là sao ha? tui chưa hiểu lắm...
-void CreateClasses(Classes*& pHead, Classes*& pCurr)
+void CreateClasses(Classes*& pHead, Classes*& pCurr, int &i)
 {
     ofstream listOfClasses("listOfClasses.txt");
     if (pHead == nullptr)
     {
         pHead = new Classes;
-        cout << "Input new class name: ";
+        pHead->No = i;
+        cout << "Input class name: ";
         cin >> pHead->Name;
         listOfClasses << pHead->Name;
         cout << "Input the number of students: ";
         cin >> pHead -> NumberOfStudents;
         listOfClasses << " " << pHead->NumberOfStudents;
         pHead->pNext = nullptr;
-        pCurr = pHead; //Needed a variable to store the pTail of the linked list
+        pCurr = pHead;
+        ++i; //Needed a variable to store the pTail of the linked list
     }
     else
     {
         pCurr->pNext = new Classes;
         pCurr = pCurr->pNext;
-        cout << "Input new class name: ";
+        pCurr->No = i;
+        cout << "Input class name: ";
         cin >> pCurr->Name;
         listOfClasses << pHead->Name;
         cout << "Input the number of : ";
         cin >> pCurr -> NumberOfStudents;
         listOfClasses << " " << pHead->NumberOfStudents;
         pCurr->pNext = nullptr;
+        ++i;
     }
 }
 

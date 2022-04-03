@@ -10,6 +10,8 @@ using namespace std;
 //fstream input, output;
 //Hải: nếu không nhất thiết phải dùng thì đừng dùng biến toàn cục
 
+
+
 struct SignIn {
 	int ID{};
 	string Password{};
@@ -67,7 +69,17 @@ struct Courses {
 	char Day[3];
 	Courses* pNext{};
 };
+struct SchoolYear{
+	int startYear{};
+	int endYear{};
+	Classes *pClass;
+	SchoolYear *pNext;
+};
 
+struct Semester
+{
+
+};
 // General
 void ChooseTypeOfUser(int& type);
 void SignUp(SignIn*& pHead);
@@ -78,7 +90,7 @@ void LogOut();
 
 // Staff
 void CreateSchoolYear(int& Year);
-void CreateSemester(int& Semester);
+void CreateSchoolYear(SchoolYear *&pHead, SchoolYear *&pCurr);
 void CreateClasses(Classes* pHead);
 
 // Newly added function
