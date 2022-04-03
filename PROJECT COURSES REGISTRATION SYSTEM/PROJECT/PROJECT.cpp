@@ -464,9 +464,8 @@ void InputStudent(Students *& pHead, ifstream &studentInput)
 
 void PrintStudentsListInClass(Students* pHead)
 {
-    // cin.ignore() trước getline nha
     string name;
-    cout << "Enter name of class: "; 
+    cout << "Enter name of class: ";
     cin.ignore();
     getline(cin, name);
     ifstream input;
@@ -475,16 +474,25 @@ void PrintStudentsListInClass(Students* pHead)
         input >> pHead->No >> pHead->StudentID >> pHead->SocialID >> pHead->FirstName >> pHead->LastName >> pHead->Gender >> pHead->DateOfBirth.day >> pHead->DateOfBirth.month >> pHead->DateOfBirth.year;
     }
     Students* pCur = pHead;
-    cout << "\tTHE LIST OF STUDENTS IN CLASS " << name << "\t";
+    cout << "\n\t\t--------------------------LIST OF STUDENTS IN ClASS " << name << "--------------------------\n\n";
+    cout << setw(5) << left << "No";
+    cout << setw(15) << left << "StudentID";
+    cout << setw(17) << left << "SocialID";
+    cout << setw(25) << left << "LastName";
+    cout << setw(20) << left << "FirstName";
+    cout << setw(15) << left << "Gender";
+    cout << setw(15) << left << "DateofBirth";
+    cout << endl;
     while (pCur)
     {
-        cout << pCur->No << "   ";
-        cout << pCur->StudentID << "   ";
-        cout << pCur->SocialID << "   ";
-        cout << pCur->FirstName << "   ";
-        cout << pCur->LastName << "   ";
-        cout << pCur->Gender << "   ";
-        cout << pCur->DateOfBirth.day << "/" << pCur->DateOfBirth.month << "/" << pCur->DateOfBirth.year << "\n";
+        cout << setw(5) << left << pCur->No;
+        cout << setw(15) << left << pCur->StudentID;
+        cout << setw(17) << left << pCur->SocialID;
+        cout << setw(25) << left << pCur->LastName;
+        cout << setw(20) << left << pCur->FirstName;
+        cout << setw(15) << left << pCur->Gender;
+        cout << setw(0) << left << pCur->DateOfBirth.day << "/" << pCur->DateOfBirth.month << "/" << pCur->DateOfBirth.year;
+        cout << endl;
         pCur = pCur->pNext;
     }
 
@@ -496,17 +504,27 @@ void PrintStudentListInCourse(Students* pHead, Courses* pH) {
     cin.ignore();
     getline(cin, Coursesname);
     Students* pCur = pHead;
+    cout << "\n\t\t--------------------------LIST OF STUDENTS IN COURSE--------------------------\n\n";
+    cout << setw(5) << left << "No";
+    cout << setw(15) << left << "StudentID";
+    cout << setw(17) << left << "SocialID";
+    cout << setw(25) << left << "LastName";
+    cout << setw(20) << left << "FirstName";
+    cout << setw(15) << left << "Gender";
+    cout << setw(15) << left << "DateofBirth";
+    cout << endl;
     while (pCur)
     {
         if (Coursesname == pH->CourseName)
         {
-            cout << pCur->No << "   ";
-            cout << pCur->StudentID << "   ";
-            cout << pCur->SocialID << "   ";
-            cout << pCur->FirstName << "   ";
-            cout << pCur->LastName << "   ";
-            cout << pCur->Gender << "   ";
-            cout << pCur->DateOfBirth.day << "/" << pCur->DateOfBirth.month << "/" << pCur->DateOfBirth.year << "\n";
+            cout << setw(5) << left << pCur->No;
+            cout << setw(15) << left << pCur->StudentID;
+            cout << setw(17) << left << pCur->SocialID;
+            cout << setw(25) << left << pCur->FirstName;
+            cout << setw(20) << left << pCur->LastName;
+            cout << setw(15) << left << pCur->Gender;
+            cout << setw(0) << left << pCur->DateOfBirth.day << "/" << pCur->DateOfBirth.month << "/" << pCur->DateOfBirth.year;
+            cout << endl;
             pCur = pCur->pNext;
         }
         else
@@ -673,20 +691,33 @@ void PrintScoreBoardOfStudents(ScoreBoardOfStudent*& pHead)
 }
 void PrintScoreBoard(ScoreBoardOfCourse* pHead)
 {
+    int year;
+    int semester;
+    cout << "Please enter the Year: "; cin >> year;
+    cout << "Please enter the Semester: "; cin >> semester;
+    cout << setw(15) << left << "Course ID";
+    cout << setw(20) << left << "Course Name";
+    cout << setw(12) << left << "Midterm";
+    cout << setw(12) << right << "Finalterm";
+    cout << setw(12) << right << "Other Score";
+    cout << setw(12) << right << "Overall";
+    cout << endl;
+    cout << setfill('-') << setw(83) << '-';
+    cout << endl;
     ScoreBoardOfCourse* pCur = pHead;
-    while (pCur)
+    while (pCur != nullptr)
     {
-        cout << pCur->CourseID << " ";
-        cout << pCur->CourseName << " ";
-        cout << pCur->No << " ";
-        cout << pCur->StudentID << " ";
-        cout << pCur->StudentName << " ";
-        cout << pCur->Midterm << " ";
-        cout << pCur->Finalterm << " ";
-        cout << pCur->OtherScore << " ";
-        cout << pCur->Overall << " ";
-        cout << pCur->Semester << " ";
-        cout << pCur->Year << " ";
+        if (pCur->Year == year && pCur->Semester == semester)
+        {
+            cout << setw(15) << left << pCur->CourseID;
+            cout << setw(20) << left << pCur->CourseName;
+            cout << setw(12) << left << pCur->Midterm;
+            cout << setw(12) << right << pCur->Finalterm;
+            cout << setw(12) << right << pCur->OtherScore;
+            cout << setw(12) << right << pCur->Overall;
+            cout << endl;
+        }
+        pCur = pCur->pNext;
     }
 }
 void RemoveEnrolledCourses(Courses*& pHead)
