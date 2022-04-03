@@ -61,7 +61,7 @@ void CreateCourses(Courses*& pHead, Courses*& pCurr, int &i)
         getline(cin, pHead->CourseName);
         cout << "Input session: ";
         cin.ignore();
-        cin.getline(pHead->session,5);
+        cin.getline(pHead->time1,5);
         cout << "Input maximum number of students (Default: 50): "; //maximum?? // Thư: là số lượng học sinh tối đa có thể đăng ký (default là 50)
         string maximum="";
         cin.ignore();
@@ -91,7 +91,7 @@ void CreateCourses(Courses*& pHead, Courses*& pCurr, int &i)
         getline(cin, pCurr->CourseName);
         cout << "Input session: ";
         cin.ignore();
-        cin.getline(pCurr->session,5);
+        cin.getline(pCurr->time1,5);
         cout << "Input maximum number of students (Default: 50): ";
         string maximum ="";
         cin.ignore();
@@ -118,11 +118,13 @@ void PrintCoursesList(Courses* pHead)
         cout << pCurr->No << "         ";
         cout << pCurr->CourseID << "         ";
         cout << pCurr->CourseName << "         ";
-        cout << pCurr->session << "         ";
+        cout << pCurr->time1 << "         ";
         cout << pCurr->Maximum << "         ";
         cout << pCurr->Credits << "         ";
-        cout << pCurr->startDate << "         ";
-        cout << pCurr->endDate << "         ";
+
+        
+        //cout << pCurr->startDate.day << "         ";
+        //cout << pCurr->endDate << "         ";
         cout << pCurr->TeacherName << "         ";
         cout << pCurr->Day << "         ";
         pCurr = pCurr->pNext;
@@ -146,7 +148,7 @@ void UpdateCourses(Courses*& pHead)
         getline(cin, pCurr->CourseName);
         cout << "Input session: ";
         cin.ignore();
-        cin.getline(pCurr->session,5);
+        cin.getline(pCurr->time1,5);
         cout << "Input maximum number of students (Default: 50): ";
         string maximum ="";
         cin.ignore();
@@ -196,7 +198,7 @@ void RemoveCourses(Courses*& pHead)
 
 //Long: thêm giúp mình cái pTail trong thông tin đăng nhập nha
 //để chương trình biết khi nào phải dừng í
-void LogIn(SignIn*& pHead, SignIn*& pTail, SignIn)
+void LogIn(SignIn*& pHead, SignIn*& pTail)
 {
     bool status = true;
     int id_input;
@@ -561,13 +563,13 @@ void EnrollCourses(Courses * &pHead, Courses * &pStudents)
                 cin.getline(pStudents->Day, 3);
                 cout << "Please input the session of day to study this course (Ex: 07h30, 13h30) " << i + 1 << ": ";
                 cin.ignore();
-                cin.getline(pStudents->session, 5);
+                cin.getline(pStudents->time1, 5);
                 pStudents->pNext = nullptr;
                 pCur = pStudents;
                 Courses* pPrev = pHead;
                 while (pCurrent != nullptr)
                 {
-                    if (pStudents->CourseID == pCurrent->CourseID && pStudents->Day == pCurrent->Day && pStudents->session == pCurrent->session)
+                    if (pStudents->CourseID == pCurrent->CourseID && pStudents->Day == pCurrent->Day && pStudents->time1 == pCurrent->time1)
                     {
                         if (pCurrent->Maximum > 1)
                             pCurrent->Maximum--;
@@ -599,12 +601,12 @@ void EnrollCourses(Courses * &pHead, Courses * &pStudents)
                 cin.getline(pCur->Day, 3);
                 cout << "Please input the session of day to study this course (Ex: 07h30, 13h30) " << i + 1 << ": ";
                 cin.ignore();
-                cin.getline(pCur->session, 5);
+                cin.getline(pCur->time1, 5);
                 pCur->pNext = nullptr;
                 Courses* pPrev = pHead;
                 while (pCurrent != nullptr)
                 {
-                    if (pCur->CourseID == pCurrent->CourseID && pCur->Day == pCurrent->Day && pCur->session == pCurrent->session)
+                    if (pCur->CourseID == pCurrent->CourseID && pCur->Day == pCurrent->Day && pCur->time1 == pCurrent->time1)
                     {
                         if (pCurrent->Maximum > 1)
                             pCurrent->Maximum--;
@@ -652,7 +654,7 @@ void PrintEnrolledCourses(Courses* pHead)
         cout << setw(20) << left << pCur->CourseName;
         cout << setw(10) << left << pCur->Credits;
         cout << setw(5) << right << pCur->Day;
-        cout << setw(15) << right << pCur->session;
+        cout << setw(15) << right << pCur->time1;
         cout << setw(20) << right << pCur->TeacherName;
         cout << endl;
         pCur = pCur->pNext;
@@ -734,7 +736,7 @@ void RemoveEnrolledCourses(Courses*& pHead)
         Courses* pPrev = pCur;
         while (pCur != nullptr)
         {
-            if (pCur->CourseID == ID && pCur->Day == DAY && pCur->session == session)
+            if (pCur->CourseID == ID && pCur->Day == DAY && pCur->time1 == session)
             {
                 if (pCur == pHead)
                 {
@@ -779,6 +781,7 @@ int typeOfUser()
 //clear scr function
 void clrscr(){
     cout << "\033[2J\033[1;1H";
+    system("pause");
 }
 
 void deleteClasses(Classes *&pHead)
@@ -834,5 +837,28 @@ void deleteScoreBoardOfStudent(ScoreBoardOfStudent *&pHead)
         ScoreBoardOfStudent *pCurr = pHead;
         pHead = pHead->pNext;
         delete pCurr;
+    }
+}
+
+void foutSchoolYear(SchoolYear *pHead)
+{
+    ofstream fout;
+    fout.open("schoolYearList.txt");
+    SchoolYear *pCurr = pHead;
+    while (pCurr != nullptr)
+    {
+        fout << pCurr->years;
+        fout <<"\n";
+    }
+}
+void foutClasses(SchoolYear*pHead)
+{
+    ofstream fout;
+    fout.open("classList.txt");
+    SchoolYear *pCurr = pHead;
+    while (pCurr != nullptr)
+    {
+        fout << pCurr->years;
+        fout << pCurr->pClass->No;
     }
 }

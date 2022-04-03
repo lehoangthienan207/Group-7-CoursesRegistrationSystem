@@ -33,17 +33,18 @@ struct Students
 	int SocialID{}; 
 	Students* pNext{};
 };
-struct Classes {
+struct Classes{
+	int No{};
 	string Name{};
 	int NumberOfStudents{};
-	Students* pHead{};
+	Students* pStudent{};
 	Classes* pNext{};
 };
 
 struct ScoreBoardOfCourse {
+	int No{};
 	string CourseID{};
 	string CourseName{};
-	int No{};
 	int StudentID{};
 	string StudentName;
 	float Midterm{};
@@ -60,25 +61,31 @@ struct ScoreBoardOfStudent {
 	ScoreBoardOfStudent* pNext{};
 };
 struct Courses {
+	int No{};
+	DoB startDate{};
+	DoB endDate{};
 	string CourseID{};
 	string CourseName{};
-	char session[5];
+	//
+	char time1[5];
 	int Maximum{};
 	int Credits{};
 	string TeacherName{};
 	char Day[3];
 	Courses* pNext{};
 };
-struct SchoolYear{
-	int startYear{};
-	int endYear{};
-	Classes *pClass;
-	SchoolYear *pNext;
-};
-
 struct Semester
 {
-
+	int No{};
+	DoB startDate{};
+	DoB endDate{};
+	Semester *pNext;
+};
+struct SchoolYear{
+	string years{};
+	Classes *pClass{};
+	Semester *pSemester{};
+	SchoolYear *pNext{};
 };
 // General
 void ChooseTypeOfUser(int& type);
