@@ -398,17 +398,14 @@ void CreateSemester(SchoolYear *pHead)
 //Long: chỗ để tên lớp nằm ở đâu nhỉ // Thư: ý Long là sao ha? tui chưa hiểu lắm...
 void CreateClasses(Classes*& pHead, Classes*& pCurr, int &i)
 {
-    ofstream listOfClasses("listOfClasses.txt");
     if (pHead == nullptr)
     {
         pHead = new Classes;
         pHead->No = i;
         cout << "Input class name: ";
         cin >> pHead->Name;
-        listOfClasses << pHead->Name;
         cout << "Input the number of students: ";
         cin >> pHead -> NumberOfStudents;
-        listOfClasses << " " << pHead->NumberOfStudents;
         pHead->pNext = nullptr;
         pCurr = pHead;
         ++i; //Needed a variable to store the pTail of the linked list
@@ -420,10 +417,8 @@ void CreateClasses(Classes*& pHead, Classes*& pCurr, int &i)
         pCurr->No = i;
         cout << "Input class name: ";
         cin >> pCurr->Name;
-        listOfClasses << pHead->Name;
         cout << "Input the number of : ";
         cin >> pCurr -> NumberOfStudents;
-        listOfClasses << " " << pHead->NumberOfStudents;
         pCurr->pNext = nullptr;
         ++i;
     }
@@ -854,11 +849,21 @@ void foutSchoolYear(SchoolYear *pHead)
 void foutClasses(SchoolYear*pHead)
 {
     ofstream fout;
-    fout.open("classList.txt");
     SchoolYear *pCurr = pHead;
     while (pCurr != nullptr)
     {
-        fout << pCurr->years;
-        fout << pCurr->pClass->No;
+        fout.open(pCurr->years + ".txt");
+        while (pCurr != nullptr)
+        {
+            Classes *pTemp = pCurr->pClass;
+            while (pTemp != nullptr)
+            {
+                fout << pTemp->Name << " ";
+                pTemp = pTemp->pNext;
+            }
+            fout << "\n";
+        }
     }
 }
+//chỗ này cần output ra classes list của từng năm học và cái tên cụ thể để có thể input khi đọc chương trình.
+//cần thêm 1 phần output ra semester school year với tên tương tự
