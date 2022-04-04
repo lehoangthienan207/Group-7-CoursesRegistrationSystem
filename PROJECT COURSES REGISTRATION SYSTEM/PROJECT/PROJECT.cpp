@@ -852,18 +852,84 @@ void foutClasses(SchoolYear*pHead)
     SchoolYear *pCurr = pHead;
     while (pCurr != nullptr)
     {
-        fout.open(pCurr->years + ".txt");
-        while (pCurr != nullptr)
+        fout.open(pCurr->years+ "classes" + ".txt");
+        
+        Classes *pTemp = pCurr->pClass;
+        while (pTemp != nullptr)
         {
-            Classes *pTemp = pCurr->pClass;
-            while (pTemp != nullptr)
-            {
-                fout << pTemp->Name << " ";
-                pTemp = pTemp->pNext;
-            }
-            fout << "\n";
+            fout << pTemp->Name << " ";
+            pTemp = pTemp->pNext;
         }
+        //fout << "\n";
+        pCurr = pCurr->pNext;
     }
 }
 //chỗ này cần output ra classes list của từng năm học và cái tên cụ thể để có thể input khi đọc chương trình.
 //cần thêm 1 phần output ra semester school year với tên tương tự
+
+void foutSemester(SchoolYear*pHead)
+{
+    ofstream fout;
+    SchoolYear *pCurr = pHead;
+    while (pCurr != nullptr)
+    {
+        fout.open(pCurr->years +"semester" + ".txt");
+        Semester *pTemp = pCurr->pSemester;
+        while (pTemp != nullptr)
+        {
+            fout << pTemp->No << " " << pTemp->startDate.day <<  pTemp->startDate.month << " " << pTemp->startDate.year << " " << pTemp->endDate.day << " " << pTemp->endDate.month << " " << pTemp->endDate.year;
+            fout << '\n';
+            pTemp = pTemp->pNext;
+        }
+        pCurr = pCurr->pNext;
+    }
+}
+
+void inputSignInStaff(SignIn *&pHead)
+{
+    ifstream input;
+    input.open("staff.csv");
+    SignIn *pCurr = pHead;
+    while(!input.eof())
+    {
+        if (pHead == nullptr)
+        {
+            pHead = new SignIn;
+            input >> pHead->ID >> pHead->Password;
+            pHead->pNext = nullptr;
+            pCurr = pHead;
+        }
+        else
+        {
+            pCurr->pNext = new SignIn;
+            pCurr = pCurr->pNext;
+            input >> pCurr->ID >> pCurr->Password;
+            pCurr->pNext = nullptr;
+        }   
+    }
+}
+void inputSignInStudent(SignIn *&pHead)
+{
+    ifstream input;
+    input.open("student.csv"); //chỗ này có thể thay đổi : ví dụ là thay bằng 21CLC09.csv
+    SignIn *pCurr = pHead;
+    while(!input.eof())
+    {
+        if (pHead == nullptr)
+        {
+            pHead = new SignIn;
+            input >> pHead->ID >> pHead->Password;
+            pHead->pNext = nullptr;
+            pCurr = pHead;
+        }
+        else
+        {
+            pCurr->pNext = new SignIn;
+            pCurr = pCurr->pNext;
+            input >> pCurr->ID >> pCurr->Password;
+            pCurr->pNext = nullptr;
+        }   
+    }
+}
+
+
