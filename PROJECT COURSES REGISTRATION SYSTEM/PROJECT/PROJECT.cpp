@@ -712,7 +712,18 @@ void RemoveEnrolledCourses(Courses*& pHead)
         cout << "Please enter here: "; cin >> opt;
     } while (opt == 'Y' || opt == 'y');
 }
-
+int MenuOfStudent()
+{
+    int n = 0;
+    cout << "*************************************" << endl;
+    cout << "*        1. Enroll in Courses       *" << endl;
+    cout << "*        2. Remove Courses          *" << endl;
+    cout << "*        3. View list of Courses    *" << endl;
+    cout << "*        4. View Scoreboard         *" << endl;
+    cout << "*************************************" << endl;
+    cout << endl << "Your choice: "; cin >> n;
+    return n;
+}
 int typeOfUser()
 {
     cout << "----------------------------------------\n";
