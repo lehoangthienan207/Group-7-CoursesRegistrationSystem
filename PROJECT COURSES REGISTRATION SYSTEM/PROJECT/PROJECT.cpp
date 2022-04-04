@@ -1,49 +1,6 @@
 #include "PROJECT.h"
 //#include <string>
-bool isEmpty(ifstream& pFile)
-{
-    return pFile.peek() == ifstream::traits_type::eof();
-}
-void readFilesBeforeLogin(Classes *&pHClasses)
-{
-    //mở file txt chứa tên các lớp
-    ifstream classInput("listOfClasses.txt");
-    Classes *pCClasses = pHClasses;
-    if (!classInput && !isEmpty(classInput))
-    {
-        while (!classInput.eof())
-        {
 
-            if (pHClasses == nullptr)
-            {   //tạo các lớp và nhập tên các lớp vào
-                pHClasses = new Classes;
-                classInput.ignore();
-                getline(classInput,pHClasses->Name);
-                ifstream studentInput(pHClasses->Name + "." + "csv");
-
-                // nhập số học sinh
-                classInput >> pHClasses->NumberOfStudents;
-                InputStudent(pHClasses->pStudent,studentInput);
-                pHClasses->pNext = nullptr;
-                pCClasses = pHClasses;
-            }
-            else
-            {   //tạo các lớp và nhập tên các lớp vào
-                pCClasses->pNext = new Classes;
-                pCClasses = pCClasses->pNext;
-                classInput.ignore();
-                getline(classInput,pCClasses->Name);
-                ifstream studentInput(pCClasses->Name + "." + "csv");
-
-                // nhập số học sinh
-                classInput >> pCClasses->NumberOfStudents;
-                InputStudent(pCClasses->pStudent,studentInput);
-                pCClasses->pNext = nullptr;
-            }
-        }
-    }
-}
-//phần bên trên có thể chưa xong
 
 
 
@@ -776,7 +733,6 @@ int typeOfUser()
 //clear scr function
 void clrscr(){
     cout << "\033[2J\033[1;1H";
-    system("pause");
 }
 
 void deleteClasses(Classes *&pHead)
@@ -932,4 +888,80 @@ void inputSignInStudent(SignIn *&pHead)
     }
 }
 
+bool isEmpty(ifstream& pFile)
+{
+    return pFile.peek() == ifstream::traits_type::eof();
+}
+void readFilesBeforeLogin(Classes *&pHClasses)
+{
+    //mở file txt chứa tên các lớp
+    ifstream classInput("listOfClasses.txt");
+    Classes *pCClasses = pHClasses;
+    if (!classInput && !isEmpty(classInput))
+    {
+        while (!classInput.eof())
+        {
 
+            if (pHClasses == nullptr)
+            {   //tạo các lớp và nhập tên các lớp vào
+                pHClasses = new Classes;
+                classInput.ignore();
+                getline(classInput,pHClasses->Name);
+                ifstream studentInput(pHClasses->Name + "." + "csv");
+
+                // nhập số học sinh
+                classInput >> pHClasses->NumberOfStudents;
+                InputStudent(pHClasses->pStudent,studentInput);
+                pHClasses->pNext = nullptr;
+                pCClasses = pHClasses;
+            }
+            else
+            {   //tạo các lớp và nhập tên các lớp vào
+                pCClasses->pNext = new Classes;
+                pCClasses = pCClasses->pNext;
+                classInput.ignore();
+                getline(classInput,pCClasses->Name);
+                ifstream studentInput(pCClasses->Name + "." + "csv");
+
+                // nhập số học sinh
+                classInput >> pCClasses->NumberOfStudents;
+                InputStudent(pCClasses->pStudent,studentInput);
+                pCClasses->pNext = nullptr;
+            }
+        }
+    }
+}
+
+
+
+void readSchoolYearlist(SchoolYear *&pHead)
+{
+    ifstream input("schoolYearList.txt");
+    if (!input && !isEmpty(input))
+    {
+        SchoolYear *pCurr = pHead;
+        while(!input.eof())
+        {
+            if(pHead == nullptr)
+            {
+                pHead = new SchoolYear;
+                input >> pHead->years;
+                pHead->pClass = nullptr;
+                pHead->pSemester = nullptr;
+                pHead->pNext = nullptr;
+                pCurr = pHead;
+            }
+            else
+            {
+                pCurr->pNext = new SchoolYear;
+                pCurr = pCurr->pNext;
+                input >> pCurr->years;
+                pCurr->pClass = nullptr;
+                pCurr->pSemester = nullptr;
+                pCurr->pNext = nullptr;
+            }
+        }
+    }
+}
+
+//phần bên trên có thể chưa xong
