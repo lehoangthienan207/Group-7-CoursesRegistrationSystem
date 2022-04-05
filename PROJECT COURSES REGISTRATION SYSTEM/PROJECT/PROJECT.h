@@ -98,7 +98,8 @@ void LogOut();
 // Staff
 /*void CreateSchoolYear(int& Year);*/ //Nhi: tui comment cái này lại nha, tại nó bị trùng hàm rồi.
 void CreateSchoolYear(SchoolYear *&pHead, SchoolYear *&pCurr);
-void CreateClasses(Classes* pHead);
+void CreateClasses(Classes*& pHead, Classes*& pCurr, int &i);
+void CreateCourses(Courses*& pHead, Courses*& pCurr, int &i);
 
 // Newly added function
 //void CreateCourses(Courses*& pHead);

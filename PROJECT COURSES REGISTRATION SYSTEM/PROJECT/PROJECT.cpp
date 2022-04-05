@@ -1251,7 +1251,11 @@ void readClassListAndStudent(SchoolYear *pHead)
                     input >> pCurr->pClass->NumberOfStudents;
                     pCurr->pClass->pStudent = new Students;
                     classInput >> pCurr->pClass->pStudent->No >> pCurr->pClass->pStudent->StudentID >> pCurr->pClass->pStudent->LastName >> pCurr->pClass->pStudent->LastName;
-                    //DOB;
+                    string DaT = "";
+                    classInput >> DaT;
+                    pCurr->pClass->pStudent->DateOfBirth.month = stoi(DaT.substr(0,2));
+                    pCurr->pClass->pStudent->DateOfBirth.day = stoi(DaT.substr(3,2));
+                    pCurr->pClass->pStudent->DateOfBirth.year = stoi(DaT.substr(6,4));
                     classInput >> pCurr->pClass->pStudent->SocialID >> pCurr->pClass->pStudent->Gender;
                     pCurr->pClass->pStudent->pNext =nullptr;
                     pCurr->pClass->pNext = nullptr;
@@ -1266,13 +1270,19 @@ void readClassListAndStudent(SchoolYear *pHead)
                     input >> pTemp->NumberOfStudents;
                     pTemp->pStudent = new Students;
                     classInput >> pTemp->pStudent->No >> pTemp->pStudent->StudentID >> pTemp->pStudent->LastName >> pTemp->pStudent->LastName;
-                    //DOB;
+                    pTemp->pStudent->DateOfBirth.month = stoi(DaT.substr(0,2));
+                    pTemp->pStudent->DateOfBirth.day = stoi(DaT.substr(3,2));
+                    pTemp->pStudent->DateOfBirth.year = stoi(DaT.substr(6,4));
                     classInput >> pTemp->pStudent->SocialID >> pTemp->pStudent->Gender;
                     pTemp->pStudent->pNext =nullptr;
                     pTemp->pNext = nullptr;
                 }
             }
+            pTemp = pTemp->pNext;
         }
+        pCurr = pCurr->pNext;
     }
 }
+
+
 //phần bên trên chưa xong
