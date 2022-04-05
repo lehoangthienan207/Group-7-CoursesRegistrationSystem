@@ -155,34 +155,33 @@ void RemoveCourses(Courses*& pHead)
 
 //Long: thêm giúp mình cái pTail trong thông tin đăng nhập nha
 //để chương trình biết khi nào phải dừng í
-void LogIn(SignIn*& pHead, SignIn*& pTail)
-{
-    bool status = true;
-    int id_input;
-    string psw_input;
-    while (status)
+    void LogIn(SignIn*& pHead)
     {
-        cout << "Input ID: "; cin >> id_input;
-        cout << "Input password: "; cin >> psw_input;
-        SignIn* pCurr = pHead;
-        while (pCurr != pTail)
+        bool status = true;
+        string id_input;
+        string psw_input;
+        while (status)
         {
-            if (id_input == pCurr -> ID && psw_input == pCurr -> Password)
+            cout << "Input ID: "; cin >> id_input;
+            cout << "Input password: "; cin >> psw_input;
+            SignIn* pCurr = pHead;
+            while (pCurr != nullptr)
             {
-                cout << "Sign-in successful" << endl;
-                status = false;
-                continue;
+                if (id_input == pCurr -> ID && psw_input == pCurr -> Password)
+                {
+                    cout << "Sign-in successful" << endl;
+                    status = false;
+                    break;
+                }
+                else
+                {
+                    pCurr = pCurr -> pNext;
+                }
             }
-            else
-            {
-                pCurr = pCurr -> pNext;
-                continue;
-            }
+            if (status)
+                cout << "Login failed" << endl;
         }
-        if (status)
-            cout << "Login failed" << endl;
     }
-}
 
 void ChangePassword(string& Password)
 {
@@ -218,7 +217,7 @@ void LogOut()
     }
 }
 
-void GeneralMenu()
+void GeneralMenu(SignIn *pStaff, SignIn* pStudent)
 {
     int choice;
     cout << "\n\t\t\t*****************LOGIN******************\n\n";
@@ -229,28 +228,26 @@ void GeneralMenu()
     cout << "\t\t      ********************************************\n\n";
     cout << "\t\t\t\tYour Choice: "; 
     cin >> choice;
-    switch(choice):
+    if (choice == 1)
     {
-        case 1:
-        {
-            LogIn(pHead);
-            MenuOfStaff();
-        }
-        case 2:
-        {
-            LogIn(pHead);
-            MenuOfStudent();
-        }
-        case 3:
-        {
-            exit(0);
-        }
-        default:
-        {
-            cout << "Error, please try again";
-            GeneralMenu();
-        }
+        LogIn(pStaff);
+        MenuOfStaff();
     }
+    else if (choice == 2)
+    {
+        LogIn(pStudent);
+        MenuOfStudent();
+    }
+    else if (choice == 3)
+    {
+        exit(0);
+    }
+    else
+    {
+        cout << "Error, please try again";
+        GeneralMenu(pStaff,pStudent);
+    }
+    
 }
 
 //Long:biến Year này thì sẽ ảnh hưởng gì đến các biến khác?

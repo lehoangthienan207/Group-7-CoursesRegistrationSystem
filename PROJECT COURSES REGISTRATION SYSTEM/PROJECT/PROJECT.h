@@ -94,6 +94,7 @@ struct SchoolYear{
 };
 // General
 void ChooseTypeOfUser(int& type);
+void GeneralMenu(SignIn *pStaff, SignIn* pStudent);
 void SignUp(SignIn*& pHead);
 void LogIn(SignIn*& pHead);// Nhi: Long ơi chỗ này ông quên thêm biến trong hàm nha.
 void LogInCredentials(fstream& input);
