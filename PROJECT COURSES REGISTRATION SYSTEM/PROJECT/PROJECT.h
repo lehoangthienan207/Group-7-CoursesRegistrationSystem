@@ -13,7 +13,7 @@ using namespace std;
 
 
 struct SignIn {
-	int ID{};
+	string ID{};
 	string Password{};
 	SignIn* pNext{};
 };

@@ -12,5 +12,4 @@ int main()
 	readSchoolYearlist(pSchool);
 	readSemesterList(pSchool);
 	return 0;
-	
 }

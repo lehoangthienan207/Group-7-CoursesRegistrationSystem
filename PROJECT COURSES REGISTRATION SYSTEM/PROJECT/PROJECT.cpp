@@ -153,15 +153,9 @@ void RemoveCourses(Courses*& pHead)
 }
 
 
-<<<<<<< HEAD
-//Idea: check the SignIn linked list until there's is a correct ID - password combination
-//else the login process will restart again
-void LogIn(SignIn*& pHead)
-=======
 //Long: thêm giúp mình cái pTail trong thông tin đăng nhập nha
 //để chương trình biết khi nào phải dừng í
 void LogIn(SignIn*& pHead, SignIn*& pTail)
->>>>>>> 92e2daf2d9b2934175e69abdc0b293d0f9b7d234
 {
     bool status = true;
     int id_input;
@@ -212,15 +206,7 @@ void LogOut()
         switch(temp)
         {
             case 1:
-<<<<<<< HEAD
-            {
-                LogIn(pHead);
-                fact = false;
-                break;
-            }
-=======
                 exit(0);
->>>>>>> 92e2daf2d9b2934175e69abdc0b293d0f9b7d234
             case 0:
                 break;
             default:
@@ -241,7 +227,8 @@ void GeneralMenu()
     cout << "\t\t      *\t  2.Students\t\t *\n";
     cout << "\t\t      *\t  3.Exit\t *\n";
     cout << "\t\t      ********************************************\n\n";
-    cout << "\t\t\t\tYour Choice: "; cin :>> choice;
+    cout << "\t\t\t\tYour Choice: "; 
+    cin >> choice;
     switch(choice):
     {
         case 1:
@@ -737,7 +724,7 @@ void MenuOfStaff()
 {
     
     string choose;
-    string choose;
+
     int choice1;
     int choice2;
     string Password;
