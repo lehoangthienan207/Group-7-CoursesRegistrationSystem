@@ -78,7 +78,7 @@ struct Courses {
 	int Maximum{};
 	int Credits{};
 	string TeacherName{};
-	char Day[3];
+	char Day[3]; // chỗ này ko rõ để làm gì, nếu như max là 3 thì nhớ +1 vào là 4 như giải thích ở trên.
 	Courses* pNext{};
 };
 struct Semester
