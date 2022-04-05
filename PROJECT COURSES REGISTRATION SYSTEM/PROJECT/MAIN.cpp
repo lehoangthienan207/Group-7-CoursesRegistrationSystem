@@ -8,8 +8,8 @@ int main()
 	inputSignInStudent(pStudent);
 	//nhập thông tin để có thể đăng nhập vào
 	SchoolYear *pSchool = nullptr;
+	readSchoolYearlist(pSchool);
 	
-
 	return 0;
 	
 }
