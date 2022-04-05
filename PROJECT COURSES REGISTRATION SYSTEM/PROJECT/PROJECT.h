@@ -16,7 +16,10 @@ struct SignIn {
 	string ID{};
 	string Password{};
 	string Name{};
+	string SocialID{};
 	string Email{};
+	string DoB{};
+	string Gender{};
 	SignIn* pNext{};
 };
 struct DoB {

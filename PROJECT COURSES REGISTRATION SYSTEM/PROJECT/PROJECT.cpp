@@ -1053,15 +1053,6 @@ void deleteStudents(Students *&pHead)
         delete pCurr;
     }
 }
-void deleteSignIn(SignIn *&pHead)
-{
-    while(pHead != nullptr)
-    {
-        SignIn *pCurr = pHead;
-        pHead = pHead->pNext;
-        delete pCurr;
-    }
-}
 void deleteCourses(Courses *&pHead)
 {
     while(pHead != nullptr)
@@ -1191,21 +1182,46 @@ void inputSignInStudent(SignIn *&pHead)
 {
     ifstream input;
     input.open("student.csv"); //chỗ này có thể thay đổi : ví dụ là thay bằng 21CLC09.csv
+    string key = "";
+    getline(input,key); 
     SignIn *pCurr = pHead;
     while(!input.eof())
     {
         if (pHead == nullptr)
         {
             pHead = new SignIn;
-            input >> pHead->ID >> pHead->Password;
+            getline(input,key,',');
+            pHead->ID = key;
+            getline(input,key,',');
+            pHead->Password = key;
+            getline(input,key,',');
+            pHead->Name = key;
+            getline(input,key,',');
+            pHead->SocialID = key;
+            getline(input,key,',');
+            pHead->DoB = key;
+            getline(input,key);
+            pHead->Gender = key;
             pHead->pNext = nullptr;
             pCurr = pHead;
+            
         }
         else
         {
             pCurr->pNext = new SignIn;
             pCurr = pCurr->pNext;
-            input >> pCurr->ID >> pCurr->Password;
+            getline(input,key,',');
+            pCurr->ID = key;
+            getline(input,key,',');
+            pCurr->Password = key;
+            getline(input,key,',');
+            pCurr->Name = key;
+            getline(input,key,',');
+            pCurr->SocialID = key;
+            getline(input,key,',');
+            pCurr->DoB = key;
+            getline(input,key);
+            pCurr->Gender = key;
             pCurr->pNext = nullptr;
         }   
     }

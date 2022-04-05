@@ -4,10 +4,12 @@ int main()
 {
 	SignIn *pStaff = nullptr;
 	inputSignInStaff(pStaff);
-	SignIn *pCurr = pStaff;
+	SignIn *pStudent = nullptr;
+	inputSignInStudent(pStudent);
+	SignIn *pCurr = pStudent;
 	while (pCurr != nullptr)
 	{
-		cout << pCurr->ID << " " << pCurr->Password << " " << pCurr->Name << " " << pCurr->Email;
+		cout << pCurr->ID << " "<< pCurr->Password << " " << pCurr->Name << " " << pCurr->SocialID << " " << pCurr->DoB << " " << pCurr->Gender;
 		cout << "\n";
 		pCurr = pCurr->pNext;
 	}
