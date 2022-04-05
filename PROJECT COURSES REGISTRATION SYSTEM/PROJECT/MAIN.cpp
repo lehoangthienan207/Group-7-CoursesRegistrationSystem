@@ -3,13 +3,13 @@
 int main()
 {
 	SignIn *pStaff = nullptr;
-	SignIn *pStudent = nullptr;
 	inputSignInStaff(pStaff);
-	inputSignInStudent(pStudent);
-	//nhập thông tin để có thể đăng nhập vào
-	SchoolYear *pSchool = nullptr;
-	readSchoolYearlist(pSchool);
-	readSchoolYearlist(pSchool);
-	readSemesterList(pSchool);
+	SignIn *pCurr = pStaff;
+	while (pCurr != nullptr)
+	{
+		cout << pCurr->ID << " " << pCurr->Password << " " << pCurr->Name << " " << pCurr->Email;
+		cout << "\n";
+		pCurr = pCurr->pNext;
+	}
 	return 0;
 }

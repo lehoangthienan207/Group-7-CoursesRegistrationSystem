@@ -1089,7 +1089,15 @@ void deleteScoreBoardOfStudent(ScoreBoardOfStudent *&pHead)
         delete pCurr;
     }
 }
-
+void deleteSignIn(SignIn *&pHead)
+{
+    while (pHead !=nullptr)
+    {
+        SignIn *pTemp = pHead;
+        pHead = pHead->pNext;
+        delete pTemp;
+    }
+}
 void foutSchoolYear(SchoolYear *pHead)
 {
     ofstream fout;
@@ -1144,13 +1152,22 @@ void inputSignInStaff(SignIn *&pHead)
 {
     ifstream input;
     input.open("staff.csv");
+    string key = "";
+    getline(input,key);
     SignIn *pCurr = pHead;
     while(!input.eof())
     {
         if (pHead == nullptr)
         {
             pHead = new SignIn;
-            input >> pHead->ID >> pHead->Password;
+            getline(input,key,',');
+            pHead->ID = key;
+            getline(input,key,',');
+            pHead->Password = key;
+            getline(input,key,',');
+            pHead->Name = key;
+            getline(input,key);
+            pHead->Email = key;
             pHead->pNext = nullptr;
             pCurr = pHead;
         }
@@ -1158,7 +1175,14 @@ void inputSignInStaff(SignIn *&pHead)
         {
             pCurr->pNext = new SignIn;
             pCurr = pCurr->pNext;
-            input >> pCurr->ID >> pCurr->Password;
+            getline(input,key,',');
+            pCurr->ID = key;
+            getline(input,key,',');
+            pCurr->Password = key;
+            getline(input,key,',');
+            pCurr->Name = key;
+            getline(input,key);
+            pCurr->Email = key;
             pCurr->pNext = nullptr;
         }   
     }

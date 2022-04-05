@@ -15,6 +15,8 @@ using namespace std;
 struct SignIn {
 	string ID{};
 	string Password{};
+	string Name{};
+	string Email{};
 	SignIn* pNext{};
 };
 struct DoB {
@@ -136,7 +138,7 @@ void deleteSignIn(SignIn *&pHead);
 void deleteCourses(Courses *&pHead);
 void deleteScoreBoardOfCourse(ScoreBoardOfCourse *&pHead);
 void deleteScoreBoardOfStudent(ScoreBoardOfStudent *&pHead);
-
+void deleteSignIn(SignIn *&pHead);
 // input
 void InputStudent(Students *& pHead, ifstream &studentInput);
 void inputSignInStaff(SignIn *&pHead);

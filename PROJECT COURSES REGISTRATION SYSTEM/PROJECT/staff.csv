@@ -1,13 +1,12 @@
-No,ID,Password,Name,Email
-1,D460101,123,Tran Thi Nhu Y,ttny@hcmus.edu.vn
-2,D520207,123,Cao Tran Bao Thuong,ctbthuong@hcmus.edu.vn 
-3,D420101,123,Le Thi Hong Hanh,lethhanh@hcmus.edu.vn
-4,D440201,123,Nguyen Thi Tu Anh,nttanh@hcmus.edu.vn
-5,D440102,123,Huynh Thanh Nhan,htnhan@hcmus.edu.vn
-6,D440301,123,Thu Loan,pttloan@hcmus.edu.vn
-7,D430122,123,Nguyen Long Trong,nltrong@hcmus.edu.vn
-8,D480201,123,Vo Nam Thuc Doan,giaovu@fit.hcmus.edu.vn 
-9,D440112,123,Nguyen Thi Tinh,nttinh@hcmus.edu.vn
-10,D440228,123,Lam Van Hao,lvhao@hcmus.edu.vn
-11,D510401,123,Nguyen Truong Hai,ngthai@hcmus.edu.vn
-12,D510406,123,Nguyen Thao Nguyen,ngtnguyen@hcmus.edu.vn
+ID,Password,Name,Email
+D460101,123,Tran Thi Nhu Y,ttny@hcmus.edu.vn
+D520207,123,Cao Tran Bao Thuong,ctbthuong@hcmus.edu.vn 
+D420101,123,Le Thi Hong Hanh,lethhanh@hcmus.edu.vn
+D440201,123,Nguyen Thi Tu Anh,nttanh@hcmus.edu.vn
+D440102,123,Huynh Thanh Nhan,htnhan@hcmus.edu.vn
+D430122,123,Nguyen Long Trong,nltrong@hcmus.edu.vn
+D480201,123,Vo Nam Thuc Doan,giaovu@fit.hcmus.edu.vn 
+D440112,123,Nguyen Thi Tinh,nttinh@hcmus.edu.vn
+D440228,123,Lam Van Hao,lvhao@hcmus.edu.vn
+D510401,123,Nguyen Truong Hai,ngthai@hcmus.edu.vn
+D510406,123,Nguyen Thao Nguyen,ngtnguyen@hcmus.edu.vn
