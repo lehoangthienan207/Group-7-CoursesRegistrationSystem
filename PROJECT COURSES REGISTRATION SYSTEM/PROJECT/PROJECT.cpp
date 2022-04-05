@@ -495,7 +495,7 @@ void PrintStudentListInCourse(Students* pHead, Courses* pH) {
 void EnrollCourses(Courses * &pHead, Courses * &pStudents)
 {
     int n = 0;
-    char opt = 'Y';
+    int opt = 0;
     do {
         PrintCoursesList(pHead);
         cout << "Please input the number of courses that you wanna pick: ";
@@ -504,25 +504,25 @@ void EnrollCourses(Courses * &pHead, Courses * &pStudents)
         Courses* pCurrent = pHead;
         for (int i = 0; i < n; i++)
         {
+            int no = 0;
+            cout << "Your choice: "; cin >> no;
             if (pStudents == nullptr)
             {
                 pStudents = new Courses;
-                cout << "Please input the Course ID (Ex: MTH00005) " << i + 1 << ": ";
-                cin.ignore();
-                getline(cin, pStudents->CourseID);
-                cout << "Please input the day of week to study this course (Ex: MON, TUE, WED) " << i + 1 << ": ";
-                cin.ignore();
-                cin.getline(pStudents->Day, 3);
-                cout << "Please input the session of day to study this course (Ex: 07h30, 13h30) " << i + 1 << ": ";
-                cin.ignore();
-                cin.getline(pStudents->time1, 5);
+                pStudents->No = no;
                 pStudents->pNext = nullptr;
                 pCur = pStudents;
                 Courses* pPrev = pHead;
                 while (pCurrent != nullptr)
                 {
-                    if (pStudents->CourseID == pCurrent->CourseID && pStudents->Day == pCurrent->Day && pStudents->time1 == pCurrent->time1)
+                    if (pStudents->No == pCurrent->No)
                     {
+                        pStudents->CourseID = pCurrent->CourseID;
+                        pStudents->CourseName = pCurrent->CourseName;
+                        pStudents->Credits = pCurrent->Credits;
+                        pStudents->Day = pCurrent->Day;
+                        pStudents->time1 = pCurrent->time1;
+                        pStudents->TeacherName = pCurrent->TeacherName;
                         if (pCurrent->Maximum > 1)
                             pCurrent->Maximum--;
                         else {
@@ -531,6 +531,7 @@ void EnrollCourses(Courses * &pHead, Courses * &pStudents)
                                 pCurrent = pHead->pNext;
                                 delete pHead;
                                 pHead = pCurrent;
+                                pPrev = pHead;
                             }
                             else {
                                 pPrev->pNext = pCurrent->pNext;
@@ -546,20 +547,19 @@ void EnrollCourses(Courses * &pHead, Courses * &pStudents)
             else {
                 pCur->pNext = new Courses;
                 pCur = pCur->pNext;
-                cout << "Please input the Course ID (Ex: MTH00005) " << i + 1 << ": ";
-                getline(cin, pCur->CourseID);
-                cout << "Please input the day of week to study this course (Ex: MON, TUE, WED) " << i + 1 << ": ";
-                cin.ignore();
-                cin.getline(pCur->Day, 3);
-                cout << "Please input the session of day to study this course (Ex: 07h30, 13h30) " << i + 1 << ": ";
-                cin.ignore();
-                cin.getline(pCur->time1, 5);
+                pCur->No = no;
                 pCur->pNext = nullptr;
                 Courses* pPrev = pHead;
                 while (pCurrent != nullptr)
                 {
-                    if (pCur->CourseID == pCurrent->CourseID && pCur->Day == pCurrent->Day && pCur->time1 == pCurrent->time1)
+                    if (pCur->No = pCurrent->No)
                     {
+                        pCur->CourseID = pCurrent->CourseID;
+                        pCur->CourseName = pCurrent->CourseName;
+                        pCur->Credits = pCurrent->Credits;
+                        pCur->Day = pCurrent->Day;
+                        pCur->time1 = pCurrent->time1;
+                        pCur->TeacherName = pCurrent->TeacherName;
                         if (pCurrent->Maximum > 1)
                             pCurrent->Maximum--;
                         else {
@@ -568,6 +568,7 @@ void EnrollCourses(Courses * &pHead, Courses * &pStudents)
                                 pCurrent = pHead->pNext;
                                 delete pHead;
                                 pHead = pCurrent;
+                                pPrev = pHead;
                             }
                             else {
                                 pPrev->pNext = pCurrent->pNext;
@@ -582,11 +583,21 @@ void EnrollCourses(Courses * &pHead, Courses * &pStudents)
             }
 
         }
-        cout << "Do you wanna add more courses or view the list of the courses?" << endl;
-        cout << "Input 'Y' if you wanna add courses and 'N' if you wanna view the list." << endl;
-        cout << "Please choose: "; cin >> opt;
-    } while (opt == 'Y' || opt == 'y');
-    PrintCoursesList(pStudents);
+        cout << "***************************************" << endl;
+        cout << "*        1. Continue Enrolling        *" << endl;
+        cout << "*        2. View List of Courses      *" << endl;
+        cout << "*        3. Back to Menu              *" << endl;
+        cout << "***************************************" << endl;
+        cout << "Your choice: "; cin >> opt;
+    } while (opt == 1);
+    if (opt == 2) {
+        clrscr();
+        PrintCoursesList(pStudents);
+    }
+    else if (opt == 3) {
+        clrscr();
+        MenuOfStudent();
+    }
 }
 void PrintEnrolledCourses(Courses* pHead)
 {
@@ -715,12 +726,16 @@ void RemoveEnrolledCourses(Courses*& pHead)
 int MenuOfStudent()
 {
     int n = 0;
-    cout << "*************************************" << endl;
-    cout << "*        1. Enroll in Courses       *" << endl;
-    cout << "*        2. Remove Courses          *" << endl;
-    cout << "*        3. View list of Courses    *" << endl;
-    cout << "*        4. View Scoreboard         *" << endl;
-    cout << "*************************************" << endl;
+    cout << "*****************************************************" << endl;
+    cout << "*                                                   *" << endl;
+    cout << "*               1. Enroll in Courses                *" << endl;
+    cout << "*               2. Remove Courses                   *" << endl;
+    cout << "*               3. View list of Courses             *" << endl;
+    cout << "*               4. View Scoreboard                  *" << endl;
+    cout << "*               5. View Your Profile                *" << endl;
+    cout << "*               6. Change Your Password             *" << endl;
+    cout << "*                                                   *" << endl;
+    cout << "*****************************************************" << endl;
     cout << endl << "Your choice: "; cin >> n;
     return n;
 }
