@@ -155,7 +155,7 @@ void RemoveCourses(Courses*& pHead)
 
 //Idea: check the SignIn linked list until there's is a correct ID - password combination
 //else the login process will restart again
-int LogIn(SignIn*& pHead)
+void LogIn(SignIn*& pHead)
 {
     bool status = true;
     int id_input;
@@ -209,8 +209,9 @@ void LogOut(SignIn*& pHead)
         {
             case 1:
             {
-                return LogIn(pHead);
+                LogIn(pHead);
                 fact = false;
+                break;
             }
             case 0:
                 break;
@@ -219,6 +220,40 @@ void LogOut(SignIn*& pHead)
                 cout << "I don't understand...";
                 break;
             }
+        }
+    }
+}
+
+void GeneralMenu()
+{
+    int choice;
+    cout << "\n\t\t\t*****************LOGIN******************\n\n";
+    cout << "\t\t      ********************************************\n";
+    cout << "\t\t      *\t  1.Academic Staff\t *\n";
+    cout << "\t\t      *\t  2.Students\t\t *\n";
+    cout << "\t\t      *\t  3.Exit\t *\n";
+    cout << "\t\t      ********************************************\n\n";
+    cout << "\t\t\t\tYour Choice: "; cin :>> choice;
+    switch(choice):
+    {
+        case 1:
+        {
+            LogIn(pHead);
+            MenuOfStaff();
+        }
+        case 2:
+        {
+            LogIn(pHead);
+            MenuOfStudent();
+        }
+        case 3:
+        {
+            exit(0);
+        }
+        default:
+        {
+            cout << "Error, please try again";
+            GeneralMenu();
         }
     }
 }
