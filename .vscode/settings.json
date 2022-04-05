@@ -26,5 +26,6 @@
         "utility": "cpp",
         "vector": "cpp",
         "iomanip": "cpp"
-    }
+    },
+    "C_Cpp.errorSquiggles": "Disabled"
 }

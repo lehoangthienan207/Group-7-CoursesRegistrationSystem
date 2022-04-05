@@ -153,9 +153,9 @@ void RemoveCourses(Courses*& pHead)
 }
 
 
-//Long: thêm giúp mình cái pTail trong thông tin đăng nhập nha
-//để chương trình biết khi nào phải dừng í
-void LogIn(SignIn*& pHead, SignIn*& pTail)
+//Idea: check the SignIn linked list until there's is a correct ID - password combination
+//else the login process will restart again
+int LogIn(SignIn*& pHead)
 {
     bool status = true;
     int id_input;
@@ -165,13 +165,13 @@ void LogIn(SignIn*& pHead, SignIn*& pTail)
         cout << "Input ID: "; cin >> id_input;
         cout << "Input password: "; cin >> psw_input;
         SignIn* pCurr = pHead;
-        while (pCurr != pTail)
+        while (pCurr != nullptr)
         {
             if (id_input == pCurr -> ID && psw_input == pCurr -> Password)
             {
                 cout << "Sign-in successful" << endl;
                 status = false;
-                continue;
+                break;
             }
             else
             {
@@ -192,21 +192,26 @@ void ChangePassword(string& Password)
     cin >> newPass;
     Password = newPass;
 }
-
-void LogOut()
+//Idea: when the logout function is called, the program will ask for confirmation from user
+//if the user confirms the logout, the program will return to the login phase'
+void LogOut(SignIn*& pHead)
 { 
     //logout thì quay về login chứ đâu có exit
+    //Long: quay về login thì cho return hàm login có đúng không nhỉ?
     int temp;
     bool fact = true;
     while (fact)
     {
         cout << "Are you sure you want to logout?" << endl;
         cout << "If yes, press 1; press 0 to cancel: ";
-        cin >> temp; 
+        cin >> temp;
         switch(temp)
         {
             case 1:
-                exit(0);
+            {
+                return LogIn(pHead);
+                fact = false;
+            }
             case 0:
                 break;
             default:
