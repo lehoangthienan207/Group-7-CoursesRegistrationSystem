@@ -71,8 +71,10 @@ struct Courses {
 	DoB endDate{};
 	string CourseID{};
 	string CourseName{};
-	//
-	char time1[5];
+	char weekday1[4];//cái này là thứ học tiết 1, sửa các cái char[] thành char[+1]vì cần để chứa \0
+	char time1[6];//thời gian học tiết 1
+	char weekday2[4]; //thứ học tiết 2
+	char time2[6]; //thời gian tiết 2
 	int Maximum{};
 	int Credits{};
 	string TeacherName{};
@@ -84,6 +86,7 @@ struct Semester
 	int No{};
 	DoB startDate{};
 	DoB endDate{};
+	Courses *pCourse;
 	Semester *pNext;
 };
 struct SchoolYear{
@@ -96,7 +99,7 @@ struct SchoolYear{
 void ChooseTypeOfUser(int& type);
 void GeneralMenu(SignIn *pStaff, SignIn* pStudent);
 void SignUp(SignIn*& pHead);
-void LogIn(SignIn*& pHead);// Nhi: Long ơi chỗ này ông quên thêm biến trong hàm nha.
+void LogIn(SignIn* pHead);// Nhi: Long ơi chỗ này ông quên thêm biến trong hàm nha.
 void ChangePassword(string& Password);
 void LogOut(SignIn *pStaff, SignIn* pStudent);
 

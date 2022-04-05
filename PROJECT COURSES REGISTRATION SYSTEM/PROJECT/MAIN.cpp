@@ -7,11 +7,15 @@ int main()
 	SignIn *pStudent = nullptr;
 	inputSignInStudent(pStudent);
 	SignIn *pCurr = pStudent;
-	while (pCurr != nullptr)
-	{
-		cout << pCurr->ID << " "<< pCurr->Password << " " << pCurr->Name << " " << pCurr->SocialID << " " << pCurr->DoB << " " << pCurr->Gender;
-		cout << "\n";
-		pCurr = pCurr->pNext;
-	}
+	
+	GeneralMenu();
+
+
+
+
+
+
+	deleteSignIn(pStaff);
+	deleteSignIn(pStudent);
 	return 0;
 }

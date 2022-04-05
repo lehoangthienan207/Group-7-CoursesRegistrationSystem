@@ -246,8 +246,9 @@ void PrintClassesList(Classes* pHead)
         pCurr = pCurr->pNext;
     }
 }
-void CreateSchoolYear(SchoolYear *&pHead, SchoolYear *&pCurr)
+void CreateSchoolYear(SchoolYear *&pHead, SchoolYear *&pCurr) //chỗ này có thể tách riêng (hoặc không)
 {
+    //cần sửa vì file csv có cách đọc khác
     if (pHead == nullptr)
     {
         pHead = new SchoolYear;
@@ -982,7 +983,7 @@ int MenuOfStudent()
     cout << "*****************************************************" << endl;
     cout << "*                                                   *" << endl;
     cout << "*               1. Enroll in Courses                *" << endl;
-    cout << "*               2. Remove Courses                   *" << endl;
+    cout << "*               2. Remove enrolled Courses          *" << endl;
     cout << "*               3. View list of Courses             *" << endl;
     cout << "*               4. View Scoreboard                  *" << endl;
     cout << "*               5. View Your Profile                *" << endl;
