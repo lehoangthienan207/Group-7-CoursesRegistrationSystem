@@ -192,29 +192,10 @@ void ChangePassword(string& Password)
     Password = newPass;
 }
 
-void LogOut()
+void LogOut(SignIn *pStaff, SignIn* pStudent)
 { 
-    //logout thì quay về login chứ đâu có exit
-    int temp;
-    bool fact = true;
-    while (fact)
-    {
-        cout << "Are you sure you want to logout?" << endl;
-        cout << "If yes, press 1; press 0 to cancel: ";
-        cin >> temp; 
-        switch(temp)
-        {
-            case 1:
-                exit(0);
-            case 0:
-                break;
-            default:
-            {                
-                cout << "I don't understand...";
-                break;
-            }
-        }
-    }
+    clrscr();
+    GeneralMenu(pStaff,pStudent);
 }
 
 void GeneralMenu(SignIn *pStaff, SignIn* pStudent)
@@ -228,15 +209,17 @@ void GeneralMenu(SignIn *pStaff, SignIn* pStudent)
     cout << "\t\t      ********************************************\n\n";
     cout << "\t\t\t\tYour Choice: "; 
     cin >> choice;
+    cin.clear();
+    cin.ignore(10000,'\n');
     if (choice == 1)
     {
         LogIn(pStaff);
-        MenuOfStaff();
+        MenuOfStaff(pStaff,pStudent);
     }
     else if (choice == 2)
     {
         LogIn(pStudent);
-        MenuOfStudent();
+        //MenuOfStudent();
     }
     else if (choice == 3)
     {
@@ -247,7 +230,6 @@ void GeneralMenu(SignIn *pStaff, SignIn* pStudent)
         cout << "Error, please try again";
         GeneralMenu(pStaff,pStudent);
     }
-    
 }
 
 //Long:biến Year này thì sẽ ảnh hưởng gì đến các biến khác?
@@ -717,7 +699,7 @@ void PrintScoreBoard(ScoreBoardOfCourse* pHead)
         pCur = pCur->pNext;
     }
 }
-void MenuOfStaff()
+void MenuOfStaff(SignIn *pStaff, SignIn* pStudent)
 {
     
     string choose;
@@ -752,9 +734,10 @@ back1:
     switch (choice1)
     {
     case 1: {
-        ChangePassword(Password);
+        ChangePassword(pStaff->Password);
         cout << "\n\nPassword change successfully\n\n";
         cout << "\nYou must login again.";
+        GeneralMenu(pStaff, pStudent);
         break;
     }
     case 2: {
@@ -770,21 +753,21 @@ back1:
         {
         case 1:
         {
-            CreateSchoolYear(pHead, pCurr);
+           // CreateSchoolYear(pHead, pCurr);
             //Create schoolyear and semester
             cout << "\n\nCreate successfully!\n\n";
             break;
         }
         case 2:
         {
-            CreateClasses(pClass);
+            //CreateClasses(pClass);
             //Create all the classes
             cout << "\n\nCreate successfully!\n\n";
             break;
         }
         case 3:
         {
-            PrintClassesList(pClass);
+           // PrintClassesList(pClass);
             //View the list of all classes
             break;
         }
@@ -819,7 +802,7 @@ back1:
         case 1:
         {
         backcourse:
-            CreateCourses(pHCourse, pCCourse);
+           // CreateCourses(pHCourse, pCCourse);
             //add course
             cout << "\nAdd a course successfully!\n";
             cout << "\nDo you want to add another course?(yes/no)\n\n";
@@ -835,14 +818,14 @@ back1:
         }
         case 2:
         {
-            RemoveCourses(pHCourse);
+           // RemoveCourses(pHCourse);
             //remove course
             cout << "\nRemove a course successfully!\n";
             break;
         }
         case 3:
         {
-            PrintCoursesList(pHCourse);
+            //PrintCoursesList(pHCourse);
             //View the list of all courses
            
             break;
@@ -875,20 +858,20 @@ back1:
         {
         case 1:
         {
-            InputStudent(pHStudent, studentInput);
+           // InputStudent(pHStudent, studentInput);
             //add student in class
             cout << "\nAdd students successfully!\n";
             break;
         }
         case 2:
         {
-            PrintStudentsListInClass(pHStudent);
+           // PrintStudentsListInClass(pHStudent);
             //print student in class
             break;
         }
         case 3:
         {
-            PrintStudentListInCourse(pHStudent, pHCourse);
+            //PrintStudentListInCourse(pHStudent, pHCourse);
             //print student in course
             break;
         }
@@ -922,7 +905,7 @@ back1:
         }
         case 2:
         {
-            PrintScoreBoard(pHScore);
+            //PrintScoreBoard(pHScore);
             //View scoreboard of a course
             break;
         }
@@ -940,7 +923,7 @@ back1:
     }
     case 6: {
         //log out
-        LogOut();
+        LogOut(pStaff,pStudent);
         break;
     }
     case 7:

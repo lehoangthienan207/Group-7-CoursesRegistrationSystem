@@ -97,9 +97,8 @@ void ChooseTypeOfUser(int& type);
 void GeneralMenu(SignIn *pStaff, SignIn* pStudent);
 void SignUp(SignIn*& pHead);
 void LogIn(SignIn*& pHead);// Nhi: Long ơi chỗ này ông quên thêm biến trong hàm nha.
-void LogInCredentials(fstream& input);
 void ChangePassword(string& Password);
-void LogOut();
+void LogOut(SignIn *pStaff, SignIn* pStudent);
 
 // Staff
 /*void CreateSchoolYear(int& Year);*/ //Nhi: tui comment cái này lại nha, tại nó bị trùng hàm rồi.
@@ -121,7 +120,7 @@ void PrintStudentListInCourse(Students* pHead, Courses*pH);
 //Input scoreboard này tui thấy mình input trong hàm main cũng được nha
 void InputScoreBoard(ScoreBoardOfCourse*& pHead);
 void PrintScoreBoard(ScoreBoardOfCourse* pHead);
-void MenuOfStaff();
+void MenuOfStaff(SignIn *pStaff, SignIn* pStudent);
 
 // Thư: sao có nhiều hàm student ở đây bị mất vậy mọi người? tui nhớ là lần trước mới add vô :<
 // Student // tui add lại ở đây, đừng xóa nữa nhen :<
@@ -142,7 +141,6 @@ void deleteSignIn(SignIn *&pHead);
 void deleteCourses(Courses *&pHead);
 void deleteScoreBoardOfCourse(ScoreBoardOfCourse *&pHead);
 void deleteScoreBoardOfStudent(ScoreBoardOfStudent *&pHead);
-void deleteSignIn(SignIn *&pHead);
 // input
 void InputStudent(Students *& pHead, ifstream &studentInput);
 void inputSignInStaff(SignIn *&pHead);
