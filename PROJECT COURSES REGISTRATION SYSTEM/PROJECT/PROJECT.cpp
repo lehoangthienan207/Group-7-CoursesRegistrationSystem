@@ -685,6 +685,246 @@ void PrintScoreBoard(ScoreBoardOfCourse* pHead)
         pCur = pCur->pNext;
     }
 }
+void MenuOfStaff()
+{
+    SignIn* pHead;
+    string choose;
+    int choice1;
+    int choice2;
+    int choice3;
+back1:
+    cout << "\n\t\t\t*****************STAFF******************\n\n";
+    cout << "\t\t      ********************************************\n";
+    cout << "\t\t      *\t\t\t1.Login\t\t\t *\n";
+    cout << "\t\t      *\t\t\t2.Back \t\t\t *\n";
+    cout << "\t\t      ********************************************\n\n";
+    cout << "\t\t\t\tYour Choice: "; cin >> choice1;
+    clrscr();
+    switch (choice1)
+    {
+    case 1:
+    {
+        LogIn(pHead);
+    back2:
+        cout << "\n\t\t\t*****************STAFF******************\n\n";
+        cout << "\t\t      ********************************************\n";
+        cout << "\t\t      *\t\t    1.Change Password\t\t *\n";
+        cout << "\t\t      *\t\t    2.My Classes\t\t *\n";
+        cout << "\t\t      *\t\t    3.My Courses\t\t *\n";
+        cout << "\t\t      *\t\t    4.About Students\t\t *\n";
+        cout << "\t\t      *\t\t    5.Scoreboard\t\t *\n";
+        cout << "\t\t      *\t\t    6.Log out\t\t\t *\n";
+        cout << "\t\t      *\t\t    7.Back \t\t\t *\n";
+        cout << "\t\t      ********************************************\n\n";
+        cout << "\t\t\t\tYour Choice: "; cin >> choice2;
+        clrscr();
+        switch (choice2)
+        {
+        case 1: {
+            //change password
+            cout << "\n\nPassword change successfully\n\n";
+            cout << "\nYou must login again.";
+            break;
+        }
+        case 2: {
+            cout << "\n\t\t\t*****************STAFF******************\n\n";
+            cout << "\t\t      ********************************************\n";
+            cout << "\t\t      *\t  1.Create schoolyear and semesters\t *\n";
+            cout << "\t\t      *\t  2.Create all the classes\t\t *\n";
+            cout << "\t\t      *\t  3.View the list of all classes\t *\n";
+            cout << "\t\t      *\t  4.Back \t\t\t\t *\n";
+            cout << "\t\t      ********************************************\n\n";
+            cout << "\t\t\t\tYour Choice: "; cin >> choice3;
+            switch (choice3)
+            {
+            case 1:
+            {
+                //Create schoolyear and semester
+                cout << "\n\nCreate successfully!\n\n";
+                break;
+            }
+            case 2:
+            {
+                //Create all the classes
+                cout << "\n\nCreate successfully!\n\n";
+                break;
+            }
+            case 3:
+            {
+                //View the list of all classes
+                break;
+            }
+            case 4:
+            {
+                //back
+                clrscr();
+
+                goto back2;
+
+                break;
+            }
+            default:
+                cout << "Error.";
+                break;
+            }
+            break;
+        }
+        case 3:
+        {
+        back3:
+            cout << "\n\t\t\t*****************STAFF******************\n\n";
+            cout << "\t\t      ********************************************\n";
+            cout << "\t\t      *\t     1.Add a course to the list\t\t *\n";
+            cout << "\t\t      *\t     2.Remove a course of the list\t *\n";
+            cout << "\t\t      *\t     3.View the list of all courses\t *\n";
+            cout << "\t\t      *\t     4.Back \t\t\t\t *\n";
+            cout << "\t\t      ********************************************\n\n";
+            cout << "\t\t\t\tYour choice: "; cin >> choice3;
+            switch (choice3)
+            {
+            case 1:
+            {
+            backcourse:
+
+                //add course
+                cout << "\nAdd a course successfully!\n";
+                cout << "\nDo you want to add another course?(yes/no)\n\n";
+                cin.ignore();
+                getline(cin, choose);
+                if (choose == "yes") {
+                    goto  backcourse;
+                }
+                else if (choose == "no") {
+                    goto back3;
+                }
+                break;
+            }
+            case 2:
+            {
+                //remove course
+                cout << "\nRemove a course successfully!\n";
+                break;
+            }
+            case 3:
+            {
+                //View the list of all courses
+                cout << 1213;
+                break;
+            }
+            case 4:
+            {
+                //back;
+                clrscr();
+                goto back2;
+                break;
+            }
+
+            default:
+                cout << "\n\nError!\n\n";
+                break;
+            }
+            break;
+        }
+        case 4:
+        {
+            cout << "\n\t\t\t*****************STAFF******************\n\n";
+            cout << "\t\t      ********************************************\n";
+            cout << "\t\t      *\t1.Add students to a class\t\t *\n";
+            cout << "\t\t      *\t2.View the list of students in a class   *\n";
+            cout << "\t\t      *\t3.View the list of students in a courses *\n";
+            cout << "\t\t      *\t4.Back \t\t\t\t         *\n";
+            cout << "\t\t      ********************************************\n\n";
+            cout << "\t\t\t\tYour choice: "; cin >> choice3;
+            switch (choice3)
+            {
+            case 1:
+            {
+                //add student in class
+                cout << "\nAdd students successfully!\n";
+                break;
+            }
+            case 2:
+            {
+                //print student in class
+                break;
+            }
+            case 3:
+            {
+                //print student in course
+                break;
+            }
+            case 4:
+            {
+                clrscr();
+                goto back2;
+                break;
+            }
+            default:
+                cout << "\nError!\n";
+                break;
+            }
+        }
+        case 5: {
+            cout << "\n\t\t\t*****************STAFF******************\n\n";
+            cout << "\t\t      ********************************************\n";
+            cout << "\t\t      *\t     1.Update scoreboard\t\t *\n";
+            cout << "\t\t      *\t     2.View scoreboard of a course\t *\n";
+            cout << "\t\t      *\t     3.Back \t\t\t\t *\n";
+            cout << "\t\t      ********************************************\n\n";
+            cout << "\t\t\t\tYour choice: "; cin >> choice3;
+            switch (choice3)
+            {
+            case 1:
+            {
+                //update scoreboard
+                cout << "\n\nScoreboard update successfully!\n";
+                break;
+            }
+            case 2:
+            {
+                //View scoreboard of a course
+                break;
+            }
+            case 3:
+            {
+                //back
+                clrscr();
+                goto back2;
+                break;
+            }
+            default:
+                cout << "\n\nError!\n\n";
+                break;
+            }
+        }
+        case 6: {
+            //log out
+            break;
+        }
+        case 7:
+        {
+            goto back1;
+            //back
+            break;
+        }
+        default:
+            cout << "\n\nError\n\n";
+            break;
+        }
+        break;
+    }
+    case 2:
+    {
+        /*  goto back1;*/
+          //back
+        break;
+    }
+
+    default:
+        cout << "\n\nError!\n\n";
+        break;
+    }
+}
 void RemoveEnrolledCourses(Courses*& pHead)
 {
     string ID;

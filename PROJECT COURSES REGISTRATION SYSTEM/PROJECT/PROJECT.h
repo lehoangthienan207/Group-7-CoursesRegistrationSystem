@@ -114,6 +114,7 @@ void PrintStudentListInCourse(Students* pHead, Courses*pH);
 //Input scoreboard này tui thấy mình input trong hàm main cũng được nha
 void InputScoreBoard(ScoreBoardOfCourse*& pHead);
 void PrintScoreBoard(ScoreBoardOfCourse* pHead);
+void MenuOfStaff();
 
 // Thư: sao có nhiều hàm student ở đây bị mất vậy mọi người? tui nhớ là lần trước mới add vô :<
 // Student // tui add lại ở đây, đừng xóa nữa nhen :<
