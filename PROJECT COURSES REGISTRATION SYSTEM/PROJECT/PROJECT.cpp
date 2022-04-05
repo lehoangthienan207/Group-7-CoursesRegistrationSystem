@@ -715,12 +715,16 @@ void RemoveEnrolledCourses(Courses*& pHead)
 int MenuOfStudent()
 {
     int n = 0;
-    cout << "*************************************" << endl;
-    cout << "*        1. Enroll in Courses       *" << endl;
-    cout << "*        2. Remove Courses          *" << endl;
-    cout << "*        3. View list of Courses    *" << endl;
-    cout << "*        4. View Scoreboard         *" << endl;
-    cout << "*************************************" << endl;
+    cout << "*****************************************************" << endl;
+    cout << "*                                                   *" << endl;
+    cout << "*               1. Enroll in Courses                *" << endl;
+    cout << "*               2. Remove Courses                   *" << endl;
+    cout << "*               3. View list of Courses             *" << endl;
+    cout << "*               4. View Scoreboard                  *" << endl;
+    cout << "*               5. View Your Profile                *" << endl;
+    cout << "*               6. Change Your Password             *" << endl;
+    cout << "*                                                   *" << endl;
+    cout << "*****************************************************" << endl;
     cout << endl << "Your choice: "; cin >> n;
     return n;
 }
