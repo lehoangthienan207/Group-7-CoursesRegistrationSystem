@@ -1,0 +1,16 @@
+đọc các csv:
+sign in: hoàn thành
+import csv student to class: chưa hoàn thành (cần chỉnh sửa vì sai cú pháp input csv)
+
+
+đọc file trước khi chạy menu:
+readSchoolYearlist: hoàn thành 
+readClassListAndStudent: sửa lại phần csv
+readSemesterList: có thể đã hoàn thành
+
+xuất file khi đã chạy chương trình(xuất ra txt):
+xuất năm học: chưa hoàn thành 
+xuất lớp: chưa hoàn thành
+xuất Semester: chưa hoàn thành.
+
+deadline 10/4/2022;

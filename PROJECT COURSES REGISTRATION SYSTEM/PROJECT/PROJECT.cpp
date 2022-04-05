@@ -1215,7 +1215,7 @@ bool isEmpty(ifstream& pFile)
 void readSchoolYearlist(SchoolYear *&pHead)
 {
     ifstream input("schoolYearList.txt");
-    if (!input && !isEmpty(input))
+    if ( !isEmpty(input))
     {
         SchoolYear *pCurr = pHead;
         while(!input.eof())
@@ -1248,7 +1248,7 @@ void readClassListAndStudent(SchoolYear *pHead)
     {
         ifstream input;
         input.open(pCurr->years +"classes.txt");
-        if(!input && !isEmpty(input))
+        if( !isEmpty(input))
         {while (!input.eof())
         {
             Classes* pTemp = pCurr->pClass;
@@ -1309,7 +1309,7 @@ void readSemesterList(SchoolYear *pHead)
         ifstream input;
         input.open(pCurr->years+"semester.txt");
         Semester *pTemp = pCurr->pSemester;
-        if (!input && !isEmpty(input))
+        if (!isEmpty(input))
         {while (!input.eof())
         {
             if (pCurr->pSemester == nullptr)
