@@ -128,6 +128,7 @@ int MenuOfStudent();
 // clear screen
 void clrscr();
 
+bool isEmpty(ifstream& pFile);
 // delete function
 void deleteClasses(Classes *&pHead);
 void deleteStudents(Students *&pHead);
@@ -135,3 +136,17 @@ void deleteSignIn(SignIn *&pHead);
 void deleteCourses(Courses *&pHead);
 void deleteScoreBoardOfCourse(ScoreBoardOfCourse *&pHead);
 void deleteScoreBoardOfStudent(ScoreBoardOfStudent *&pHead);
+
+// input
+void InputStudent(Students *& pHead, ifstream &studentInput);
+void inputSignInStaff(SignIn *&pHead);
+void inputSignInStudent(SignIn *&pHead);
+// output
+void foutSchoolYear(SchoolYear *pHead);
+void foutClasses(SchoolYear*pHead);
+void foutSemester(SchoolYear*pHead);
+
+//readfile
+void readSchoolYearlist(SchoolYear *&pHead);
+void readClassListAndStudent(SchoolYear *pHead);
+void readSemesterList(SchoolYear *pHead);

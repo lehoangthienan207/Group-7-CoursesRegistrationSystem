@@ -1163,48 +1163,6 @@ bool isEmpty(ifstream& pFile)
 {
     return pFile.peek() == ifstream::traits_type::eof();
 }
-void readFilesBeforeLogin(Classes *&pHClasses)
-{
-    //mở file txt chứa tên các lớp
-    ifstream classInput("listOfClasses.txt");
-    Classes *pCClasses = pHClasses;
-    if (!classInput && !isEmpty(classInput))
-    {
-        while (!classInput.eof())
-        {
-
-            if (pHClasses == nullptr)
-            {   //tạo các lớp và nhập tên các lớp vào
-                pHClasses = new Classes;
-                classInput.ignore();
-                getline(classInput,pHClasses->Name);
-                ifstream studentInput(pHClasses->Name + "." + "csv");
-
-                // nhập số học sinh
-                classInput >> pHClasses->NumberOfStudents;
-                InputStudent(pHClasses->pStudent,studentInput);
-                pHClasses->pNext = nullptr;
-                pCClasses = pHClasses;
-            }
-            else
-            {   //tạo các lớp và nhập tên các lớp vào
-                pCClasses->pNext = new Classes;
-                pCClasses = pCClasses->pNext;
-                classInput.ignore();
-                getline(classInput,pCClasses->Name);
-                ifstream studentInput(pCClasses->Name + "." + "csv");
-
-                // nhập số học sinh
-                classInput >> pCClasses->NumberOfStudents;
-                InputStudent(pCClasses->pStudent,studentInput);
-                pCClasses->pNext = nullptr;
-            }
-        }
-    }
-}
-
-
-
 void readSchoolYearlist(SchoolYear *&pHead)
 {
     ifstream input("schoolYearList.txt");
@@ -1241,7 +1199,8 @@ void readClassListAndStudent(SchoolYear *pHead)
     {
         ifstream input;
         input.open(pCurr->years +"classes.txt");
-        while (!input.eof())
+        if(!input && !isEmpty(input))
+        {while (!input.eof())
         {
             Classes* pTemp = pCurr->pClass;
             string a = "";
@@ -1277,6 +1236,8 @@ void readClassListAndStudent(SchoolYear *pHead)
                     input >> pTemp->NumberOfStudents;
                     pTemp->pStudent = new Students;
                     classInput >> pTemp->pStudent->No >> pTemp->pStudent->StudentID >> pTemp->pStudent->LastName >> pTemp->pStudent->LastName;
+                    string DaT = "";
+                    classInput >> DaT;
                     pTemp->pStudent->DateOfBirth.month = stoi(DaT.substr(0,2));
                     pTemp->pStudent->DateOfBirth.day = stoi(DaT.substr(3,2));
                     pTemp->pStudent->DateOfBirth.year = stoi(DaT.substr(6,4));
@@ -1285,10 +1246,52 @@ void readClassListAndStudent(SchoolYear *pHead)
                     pTemp->pNext = nullptr;
                 }
             }
-            pTemp = pTemp->pNext;
+            pTemp = pTemp->pNext;}
         }
         pCurr = pCurr->pNext;
     }
+}
+
+void readSemesterList(SchoolYear *pHead)
+{
+    SchoolYear *pCurr =pHead;
+    while (pCurr != nullptr)
+    {
+        ifstream input;
+        input.open(pCurr->years+"semester.txt");
+        Semester *pTemp = pCurr->pSemester;
+        if (!input && !isEmpty(input))
+        {while (!input.eof())
+        {
+            if (pCurr->pSemester == nullptr)
+            {
+                pCurr->pSemester = new Semester;
+                input >> pCurr->pSemester->No;
+                input >> pCurr->pSemester->startDate.day;
+                input >> pCurr->pSemester->startDate.month;
+                input >> pCurr->pSemester->startDate.year;
+                input >> pCurr->pSemester->endDate.day;
+                input >> pCurr->pSemester->endDate.month;
+                input >> pCurr->pSemester->endDate.year;
+                pCurr->pSemester->pNext = nullptr;
+                pTemp = pCurr->pSemester;
+            }
+            else
+            {
+                pTemp->pNext = new Semester;
+                pTemp = pTemp->pNext;
+                input >> pTemp->No;
+                input >> pTemp->startDate.day;
+                input >> pTemp->startDate.month;
+                input >> pTemp->startDate.year;
+                input >> pTemp->endDate.day;
+                input >> pTemp->endDate.month;
+                input >> pTemp->endDate.year;
+                pTemp->pNext = nullptr;
+            }
+        }}
+        pCurr =pCurr->pNext;
+    }   
 }
 
 

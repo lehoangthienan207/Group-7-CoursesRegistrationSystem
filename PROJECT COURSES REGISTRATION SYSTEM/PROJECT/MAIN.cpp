@@ -9,7 +9,8 @@ int main()
 	//nhập thông tin để có thể đăng nhập vào
 	SchoolYear *pSchool = nullptr;
 	readSchoolYearlist(pSchool);
-	
+	readSchoolYearlist(pSchool);
+	readSemesterList(pSchool);
 	return 0;
 	
 }
