@@ -824,7 +824,7 @@ void foutClasses(SchoolYear*pHead)
         Classes *pTemp = pCurr->pClass;
         while (pTemp != nullptr)
         {
-            fout << pTemp->Name << " ";
+            fout << pTemp->Name << " " << pTemp->No << " " << pTemp->NumberOfStudents << " ";
             pTemp = pTemp->pNext;
         }
         //fout << "\n";
@@ -974,5 +974,52 @@ void readSchoolYearlist(SchoolYear *&pHead)
         }
     }
 }
-
-//phần bên trên có thể chưa xong
+void readClassListAndStudent(SchoolYear *pHead)
+{
+    SchoolYear *pCurr = pHead;
+    while (pCurr!= nullptr)
+    {
+        ifstream input;
+        input.open(pCurr->years +"classes.txt");
+        while (!input.eof())
+        {
+            Classes* pTemp = pCurr->pClass;
+            string a = "";
+            input >> a;
+            ifstream classInput;
+            classInput.open(a+".csv");
+            while(!classInput.eof())
+            {
+                if (pCurr->pClass == nullptr)
+                {
+                    pCurr->pClass = new Classes;
+                    pCurr->pClass->Name = a;
+                    input >> pCurr->pClass->No;
+                    input >> pCurr->pClass->NumberOfStudents;
+                    pCurr->pClass->pStudent = new Students;
+                    classInput >> pCurr->pClass->pStudent->No >> pCurr->pClass->pStudent->StudentID >> pCurr->pClass->pStudent->LastName >> pCurr->pClass->pStudent->LastName;
+                    //DOB;
+                    classInput >> pCurr->pClass->pStudent->SocialID >> pCurr->pClass->pStudent->Gender;
+                    pCurr->pClass->pStudent->pNext =nullptr;
+                    pCurr->pClass->pNext = nullptr;
+                    pTemp = pCurr->pClass;
+                }
+                else
+                {
+                    pTemp->pNext = new Classes;
+                    pTemp = pTemp->pNext;
+                    pTemp->Name = a;
+                    input >> pTemp->No;
+                    input >> pTemp->NumberOfStudents;
+                    pTemp->pStudent = new Students;
+                    classInput >> pTemp->pStudent->No >> pTemp->pStudent->StudentID >> pTemp->pStudent->LastName >> pTemp->pStudent->LastName;
+                    //DOB;
+                    classInput >> pTemp->pStudent->SocialID >> pTemp->pStudent->Gender;
+                    pTemp->pStudent->pNext =nullptr;
+                    pTemp->pNext = nullptr;
+                }
+            }
+        }
+    }
+}
+//phần bên trên chưa xong
