@@ -530,6 +530,72 @@ void PrintStudentListInCourse(Students* pHead, Courses* pH) {
 }
     // Students
 
+bool DuplicatedSession(Courses*& pHead, Courses*& pStudents)
+{
+    Courses* pCur = pStudents;
+    Courses* pCurrent = pHead;
+    int no = 0;
+    cout << "Your choice: "; cin >> no;
+
+    pCur->pNext = new Courses;
+    pCur = pCur->pNext;
+    pCur->No = no;
+    pCur->pNext = nullptr;
+    pCurrent = pHead;
+    Courses* pPrev = pCurrent;
+
+    while (pCurrent != nullptr)
+    {
+        if (pCur->No == pCurrent->No)
+        {
+            Courses* pTmp = pStudents;
+            while (pTmp != nullptr)
+            {
+                if (((pTmp->weekday1[0] == pCurrent->weekday1[0] && pTmp->weekday1[1] == pCurrent->weekday1[1]) || (pTmp->weekday2[0] == pCurrent->weekday2[0] && pTmp->weekday2[1] == pCurrent->weekday2[1]) || (pTmp->weekday1[0] == pCurrent->weekday2[0] && pTmp->weekday1[1] == pCurrent->weekday2[1]) || (pTmp->weekday2[0] == pCurrent->weekday1[0] && pTmp->weekday2[1] == pCurrent->weekday1[1])) && ((pTmp->time1[0] == pCurrent->time1[0] && pTmp->time1[1] == pCurrent->time1[1]) || (pTmp->time2[0] == pCurrent->time2[0] && pTmp->time2[1] == pCurrent->time2[1]) || (pTmp->time1[0] == pCurrent->time2[0] && pTmp->time1[1] == pCurrent->time2[1]) || (pTmp->time2[0] == pCurrent->time1[0] && pTmp->time2[1] == pCurrent->time1[1])))
+                {
+                    cout << "Your course sessions are conflict, please enroll in another course!" << endl;
+                    DuplicatedSession(pHead, pStudents);
+                    return false;
+                }
+                pTmp = pTmp->pNext;
+            }
+            pCur->CourseID = pCurrent->CourseID;
+            pCur->CourseName = pCurrent->CourseName;
+            pCur->Credits = pCurrent->Credits;
+            for (int j = 0; j < 3; j++)
+            {
+                pCur->weekday1[j] = pCurrent->weekday1[j];
+                pCur->weekday2[j] = pCurrent->weekday2[j];
+            }
+            for (int j = 0; j < 5; j++)
+            {
+                pCur->time1[j] = pCurrent->time1[j];
+                pCur->time2[j] = pCurrent->time2[j];
+            }
+            pCur->TeacherName = pCurrent->TeacherName;
+            if (pCurrent->Maximum > 1)
+                pCurrent->Maximum--;
+            else {
+                if (pCurrent == pHead)
+                {
+                    pCurrent = pHead->pNext;
+                    delete pHead;
+                    pHead = pCurrent;
+                    pPrev = pHead;
+                }
+                else {
+                    pPrev->pNext = pCurrent->pNext;
+                    delete pCurrent;
+                    pCurrent = pPrev->pNext;
+                }
+            }
+        }
+        pPrev = pCurrent;
+        pCurrent = pCurrent->pNext;
+    }
+    return true;
+}
+
 void EnrollCourses(Courses * &pHead, Courses * &pStudents)
 {
     int n = 0;
