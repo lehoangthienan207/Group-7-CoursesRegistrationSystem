@@ -5,16 +5,19 @@ int main()
 	SignIn *pStaff = nullptr;
 	inputSignInStaff(pStaff);
 	SignIn *pStudent = nullptr;
-	inputSignInStudent(pStudent);
-	SignIn *pCurr = pStudent;
+	SchoolYear *pHead = nullptr;
+	SchoolYear *pCurr = pHead;
+	ScoreBoardOfStudent *pScoreBoard = nullptr;	
 	
-	GeneralMenu();
+	inputSignInStudent(pStudent);
+	GeneralMenu(pStaff,pStudent,pHead,pCurr);
+	
 
 
-
-
-
-
+	deleteCourses(pHead->pSemester->pCourse);
+	deleteClasses(pHead->pClass);
+	deleteSemester(pHead->pSemester);
+	deleteSchoolYear(pHead);
 	deleteSignIn(pStaff);
 	deleteSignIn(pStudent);
 	return 0;

@@ -78,7 +78,6 @@ struct Courses {
 	int Maximum{};
 	int Credits{};
 	string TeacherName{};
-	//char Day[3]; // chỗ này ko rõ để làm gì, nếu như max là 3 thì nhớ +1 vào là 4 như giải thích ở trên.
 	Courses* pNext{};
 };
 struct Semester
@@ -107,7 +106,7 @@ void LogOut(SignIn *pStaff, SignIn* pStudent,SchoolYear *&pHead,SchoolYear *&pCu
 /*void CreateSchoolYear(int& Year);*/ //Nhi: tui comment cái này lại nha, tại nó bị trùng hàm rồi.
 void CreateSchoolYear(SchoolYear *&pHead, SchoolYear *&pCurr);
 void CreateClasses(Classes*& pHead, Classes*& pCurr, int &i);
-void CreateCourses(Courses*& pHead, Courses*& pCurr, int &i);
+void CreateCourses(Courses*& pHead, int &i);
 
 // Newly added function
 //void CreateCourses(Courses*& pHead);
@@ -138,6 +137,7 @@ void clrscr();
 
 bool isEmpty(ifstream& pFile);
 // delete function
+void deleteSemester(Semester *&pHead);
 void deleteSchoolYear(SchoolYear *&pHead);
 void deleteClasses(Classes *&pHead);
 void deleteStudents(Students *&pHead);
