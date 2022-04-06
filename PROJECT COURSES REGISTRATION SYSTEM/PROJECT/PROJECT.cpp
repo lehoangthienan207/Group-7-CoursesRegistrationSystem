@@ -241,6 +241,7 @@ void GeneralMenu()
         }
         case 2:
         {
+        Gback1:
             LogIn(pHead);
             MenuOfStudent();
         }
@@ -1125,21 +1126,104 @@ void RemoveEnrolledCourses(Courses*& pHead)
     } while (opt == 'Y' || opt == 'y');
 }
 
-int MenuOfStudent()
+void MenuOfStudent()
 {
-    int n = 0;
-    cout << "*****************************************************" << endl;
-    cout << "*                                                   *" << endl;
-    cout << "*               1. Enroll in Courses                *" << endl;
-    cout << "*               2. Remove Courses                   *" << endl;
-    cout << "*               3. View list of Courses             *" << endl;
-    cout << "*               4. View Scoreboard                  *" << endl;
-    cout << "*               5. View Your Profile                *" << endl;
-    cout << "*               6. Change Your Password             *" << endl;
-    cout << "*                                                   *" << endl;
-    cout << "*****************************************************" << endl;
-    cout << endl << "Your choice: "; cin >> n;
-    return n;
+    string choose;
+    int choice1;
+    string Password;
+    SignIn* pHSignin;
+    Courses* pHCourse;
+    Courses* PCCur;
+    ScoreBoardOfStudent* pHScoreofStudent;
+
+
+stuback1:
+    cout << "\n\t\t\t*****************STUDENT****************\n\n";
+    cout << "\t\t      ********************************************\n";
+    cout << "\t\t      *\t\t 1.View Profile\t\t\t *\n";
+    cout << "\t\t      *\t\t 2.Change Password\t\t *\n";
+    cout << "\t\t      *\t\t 3.Register for the course\t *\n";
+    cout << "\t\t      *\t\t 4.View enrolled courses\t *\n";
+    cout << "\t\t      *\t\t 5.Cancel registered course\t *\n";
+    cout << "\t\t      *\t\t 6.View scoreboard\t\t *\n";
+    cout << "\t\t      *\t\t 7.Log out\t\t\t *\n";
+    cout << "\t\t      *\t\t 8.Back \t\t\t *\n";
+    cout << "\t\t      ********************************************\n\n";
+    cout << "\t\t\t\tYour Choice: "; cin >> choice1;
+    clrscr();
+
+    switch (choice1)
+    {
+    case 1:
+    {
+
+        //view profile
+
+        cout << "\n\n\tDo you want to go back to menu?(yes/no) ";
+        cin.ignore();
+        getline(cin, choose);
+        clrscr();
+        if (choose == "yes") {
+            goto stuback1;
+        }
+        else if (choose == "no") {
+            cout << "\n\n\tThank you!\n\n";
+        }
+
+        break;
+    }
+    case 2:
+    {
+        //change password
+        ChangePassword(Password);
+        clrscr();
+        cout << "\n\nPassword change successfully!\n\n";
+        cout << "\nYou must login again!\n";
+        // cho học sinh exist và nhập lại thông tin đăng nhập
+        break;
+    }
+    case 3:
+    {
+        EnrollCourses(pHCourse, PCCur, 5);
+        //enroll courses
+        cout << "\n\nRegistered successfully!\n\n";
+        cout << "\n\n\t\tThank you!\n\n";
+        break;
+    }
+    case 4:
+    {
+        PrintEnrolledCourses(pHCourse);
+        //print errolled courses
+        break;
+    }
+    case 5:
+    {
+        RemoveEnrolledCourses(pHCourse);
+        //remove course
+        break;
+    }
+    case 6:
+    {
+        PrintScoreBoardOfStudents(pHScoreofStudent);
+        //view scoreboard
+        break;
+    }
+    case 7:
+    {
+        LogOut();
+        //log out
+        break;
+    }
+    case 8:
+    {
+        // go back to the general menu
+        break;
+    }
+    default:
+        cout << "\n\n\tError!\n\n";
+        break;
+    }
+
 }
 
 int typeOfUser()
