@@ -601,6 +601,7 @@ void EnrollCourses(Courses * &pHead, Courses * &pStudents, int limit)
     int n = 0;
     int opt = 0;
     do {
+        PrintEnrolledCourses(pHead);
         cout << "Please input the number of courses that you wanna pick: ";
         cin >> n;
         Courses* pCur = pStudents;
@@ -630,30 +631,31 @@ void EnrollCourses(Courses * &pHead, Courses * &pStudents, int limit)
                             pStudents->Credits = pCurrent->Credits;
                             for (int j = 0; j < 3; j++)
                             {
-                                pStudents->Day[j] = pCurrent->Day[j];
+                                pStudents->weekday1[j] = pCurrent->weekday1[j];
+                                pStudents->weekday2[j] = pCurrent->weekday2[j];
                             }
                             for (int j = 0; j < 5; j++)
                             {
                                 pStudents->time1[j] = pCurrent->time1[j];
+                                pStudents->time2[j] = pCurrent->time2[j];
                             }
-                            pStudents->TeacherName = pCurrent->TeacherName;
-                            pCur = pStudents;
-                            if (pCurrent->Maximum > 1)
-                                pCurrent->Maximum--;
+                        }
+                        pStudents->TeacherName = pCurrent->TeacherName;
+                        pCur = pStudents;
+                        if (pCurrent->Maximum > 1)
+                            pCurrent->Maximum--;
+                        else {
+                            if (pCurrent == pHead)
+                            {
+                                pCurrent = pHead->pNext;
+                                delete pHead;
+                                pHead = pCurrent;
+                                pPrev = pHead;
+                            }
                             else {
-                                if (pCurrent == pHead)
-                                {
-                                    pCurrent = pHead->pNext;
-                                    delete pHead;
-                                    pHead = pCurrent;
-                                    pPrev = pHead;
-                                }
-                                else {
-                                    pPrev->pNext = pCurrent->pNext;
-                                    delete pCurrent;
-                                    pCurrent = pPrev->pNext;
-                                }
-
+                                pPrev->pNext = pCurrent->pNext;
+                                delete pCurrent;
+                                pCurrent = pPrev->pNext;
                             }
 
                         }
@@ -684,8 +686,8 @@ void EnrollCourses(Courses * &pHead, Courses * &pStudents, int limit)
                                 }
                                 pTmp = pTmp->pNext;
                             }
-                            if (check == true) break;
-                            else {
+                            //  if (check == true) break;
+                            {
                                 pCur->CourseID = pCurrent->CourseID;
                                 pCur->CourseName = pCurrent->CourseName;
                                 pCur->Credits = pCurrent->Credits;
@@ -728,7 +730,7 @@ void EnrollCourses(Courses * &pHead, Courses * &pStudents, int limit)
         else {
             cout << "You cannot register more than 5 courses! " << endl;
             cout << "Please register again!" << endl;
-            EnrollCourses(pHead, pStudents, limit);
+           EnrollCourses(pHead, pStudents, limit);
         }
         cout << "***************************************" << endl;
         cout << "*        1. Continue Enrolling        *" << endl;
@@ -750,24 +752,31 @@ void EnrollCourses(Courses * &pHead, Courses * &pStudents, int limit)
 
 void PrintEnrolledCourses(Courses* pHead)
 {
+    cout << setw(10) << left << "No";
     cout << setw(15) << left << "Course ID";
     cout << setw(20) << left << "Course Name";
     cout << setw(10) << left << "Credit";
-    cout << setw(5) << right << "Day";
-    cout << setw(15) << right << "Session";
+    cout << setw(6) << right << "Day 1";
+    cout << setw(15) << right << "Session 1";
+    cout << setw(10) << right << "Day 2";
+    cout << setw(15) << right << "Session 2";
     cout << setw(20) << right << "Teacher";
     cout << endl;
-    cout << setfill('-') << setw(85) << '-';
+    cout << setfill('-') << setw(121) << '-';
     cout << endl;
+    cout << setfill(' ');
     Courses* pCur = pHead;
     while (pCur != nullptr)
     {
+        cout << setw(10) << left << pCur->No;
         cout << setw(15) << left << pCur->CourseID;
         cout << setw(20) << left << pCur->CourseName;
-        cout << setw(10) << left << pCur->Credits;
-        cout << setw(5) << right << pCur->Day;
-        cout << setw(15) << right << pCur->time1;
-        cout << setw(20) << right << pCur->TeacherName;
+        cout << setw(12) << left << pCur->Credits;
+        cout << setw(0) << right << pCur->weekday1[0] << pCur->weekday1[1] << pCur->weekday1[2];
+        cout << setw(10) << right << pCur->time1[0] << pCur->time1[1] << pCur->time1[2] << pCur->time1[3] << pCur->time1[4];
+        cout << setw(9) << right << pCur->weekday2[0] << pCur->weekday2[1] << pCur->weekday2[2];
+        cout << setw(10) << right << pCur->time2[0] << pCur->time2[1] << pCur->time2[2] << pCur->time2[3] << pCur->time2[4];
+        cout << setw(22) << right << pCur->TeacherName;
         cout << endl;
         pCur = pCur->pNext;
     }
