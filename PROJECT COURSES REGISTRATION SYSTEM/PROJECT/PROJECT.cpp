@@ -596,96 +596,139 @@ bool DuplicatedSession(Courses*& pHead, Courses*& pStudents)
     return true;
 }
 
-void EnrollCourses(Courses * &pHead, Courses * &pStudents)
+void EnrollCourses(Courses * &pHead, Courses * &pStudents, int limit)
 {
     int n = 0;
     int opt = 0;
     do {
-        PrintCoursesList(pHead);
         cout << "Please input the number of courses that you wanna pick: ";
         cin >> n;
         Courses* pCur = pStudents;
         Courses* pCurrent = pHead;
-        for (int i = 0; i < n; i++)
-        {
-            int no = 0;
-            cout << "Your choice: "; cin >> no;
-            if (pStudents == nullptr)
-            {
-                pStudents = new Courses;
-                pStudents->No = no;
-                pStudents->pNext = nullptr;
-                pCur = pStudents;
-                Courses* pPrev = pHead;
-                while (pCurrent != nullptr)
-                {
-                    if (pStudents->No == pCurrent->No)
-                    {
-                        pStudents->CourseID = pCurrent->CourseID;
-                        pStudents->CourseName = pCurrent->CourseName;
-                        pStudents->Credits = pCurrent->Credits;
-                        pStudents->Day = pCurrent->Day;
-                        pStudents->time1 = pCurrent->time1;
-                        pStudents->TeacherName = pCurrent->TeacherName;
-                        if (pCurrent->Maximum > 1)
-                            pCurrent->Maximum--;
-                        else {
-                            if (pCurrent == pHead)
-                            {
-                                pCurrent = pHead->pNext;
-                                delete pHead;
-                                pHead = pCurrent;
-                                pPrev = pHead;
-                            }
-                            else {
-                                pPrev->pNext = pCurrent->pNext;
-                                delete pCurrent;
-                                pCurrent = pPrev->pNext;
-                            }
-                        }
-                    }
-                    pPrev = pCurrent;
-                    pCurrent = pCurrent->pNext;
-                }
-            }
-            else {
-                pCur->pNext = new Courses;
-                pCur = pCur->pNext;
-                pCur->No = no;
-                pCur->pNext = nullptr;
-                Courses* pPrev = pHead;
-                while (pCurrent != nullptr)
-                {
-                    if (pCur->No = pCurrent->No)
-                    {
-                        pCur->CourseID = pCurrent->CourseID;
-                        pCur->CourseName = pCurrent->CourseName;
-                        pCur->Credits = pCurrent->Credits;
-                        pCur->Day = pCurrent->Day;
-                        pCur->time1 = pCurrent->time1;
-                        pCur->TeacherName = pCurrent->TeacherName;
-                        if (pCurrent->Maximum > 1)
-                            pCurrent->Maximum--;
-                        else {
-                            if (pCurrent == pHead)
-                            {
-                                pCurrent = pHead->pNext;
-                                delete pHead;
-                                pHead = pCurrent;
-                                pPrev = pHead;
-                            }
-                            else {
-                                pPrev->pNext = pCurrent->pNext;
-                                delete pCurrent;
-                                pCurrent = pPrev->pNext;
-                            }
-                        }
-                    }
-                    pPrev = pCurrent;
-                    pCurrent = pCurrent->pNext;
-                }
-            }
 
+        if (n <= limit)
+        {
+            for (int i = 0; i < n; i++)
+            {
+                int no = 0;
+                cout << "Your choice: "; cin >> no;
+                if (pStudents == nullptr)
+                {
+                    pStudents = new Courses;
+                    pStudents->No = no;
+                    pStudents->pNext = nullptr;
+                    pCur = pStudents;
+                    Courses* pPrev = pHead;
+                    bool check = false;
+                    while (pCurrent != nullptr)
+                    {
+                        if (pStudents->No == pCurrent->No)
+                        {
+                            pStudents = new Courses;
+                            pStudents->CourseID = pCurrent->CourseID;
+                            pStudents->CourseName = pCurrent->CourseName;
+                            pStudents->Credits = pCurrent->Credits;
+                            for (int j = 0; j < 3; j++)
+                            {
+                                pStudents->Day[j] = pCurrent->Day[j];
+                            }
+                            for (int j = 0; j < 5; j++)
+                            {
+                                pStudents->time1[j] = pCurrent->time1[j];
+                            }
+                            pStudents->TeacherName = pCurrent->TeacherName;
+                            pCur = pStudents;
+                            if (pCurrent->Maximum > 1)
+                                pCurrent->Maximum--;
+                            else {
+                                if (pCurrent == pHead)
+                                {
+                                    pCurrent = pHead->pNext;
+                                    delete pHead;
+                                    pHead = pCurrent;
+                                    pPrev = pHead;
+                                }
+                                else {
+                                    pPrev->pNext = pCurrent->pNext;
+                                    delete pCurrent;
+                                    pCurrent = pPrev->pNext;
+                                }
+
+                            }
+
+                        }
+                        pPrev = pCurrent;
+                        pCurrent = pCurrent->pNext;
+                    }
+                }
+                else {
+                    pCur->pNext = new Courses;
+                    pCur = pCur->pNext;
+                    pCur->No = no;
+                    pCur->pNext = nullptr;
+                    pCurrent = pHead;
+                    Courses* pPrev = pCurrent;
+                    bool check = false;
+                    while (pCurrent != nullptr)
+                    {
+                        if (pCur->No == pCurrent->No)
+                        {
+                            Courses* pTmp = pStudents;
+                            while (pTmp != nullptr)
+                            {
+                                if (((pTmp->weekday1[0] == pCurrent->weekday1[0] && pTmp->weekday1[1] == pCurrent->weekday1[1]) || (pTmp->weekday2[0] == pCurrent->weekday2[0] && pTmp->weekday2[1] == pCurrent->weekday2[1]) || (pTmp->weekday1[0] == pCurrent->weekday2[0] && pTmp->weekday1[1] == pCurrent->weekday2[1]) || (pTmp->weekday2[0] == pCurrent->weekday1[0] && pTmp->weekday2[1] == pCurrent->weekday1[1])) && ((pTmp->time1[0] == pCurrent->time1[0] && pTmp->time1[1] == pCurrent->time1[1]) || (pTmp->time2[0] == pCurrent->time2[0] && pTmp->time2[1] == pCurrent->time2[1]) || (pTmp->time1[0] == pCurrent->time2[0] && pTmp->time1[1] == pCurrent->time2[1]) || (pTmp->time2[0] == pCurrent->time1[0] && pTmp->time2[1] == pCurrent->time1[1])))
+                                {
+                                    cout << "Your course sessions are conflict, please enroll in another course!" << endl;
+                                    DuplicatedSession(pHead, pStudents);
+                                    check = true;
+                                }
+                                pTmp = pTmp->pNext;
+                            }
+                            if (check == true) break;
+                            else {
+                                pCur->CourseID = pCurrent->CourseID;
+                                pCur->CourseName = pCurrent->CourseName;
+                                pCur->Credits = pCurrent->Credits;
+                                for (int j = 0; j < 3; j++)
+                                {
+                                    pCur->weekday1[j] = pCurrent->weekday1[j];
+                                    pCur->weekday2[j] = pCurrent->weekday2[j];
+                                }
+                                for (int j = 0; j < 5; j++)
+                                {
+                                    pCur->time1[j] = pCurrent->time1[j];
+                                    pCur->time2[j] = pCurrent->time2[j];
+                                }
+                                pCur->TeacherName = pCurrent->TeacherName;
+                                if (pCurrent->Maximum > 1)
+                                    pCurrent->Maximum--;
+                                else {
+                                    if (pCurrent == pHead)
+                                    {
+                                        pCurrent = pHead->pNext;
+                                        delete pHead;
+                                        pHead = pCurrent;
+                                        pPrev = pHead;
+                                    }
+                                    else {
+                                        pPrev->pNext = pCurrent->pNext;
+                                        delete pCurrent;
+                                        pCurrent = pPrev->pNext;
+                                    }
+                                }
+                            }
+                        }
+                        pPrev = pCurrent;
+                        pCurrent = pCurrent->pNext;
+                    }
+                }
+
+            }
+        }
+        else {
+            cout << "You cannot register more than 5 courses! " << endl;
+            cout << "Please register again!" << endl;
+            EnrollCourses(pHead, pStudents, limit);
         }
         cout << "***************************************" << endl;
         cout << "*        1. Continue Enrolling        *" << endl;
@@ -693,6 +736,7 @@ void EnrollCourses(Courses * &pHead, Courses * &pStudents)
         cout << "*        3. Back to Menu              *" << endl;
         cout << "***************************************" << endl;
         cout << "Your choice: "; cin >> opt;
+        if (opt == 1) limit = limit - n;
     } while (opt == 1);
     if (opt == 2) {
         clrscr();

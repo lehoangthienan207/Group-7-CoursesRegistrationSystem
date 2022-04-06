@@ -127,7 +127,7 @@ void MenuOfStaff(SignIn *pStaff, SignIn* pStudent,SchoolYear *&pHead,SchoolYear 
 // Thư: sao có nhiều hàm student ở đây bị mất vậy mọi người? tui nhớ là lần trước mới add vô :<
 // Student // tui add lại ở đây, đừng xóa nữa nhen :<
 bool DuplicatedSession(Courses*& pHead, Courses*& pStudents);
-void EnrollCourses(Courses*& pHead, Courses*& pStudents);
+void EnrollCourses(Courses*& pHead, Courses*& pStudents, int limit);
 void PrintEnrolledCourses(Courses* pHead);
 void RemoveEnrolledCourses(Courses*& pHead);
 void PrintScoreBoardOfStudents(ScoreBoardOfStudent*& pHead);
