@@ -67,8 +67,6 @@ struct ScoreBoardOfStudent {
 };
 struct Courses {
 	int No{};
-	DoB startDate{};
-	DoB endDate{};
 	string CourseID{};
 	string CourseName{};
 	char weekday1[4];//cái này là thứ học tiết 1, sửa các cái char[] thành char[+1]vì cần để chứa \0
