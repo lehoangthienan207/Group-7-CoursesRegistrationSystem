@@ -1,6 +1,6 @@
 #include "PROJECT.h"
 //#include <string>
-
+using namespace std;
 
 
 
@@ -153,29 +153,36 @@ void RemoveCourses(Courses*& pHead)
 }
 
 
+<<<<<<< HEAD
+//Idea: check the SignIn linked list until there's is a correct ID - password combination
+//else the login process will restart again
+void LogIn(SignIn*& pHead)
+=======
 //Long: thêm giúp mình cái pTail trong thông tin đăng nhập nha
 //để chương trình biết khi nào phải dừng í
-void LogIn(SignIn* pHead)
+void LogIn(SignIn*& pHead, SignIn*& pTail)
+>>>>>>> 92e2daf2d9b2934175e69abdc0b293d0f9b7d234
 {
     bool status = true;
-    string id_input;
+    int id_input;
     string psw_input;
     while (status)
     {
         cout << "Input ID: "; cin >> id_input;
         cout << "Input password: "; cin >> psw_input;
         SignIn* pCurr = pHead;
-        while (pCurr != nullptr)
+        while (pCurr != pTail)
         {
             if (id_input == pCurr -> ID && psw_input == pCurr -> Password)
             {
                 cout << "Sign-in successful" << endl;
                 status = false;
-                break;
+                continue;
             }
             else
             {
                 pCurr = pCurr -> pNext;
+                continue;
             }
         }
         if (status)
@@ -192,13 +199,40 @@ void ChangePassword(string& Password)
     Password = newPass;
 }
 
-void LogOut(SignIn *pStaff, SignIn* pStudent,SchoolYear *&pHead,SchoolYear *&pCurr)
+void LogOut()
 { 
-    clrscr();
-    GeneralMenu(pStaff,pStudent,pHead,pCurr);
+    //logout thì quay về login chứ đâu có exit
+    int temp;
+    bool fact = true;
+    while (fact)
+    {
+        cout << "Are you sure you want to logout?" << endl;
+        cout << "If yes, press 1; press 0 to cancel: ";
+        cin >> temp; 
+        switch(temp)
+        {
+            case 1:
+<<<<<<< HEAD
+            {
+                LogIn(pHead);
+                fact = false;
+                break;
+            }
+=======
+                exit(0);
+>>>>>>> 92e2daf2d9b2934175e69abdc0b293d0f9b7d234
+            case 0:
+                break;
+            default:
+            {                
+                cout << "I don't understand...";
+                break;
+            }
+        }
+    }
 }
 
-void GeneralMenu(SignIn *pStaff, SignIn* pStudent,SchoolYear *&pHead,SchoolYear *&pCurr)
+void GeneralMenu()
 {
     int choice;
     cout << "\n\t\t\t*****************LOGIN******************\n\n";
@@ -207,28 +241,28 @@ void GeneralMenu(SignIn *pStaff, SignIn* pStudent,SchoolYear *&pHead,SchoolYear 
     cout << "\t\t      *\t  2.Students\t\t *\n";
     cout << "\t\t      *\t  3.Exit\t *\n";
     cout << "\t\t      ********************************************\n\n";
-    cout << "\t\t\t\tYour Choice: "; 
-    cin >> choice;
-    cin.clear();
-    cin.ignore(10000,'\n');
-    if (choice == 1)
+    cout << "\t\t\t\tYour Choice: "; cin :>> choice;
+    switch(choice):
     {
-        LogIn(pStaff);
-        MenuOfStaff(pStaff,pStudent,pHead,pCurr);
-    }
-    else if (choice == 2)
-    {
-        LogIn(pStudent);
-        int c = MenuOfStudent();
-    }
-    else if (choice == 3)
-    {
-        exit(0);
-    }
-    else
-    {
-        cout << "Error, please try again";
-        GeneralMenu(pStaff,pStudent,pHead,pCurr);
+        case 1:
+        {
+            LogIn(pHead);
+            MenuOfStaff();
+        }
+        case 2:
+        {
+            LogIn(pHead);
+            MenuOfStudent();
+        }
+        case 3:
+        {
+            exit(0);
+        }
+        default:
+        {
+            cout << "Error, please try again";
+            GeneralMenu();
+        }
     }
 }
 
@@ -237,7 +271,7 @@ void GeneralMenu(SignIn *pStaff, SignIn* pStudent,SchoolYear *&pHead,SchoolYear 
 void PrintClassesList(Classes* pHead)
 {
     Classes* pCurr = pHead;
-    while (pCurr != nullptr)
+    while (pCurr != pHead)
     {
         cout << pCurr->No << setw(10);
         cout << pCurr->Name << setw(10);
@@ -246,9 +280,8 @@ void PrintClassesList(Classes* pHead)
         pCurr = pCurr->pNext;
     }
 }
-void CreateSchoolYear(SchoolYear *&pHead, SchoolYear *&pCurr) //chỗ này có thể tách riêng (hoặc không)
+void CreateSchoolYear(SchoolYear *&pHead, SchoolYear *&pCurr)
 {
-    //cần sửa vì file csv có cách đọc khác
     if (pHead == nullptr)
     {
         pHead = new SchoolYear;
@@ -398,26 +431,19 @@ void CreateClasses(Classes*& pHead, Classes*& pCurr, int &i)
 
 void InputStudent(Students *& pHead, ifstream &studentInput)
 {
-    string key = "";
-    getline(studentInput,key);
     Students *pCurr = pHead;
     if (pHead == nullptr)
     {
         pHead = new Students;
-        getline(studentInput,key,',');
-        pHead->No = atoi(key.c_str());
-        getline(studentInput,key,',');
-        pHead->StudentID = atoi(key.c_str());
-        getline(studentInput,key,',');
-        pHead->FirstName = key;
-        getline(studentInput,key,',');
-        pHead->LastName = key;
-        getline(studentInput,key,',');
-        pHead->SocialID = atoi(key.c_str());
-        getline(studentInput,key,',');
-        pHead->DateOfBirth = key;
-        getline(studentInput,key);
-        pHead->Gender = key;
+        studentInput >> pHead->No >> pHead->StudentID;
+        studentInput.ignore();
+        getline(studentInput,pHead->FirstName);
+        studentInput.ignore();
+        getline(studentInput,pHead->LastName);
+        studentInput.ignore();
+        getline(studentInput,pHead->Gender);
+        studentInput >> pHead->DateOfBirth.day >> pHead->DateOfBirth.month >>pHead->DateOfBirth.year;
+        studentInput >> pHead->SocialID;
         pHead->pNext = nullptr;
         pCurr = pHead;
     }
@@ -425,37 +451,32 @@ void InputStudent(Students *& pHead, ifstream &studentInput)
     {
         pCurr->pNext = new Students;
         pCurr = pCurr->pNext;
-        getline(studentInput,key,',');
-        pCurr->No = atoi(key.c_str());
-        getline(studentInput,key,',');
-        pCurr->StudentID = atoi(key.c_str());
-        getline(studentInput,key,',');
-        pCurr->FirstName = key;
-        getline(studentInput,key,',');
-        pCurr->LastName = key;
-        getline(studentInput,key,',');
-        pCurr->SocialID = atoi(key.c_str());
-        getline(studentInput,key,',');
-        pCurr->DateOfBirth = key;
-        getline(studentInput,key);
-        pCurr->Gender = key;
+        studentInput >> pCurr->No >> pCurr->StudentID;
+        studentInput.ignore();
+        getline(studentInput,pCurr->FirstName);
+        studentInput.ignore();
+        getline(studentInput,pCurr->LastName);
+        studentInput.ignore();
+        getline(studentInput,pCurr->Gender);
+        studentInput >> pCurr->DateOfBirth.day >> pCurr->DateOfBirth.month >>pCurr->DateOfBirth.year;
+        studentInput >> pCurr->SocialID;
         pCurr->pNext = nullptr;
     }
-    cout << "\nCreate successfully.\n";
-    system("pause");
 }
 
-void PrintStudentsListInClass(Classes* pHead)
+void PrintStudentsListInClass(Students* pHead)
 {
-    int f;
-    cout << "Enter number of class: ";
-    cin >> f;
-    Classes* pCCLass = pHead;
-    while (pCCLass != nullptr && pCCLass->No !=f)
-        pCCLass = pCCLass->pNext;
-    if (pCCLass != nullptr)
-    {   Students* pCur = pCCLass->pStudent;
-        cout << "\n\t\t--------------------------LIST OF STUDENTS IN ClASS " << pCCLass->Name << "--------------------------\n\n";
+    string name;
+    cout << "Enter name of class: ";
+    cin.ignore();
+    getline(cin, name);
+    ifstream input;
+    input.open(name.c_str());
+    while (!input.eof()) {
+        input >> pHead->No >> pHead->StudentID >> pHead->SocialID >> pHead->FirstName >> pHead->LastName >> pHead->Gender >> pHead->DateOfBirth.day >> pHead->DateOfBirth.month >> pHead->DateOfBirth.year;
+    }
+    Students* pCur = pHead;
+    cout << "\n\t\t--------------------------LIST OF STUDENTS IN ClASS " << name << "--------------------------\n\n";
     cout << setw(5) << left << "No";
     cout << setw(15) << left << "StudentID";
     cout << setw(17) << left << "SocialID";
@@ -472,18 +493,14 @@ void PrintStudentsListInClass(Classes* pHead)
         cout << setw(25) << left << pCur->LastName;
         cout << setw(20) << left << pCur->FirstName;
         cout << setw(15) << left << pCur->Gender;
-        cout << setw(0) << left << pCur->DateOfBirth;
+        cout << setw(0) << left << pCur->DateOfBirth.day << "/" << pCur->DateOfBirth.month << "/" << pCur->DateOfBirth.year;
         cout << endl;
         pCur = pCur->pNext;
-    }}
-    else
-        cout << "No Class Found.\n";
-    system("pause");
-    return;
+    }
+
 }
 
-void PrintStudentListInCourse(Classes* pHead, Courses* pH) {
-    //cần sửa //***
+void PrintStudentListInCourse(Students* pHead, Courses* pH) {
     string Coursesname = "";
     cout << "Enter the name of courses: ";
     cin.ignore();
@@ -508,7 +525,7 @@ void PrintStudentListInCourse(Classes* pHead, Courses* pH) {
             cout << setw(25) << left << pCur->FirstName;
             cout << setw(20) << left << pCur->LastName;
             cout << setw(15) << left << pCur->Gender;
-            cout << setw(0) << left << pCur->DateOfBirth;
+            cout << setw(0) << left << pCur->DateOfBirth.day << "/" << pCur->DateOfBirth.month << "/" << pCur->DateOfBirth.year;
             cout << endl;
             pCur = pCur->pNext;
         }
@@ -630,6 +647,7 @@ void EnrollCourses(Courses * &pHead, Courses * &pStudents)
         MenuOfStudent();
     }
 }
+
 void PrintEnrolledCourses(Courses* pHead)
 {
     cout << setw(15) << left << "Course ID";
@@ -654,6 +672,7 @@ void PrintEnrolledCourses(Courses* pHead)
         pCur = pCur->pNext;
     }
 }
+
 void PrintScoreBoardOfStudents(ScoreBoardOfStudent*& pHead)
 {
     int year;
@@ -685,6 +704,7 @@ void PrintScoreBoardOfStudents(ScoreBoardOfStudent*& pHead)
         pCur = pCur->pNext;
     }
 }
+
 void PrintScoreBoard(ScoreBoardOfCourse* pHead)
 {
     int year;
@@ -716,18 +736,26 @@ void PrintScoreBoard(ScoreBoardOfCourse* pHead)
         pCur = pCur->pNext;
     }
 }
-void MenuOfStaff(SignIn *pStaff, SignIn* pStudent,SchoolYear *&pHead,SchoolYear *&pCurr)
+
+void MenuOfStaff()
 {
+    
+    string choose;
     string choose;
     int choice1;
     int choice2;
     string Password;
+    SchoolYear* pHead;
+    SchoolYear* pCurr;
     Classes* pClass;
     Courses* pHCourse;
     Courses* pCCourse;
     Students* pHStudent;
     ifstream studentInput;
     ScoreBoardOfCourse* pHScore;
+    
+
+
 back1:
     cout << "\n\t\t\t*****************STAFF******************\n\n";
     cout << "\t\t      ********************************************\n";
@@ -737,25 +765,23 @@ back1:
     cout << "\t\t      *\t\t    4.About Students\t\t *\n";
     cout << "\t\t      *\t\t    5.Scoreboard\t\t *\n";
     cout << "\t\t      *\t\t    6.Log out\t\t\t *\n";
-    cout << "\t\t      *\t\t    7.View profile info \t\t\t *\n";
+    cout << "\t\t      *\t\t    7.Back \t\t\t *\n";
     cout << "\t\t      ********************************************\n\n";
     cout << "\t\t\t\tYour Choice: "; cin >> choice1;
     clrscr();
     switch (choice1)
     {
     case 1: {
-        ChangePassword(pStaff->Password);
+        ChangePassword(Password);
         cout << "\n\nPassword change successfully\n\n";
         cout << "\nYou must login again.";
-        GeneralMenu(pStaff, pStudent,pHead,pCurr);
         break;
     }
     case 2: {
-        backtocase2: //maybe a good way
         cout << "\n\t\t\t*****************STAFF******************\n\n";
         cout << "\t\t      ********************************************\n";
-        cout << "\t\t      *\t  1.Create schoolyear and classes\t *\n";
-        cout << "\t\t      *\t  2.Create semesters\t\t *\n";
+        cout << "\t\t      *\t  1.Create schoolyear and semesters\t *\n";
+        cout << "\t\t      *\t  2.Create all the classes\t\t *\n";
         cout << "\t\t      *\t  3.View the list of all classes\t *\n";
         cout << "\t\t      *\t  4.Back \t\t\t\t *\n";
         cout << "\t\t      ********************************************\n\n";
@@ -767,21 +793,18 @@ back1:
             CreateSchoolYear(pHead, pCurr);
             //Create schoolyear and semester
             cout << "\n\nCreate successfully!\n\n";
-            system("pause");
-            clrscr();
-            goto backtocase2;
             break;
         }
         case 2:
         {
-            //CreateClasses(pClass);
+            CreateClasses(pClass);
             //Create all the classes
             cout << "\n\nCreate successfully!\n\n";
             break;
         }
         case 3:
         {
-           // PrintClassesList(pClass);
+            PrintClassesList(pClass);
             //View the list of all classes
             break;
         }
@@ -816,7 +839,7 @@ back1:
         case 1:
         {
         backcourse:
-           // CreateCourses(pHCourse, pCCourse);
+            CreateCourses(pHCourse, pCCourse);
             //add course
             cout << "\nAdd a course successfully!\n";
             cout << "\nDo you want to add another course?(yes/no)\n\n";
@@ -832,14 +855,14 @@ back1:
         }
         case 2:
         {
-           // RemoveCourses(pHCourse);
+            RemoveCourses(pHCourse);
             //remove course
             cout << "\nRemove a course successfully!\n";
             break;
         }
         case 3:
         {
-            //PrintCoursesList(pHCourse);
+            PrintCoursesList(pHCourse);
             //View the list of all courses
            
             break;
@@ -872,20 +895,20 @@ back1:
         {
         case 1:
         {
-           // InputStudent(pHStudent, studentInput);
+            InputStudent(pHStudent, studentInput);
             //add student in class
             cout << "\nAdd students successfully!\n";
             break;
         }
         case 2:
         {
-           // PrintStudentsListInClass(pHStudent);
+            PrintStudentsListInClass(pHStudent);
             //print student in class
             break;
         }
         case 3:
         {
-            //PrintStudentListInCourse(pHStudent, pHCourse);
+            PrintStudentListInCourse(pHStudent, pHCourse);
             //print student in course
             break;
         }
@@ -919,7 +942,7 @@ back1:
         }
         case 2:
         {
-            //PrintScoreBoard(pHScore);
+            PrintScoreBoard(pHScore);
             //View scoreboard of a course
             break;
         }
@@ -936,24 +959,23 @@ back1:
         }
     }
     case 6: {
-        LogOut(pStaff,pStudent,pHead,pCurr);
+        //log out
+        LogOut();
         break;
     }
     case 7:
     {
-        cout << "*******Profile info********\n";
-        cout << pStaff->Name << "\n" << pStaff->ID << "\n" << pStaff->Email << "\n";
-        cout << "***************************";
-        system("pause");
-        goto back1;
+        // Nhi: chỗ này là back về cái giao diện menu của phần login
+        /*goto back1;*/
+        //back
         break;
     }
     default:
         cout << "\n\nError\n\n";
-        goto back1;
         break;
     }
 }
+
 void RemoveEnrolledCourses(Courses*& pHead)
 {
     string ID;
@@ -992,13 +1014,14 @@ void RemoveEnrolledCourses(Courses*& pHead)
         cout << "Please enter here: "; cin >> opt;
     } while (opt == 'Y' || opt == 'y');
 }
+
 int MenuOfStudent()
 {
     int n = 0;
     cout << "*****************************************************" << endl;
     cout << "*                                                   *" << endl;
     cout << "*               1. Enroll in Courses                *" << endl;
-    cout << "*               2. Remove enrolled Courses          *" << endl;
+    cout << "*               2. Remove Courses                   *" << endl;
     cout << "*               3. View list of Courses             *" << endl;
     cout << "*               4. View Scoreboard                  *" << endl;
     cout << "*               5. View Your Profile                *" << endl;
@@ -1008,6 +1031,7 @@ int MenuOfStudent()
     cout << endl << "Your choice: "; cin >> n;
     return n;
 }
+
 int typeOfUser()
 {
     cout << "----------------------------------------\n";
@@ -1039,20 +1063,21 @@ void deleteClasses(Classes *&pHead)
         delete pCurr;
     }
 }
-void deleteSchoolYear(SchoolYear *&pHead)
-{
-    while (pHead != nullptr)
-    {
-        SchoolYear *pCurr = pHead;
-        pHead = pHead->pNext;
-        delete pCurr;
-    }
-}
+
 void deleteStudents(Students *&pHead)
 {
     while(pHead != nullptr)
     {
         Students *pCurr = pHead;
+        pHead = pHead->pNext;
+        delete pCurr;
+    }
+}
+void deleteSignIn(SignIn *&pHead)
+{
+    while(pHead != nullptr)
+    {
+        SignIn *pCurr = pHead;
         pHead = pHead->pNext;
         delete pCurr;
     }
@@ -1084,15 +1109,7 @@ void deleteScoreBoardOfStudent(ScoreBoardOfStudent *&pHead)
         delete pCurr;
     }
 }
-void deleteSignIn(SignIn *&pHead)
-{
-    while (pHead !=nullptr)
-    {
-        SignIn *pTemp = pHead;
-        pHead = pHead->pNext;
-        delete pTemp;
-    }
-}
+
 void foutSchoolYear(SchoolYear *pHead)
 {
     ofstream fout;
@@ -1147,22 +1164,13 @@ void inputSignInStaff(SignIn *&pHead)
 {
     ifstream input;
     input.open("staff.csv");
-    string key = "";
-    getline(input,key);
     SignIn *pCurr = pHead;
     while(!input.eof())
     {
         if (pHead == nullptr)
         {
             pHead = new SignIn;
-            getline(input,key,',');
-            pHead->ID = key;
-            getline(input,key,',');
-            pHead->Password = key;
-            getline(input,key,',');
-            pHead->Name = key;
-            getline(input,key);
-            pHead->Email = key;
+            input >> pHead->ID >> pHead->Password;
             pHead->pNext = nullptr;
             pCurr = pHead;
         }
@@ -1170,14 +1178,7 @@ void inputSignInStaff(SignIn *&pHead)
         {
             pCurr->pNext = new SignIn;
             pCurr = pCurr->pNext;
-            getline(input,key,',');
-            pCurr->ID = key;
-            getline(input,key,',');
-            pCurr->Password = key;
-            getline(input,key,',');
-            pCurr->Name = key;
-            getline(input,key);
-            pCurr->Email = key;
+            input >> pCurr->ID >> pCurr->Password;
             pCurr->pNext = nullptr;
         }   
     }
@@ -1186,46 +1187,21 @@ void inputSignInStudent(SignIn *&pHead)
 {
     ifstream input;
     input.open("student.csv"); //chỗ này có thể thay đổi : ví dụ là thay bằng 21CLC09.csv
-    string key = "";
-    getline(input,key); 
     SignIn *pCurr = pHead;
     while(!input.eof())
     {
         if (pHead == nullptr)
         {
             pHead = new SignIn;
-            getline(input,key,',');
-            pHead->ID = key;
-            getline(input,key,',');
-            pHead->Password = key;
-            getline(input,key,',');
-            pHead->Name = key;
-            getline(input,key,',');
-            pHead->SocialID = key;
-            getline(input,key,',');
-            pHead->DoB = key;
-            getline(input,key);
-            pHead->Gender = key;
+            input >> pHead->ID >> pHead->Password;
             pHead->pNext = nullptr;
             pCurr = pHead;
-            
         }
         else
         {
             pCurr->pNext = new SignIn;
             pCurr = pCurr->pNext;
-            getline(input,key,',');
-            pCurr->ID = key;
-            getline(input,key,',');
-            pCurr->Password = key;
-            getline(input,key,',');
-            pCurr->Name = key;
-            getline(input,key,',');
-            pCurr->SocialID = key;
-            getline(input,key,',');
-            pCurr->DoB = key;
-            getline(input,key);
-            pCurr->Gender = key;
+            input >> pCurr->ID >> pCurr->Password;
             pCurr->pNext = nullptr;
         }   
     }
@@ -1235,10 +1211,52 @@ bool isEmpty(ifstream& pFile)
 {
     return pFile.peek() == ifstream::traits_type::eof();
 }
+void readFilesBeforeLogin(Classes *&pHClasses)
+{
+    //mở file txt chứa tên các lớp
+    ifstream classInput("listOfClasses.txt");
+    Classes *pCClasses = pHClasses;
+    if (!classInput && !isEmpty(classInput))
+    {
+        while (!classInput.eof())
+        {
+
+            if (pHClasses == nullptr)
+            {   //tạo các lớp và nhập tên các lớp vào
+                pHClasses = new Classes;
+                classInput.ignore();
+                getline(classInput,pHClasses->Name);
+                ifstream studentInput(pHClasses->Name + "." + "csv");
+
+                // nhập số học sinh
+                classInput >> pHClasses->NumberOfStudents;
+                InputStudent(pHClasses->pStudent,studentInput);
+                pHClasses->pNext = nullptr;
+                pCClasses = pHClasses;
+            }
+            else
+            {   //tạo các lớp và nhập tên các lớp vào
+                pCClasses->pNext = new Classes;
+                pCClasses = pCClasses->pNext;
+                classInput.ignore();
+                getline(classInput,pCClasses->Name);
+                ifstream studentInput(pCClasses->Name + "." + "csv");
+
+                // nhập số học sinh
+                classInput >> pCClasses->NumberOfStudents;
+                InputStudent(pCClasses->pStudent,studentInput);
+                pCClasses->pNext = nullptr;
+            }
+        }
+    }
+}
+
+
+
 void readSchoolYearlist(SchoolYear *&pHead)
 {
     ifstream input("schoolYearList.txt");
-    if ( !isEmpty(input))
+    if (!input && !isEmpty(input))
     {
         SchoolYear *pCurr = pHead;
         while(!input.eof())
@@ -1264,15 +1282,14 @@ void readSchoolYearlist(SchoolYear *&pHead)
         }
     }
 }
-/*void readClassListAndStudent(SchoolYear *pHead)
+void readClassListAndStudent(SchoolYear *pHead)
 {
     SchoolYear *pCurr = pHead;
     while (pCurr!= nullptr)
     {
         ifstream input;
         input.open(pCurr->years +"classes.txt");
-        if( !isEmpty(input))
-        {while (!input.eof())
+        while (!input.eof())
         {
             Classes* pTemp = pCurr->pClass;
             string a = "";
@@ -1308,8 +1325,6 @@ void readSchoolYearlist(SchoolYear *&pHead)
                     input >> pTemp->NumberOfStudents;
                     pTemp->pStudent = new Students;
                     classInput >> pTemp->pStudent->No >> pTemp->pStudent->StudentID >> pTemp->pStudent->LastName >> pTemp->pStudent->LastName;
-                    string DaT = "";
-                    classInput >> DaT;
                     pTemp->pStudent->DateOfBirth.month = stoi(DaT.substr(0,2));
                     pTemp->pStudent->DateOfBirth.day = stoi(DaT.substr(3,2));
                     pTemp->pStudent->DateOfBirth.year = stoi(DaT.substr(6,4));
@@ -1318,52 +1333,10 @@ void readSchoolYearlist(SchoolYear *&pHead)
                     pTemp->pNext = nullptr;
                 }
             }
-            pTemp = pTemp->pNext;}
+            pTemp = pTemp->pNext;
         }
         pCurr = pCurr->pNext;
     }
-}*/
-
-void readSemesterList(SchoolYear *pHead)
-{
-    SchoolYear *pCurr =pHead;
-    while (pCurr != nullptr)
-    {
-        ifstream input;
-        input.open(pCurr->years+"semester.txt");
-        Semester *pTemp = pCurr->pSemester;
-        if (!isEmpty(input))
-        {while (!input.eof())
-        {
-            if (pCurr->pSemester == nullptr)
-            {
-                pCurr->pSemester = new Semester;
-                input >> pCurr->pSemester->No;
-                input >> pCurr->pSemester->startDate.day;
-                input >> pCurr->pSemester->startDate.month;
-                input >> pCurr->pSemester->startDate.year;
-                input >> pCurr->pSemester->endDate.day;
-                input >> pCurr->pSemester->endDate.month;
-                input >> pCurr->pSemester->endDate.year;
-                pCurr->pSemester->pNext = nullptr;
-                pTemp = pCurr->pSemester;
-            }
-            else
-            {
-                pTemp->pNext = new Semester;
-                pTemp = pTemp->pNext;
-                input >> pTemp->No;
-                input >> pTemp->startDate.day;
-                input >> pTemp->startDate.month;
-                input >> pTemp->startDate.year;
-                input >> pTemp->endDate.day;
-                input >> pTemp->endDate.month;
-                input >> pTemp->endDate.year;
-                pTemp->pNext = nullptr;
-            }
-        }}
-        pCurr =pCurr->pNext;
-    }   
 }
 
 
