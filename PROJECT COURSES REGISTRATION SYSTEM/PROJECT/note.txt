@@ -9,6 +9,7 @@ readClassListAndStudent: sửa lại phần csv
 readSemesterList: có thể đã hoàn thành
 
 xuất file khi đã chạy chương trình(xuất ra txt):
+xuất sign in mới: chưa hoàn thành
 xuất năm học: chưa hoàn thành 
 xuất lớp: chưa hoàn thành
 xuất Semester: chưa hoàn thành.

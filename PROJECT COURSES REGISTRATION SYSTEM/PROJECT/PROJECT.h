@@ -34,7 +34,7 @@ struct Students
 	string FirstName{};
 	string LastName{};
 	string Gender{};
-	DoB DateOfBirth{};
+	string DateOfBirth{};
 	int SocialID{}; 
 	Students* pNext{};
 };
@@ -96,12 +96,12 @@ struct SchoolYear{
 	SchoolYear *pNext{};
 };
 // General
-void ChooseTypeOfUser(int& type);
-void GeneralMenu(SignIn *pStaff, SignIn* pStudent);
-void SignUp(SignIn*& pHead);
+//void ChooseTypeOfUser(int& type);
+void GeneralMenu(SignIn *pStaff, SignIn* pStudent,SchoolYear *&pHead,SchoolYear *&pCurr);
+//void SignUp(SignIn*& pHead);
 void LogIn(SignIn* pHead);// Nhi: Long ơi chỗ này ông quên thêm biến trong hàm nha.
 void ChangePassword(string& Password);
-void LogOut(SignIn *pStaff, SignIn* pStudent);
+void LogOut(SignIn *pStaff, SignIn* pStudent,SchoolYear *&pHead,SchoolYear *&pCurr);
 
 // Staff
 /*void CreateSchoolYear(int& Year);*/ //Nhi: tui comment cái này lại nha, tại nó bị trùng hàm rồi.
@@ -123,7 +123,7 @@ void PrintStudentListInCourse(Students* pHead, Courses*pH);
 //Input scoreboard này tui thấy mình input trong hàm main cũng được nha
 void InputScoreBoard(ScoreBoardOfCourse*& pHead);
 void PrintScoreBoard(ScoreBoardOfCourse* pHead);
-void MenuOfStaff(SignIn *pStaff, SignIn* pStudent);
+void MenuOfStaff(SignIn *pStaff, SignIn* pStudent,SchoolYear *&pHead,SchoolYear *&pCurr);
 
 // Thư: sao có nhiều hàm student ở đây bị mất vậy mọi người? tui nhớ là lần trước mới add vô :<
 // Student // tui add lại ở đây, đừng xóa nữa nhen :<
@@ -138,6 +138,7 @@ void clrscr();
 
 bool isEmpty(ifstream& pFile);
 // delete function
+void deleteSchoolYear(SchoolYear *&pHead);
 void deleteClasses(Classes *&pHead);
 void deleteStudents(Students *&pHead);
 void deleteSignIn(SignIn *&pHead);
