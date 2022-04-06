@@ -231,8 +231,8 @@ void GeneralMenu()
     cout << "\t\t      *\t  2.Students\t\t *\n";
     cout << "\t\t      *\t  3.Exit\t *\n";
     cout << "\t\t      ********************************************\n\n";
-    cout << "\t\t\t\tYour Choice: "; cin :>> choice;
-    switch(choice):
+    cout << "\t\t\t\tYour Choice: "; cin >> choice;
+    switch(choice)
     {
         case 1:
         {
