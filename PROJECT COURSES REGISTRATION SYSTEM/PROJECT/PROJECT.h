@@ -76,6 +76,7 @@ struct Courses {
 	int Maximum{};
 	int Credits{};
 	string TeacherName{};
+	Students *pStudent = nullptr;
 	Courses* pNext{};
 };
 struct Semester
@@ -89,7 +90,7 @@ struct Semester
 struct SchoolYear{
 	string years{};
 	Classes *pClass{};
-	Semester *pSemester{} = nullptr;
+	Semester *pSemester = nullptr;
 	SchoolYear *pNext{};
 };
 // General

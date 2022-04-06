@@ -8,9 +8,11 @@ readSchoolYearlist: hoàn thành
 readClassListAndStudent: sửa lại phần csv
 readSemesterList: có thể đã hoàn thành
 
+
+
 xuất file khi đã chạy chương trình(xuất ra txt):
 xuất năm học: chưa hoàn thành 
 xuất lớp: chưa hoàn thành
 xuất Semester: chưa hoàn thành.
-
+xuất file enrolled;
 deadline 10/4/2022;

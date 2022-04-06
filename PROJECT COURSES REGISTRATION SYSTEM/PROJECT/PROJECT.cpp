@@ -18,23 +18,22 @@ void CreateCourses(Courses*& pHead, int &i)
         cin.ignore();
         getline(cin, pHead->CourseName);
         cout << "Input weekday of session 1: ";
-        cin.ignore();
         cin.getline(pHead->weekday1,4);
         cout << "Input time of session 1: ";
-        cin.ignore();
         cin.getline(pHead->time1,6);
         cout << "Input weekday of session 2: ";
-        cin.ignore();
         cin.getline(pHead->weekday2,4);
         cout << "Input time of session 2: ";
-        cin.ignore();
         cin.getline(pHead->time2,6);
         cout << "Input maximum number of students (Default: 50): "; //maximum?? // Thư: là số lượng học sinh tối đa có thể đăng ký (default là 50)
-        string maximum="";
-        getline(cin,maximum);
-        if (!maximum.empty())
-            pHead->Maximum = stoi(maximum);
-        else pHead->Maximum = 50;
+        string input="";
+        int maximum = 50;
+        getline(cin,input);
+        if (!input.empty()){
+            istringstream stream(input);
+            stream >> maximum;
+        }
+        pHead->Maximum = maximum;
         cout << "Input Number of credits: ";
         cin >> pHead->Credits;
         cout << "Input teacher's name: ";
@@ -56,24 +55,22 @@ void CreateCourses(Courses*& pHead, int &i)
         cin.ignore();
         getline(cin, pCurr->CourseName);
         cout << "Input weekday of session 1: ";
-        cin.ignore();
         cin.getline(pCurr->weekday1,4);
         cout << "Input time of session 1: ";
-        cin.ignore();
         cin.getline(pCurr->time1,6);
         cout << "Input weekday of session 2: ";
-        cin.ignore();
         cin.getline(pCurr->weekday2,4);
         cout << "Input time of session 2: ";
-        cin.ignore();
         cin.getline(pCurr->time2,6);
         cout << "Input maximum number of students (Default: 50): ";
-        string maximum ="";
-        cin.ignore();
-        getline(cin,maximum);
-        if (!maximum.empty())
-            pCurr->Maximum = stoi(maximum);
-        else pCurr->Maximum = 50;
+        string input="";
+        int maximum = 50;
+        getline(cin,input);
+        if (!input.empty()){
+            istringstream stream(input);
+            stream >> maximum;
+        }
+        pCurr->Maximum = maximum;
         cout << "Input Number of credits: ";
         cin >> pCurr->Credits;
         cout << "Input teacher's name: ";
@@ -85,24 +82,33 @@ void CreateCourses(Courses*& pHead, int &i)
 }
 void PrintCoursesList(Courses* pHead)
 {
-    cout << "No       " <<  "Courses ID   " << "Courses Name" << "Weekday1" 
-    Courses* pCurr = pHead;
-    while (pCurr != nullptr)
+    cout << setw(10) << left << "No";
+    cout << setw(15) << left << "Course ID";
+    cout << setw(20) << left << "Course Name";
+    cout << setw(10) << left << "Credit";
+    cout << setw(6) << right << "Day 1";
+    cout << setw(15) << right << "Session 1";
+    cout << setw(10) << right << "Day 2";
+    cout << setw(15) << right << "Session 2";
+    cout << setw(20) << right << "Teacher";
+    cout << endl;
+    cout << setfill('-') << setw(121) << '-';
+    cout << endl;
+    cout << setfill(' ');
+    Courses* pCur = pHead;
+    while (pCur != nullptr)
     {
-        cout << pCurr->No << "         ";
-        cout << pCurr->CourseID << "         ";
-        cout << pCurr->CourseName << "         ";
-        cout << pCurr->time1 << "         ";
-        cout << pCurr->Maximum << "         ";
-        cout << pCurr->Credits << "         ";
-
-        
-        //cout << pCurr->startDate.day << "         ";
-        //cout << pCurr->endDate << "         ";
-        cout << pCurr->TeacherName << "         ";
-        cout << pCurr->Day << "         ";
-        pCurr = pCurr->pNext;
-        cout << "\n";
+        cout << setw(10) << left << pCur->No;
+        cout << setw(15) << left << pCur->CourseID;
+        cout << setw(20) << left << pCur->CourseName;
+        cout << setw(12) << left << pCur->Credits;
+        cout << setw(0) << right << pCur->weekday1[0] << pCur->weekday1[1] << pCur->weekday1[2];
+        cout << setw(10) << right << pCur->time1[0] << pCur->time1[1] << pCur->time1[2] << pCur->time1[3] << pCur->time1[4];
+        cout << setw(9) << right << pCur->weekday2[0] << pCur->weekday2[1] << pCur->weekday2[2];
+        cout << setw(10) << right << pCur->time2[0] << pCur->time2[1] << pCur->time2[2] << pCur->time2[3] << pCur->time2[4];
+        cout << setw(22) << right << pCur->TeacherName;
+        cout << endl;
+        pCur = pCur->pNext;
     }
 }
 void UpdateCourses(Courses*& pHead)
@@ -135,8 +141,6 @@ void UpdateCourses(Courses*& pHead)
         cout << "Input teacher's name: ";
         cin.ignore();
         getline(cin, pCurr->TeacherName);
-        cout << "Input number of days: ";
-        cin >> pCurr->Day;
     }
     else
         cout << "No course found.";
@@ -238,7 +242,7 @@ void GeneralMenu(SignIn *pStaff, SignIn* pStudent,SchoolYear *&pHead,SchoolYear 
     else if (choice == 2)
     {
         LogIn(pStudent);
-        int c = MenuOfStudent();
+        MenuOfStudent();
     }
     else if (choice == 3)
     {
@@ -255,7 +259,9 @@ void GeneralMenu(SignIn *pStaff, SignIn* pStudent,SchoolYear *&pHead,SchoolYear 
 //Long: Tui coi không thấy khai báo biến "Year" trong file header í
 void PrintClassesList(Classes* pHead)
 {
-    cout << "No" << setw(10) << "Name" << setw(10) << "Number of students\n";
+    clrscr();
+    cout << "Classes List: \n";
+    cout << "No" << setw(10) << "Name" << setw(30) << "Number of students\n";
     Classes* pCurr = pHead;
     while (pCurr != nullptr)
     {
@@ -279,7 +285,7 @@ void CreateSchoolYear(SchoolYear *&pHead, SchoolYear *&pCurr) //chỗ này có t
         while (true)
         {
             CreateClasses(pHead->pClass,pCurrY,i);
-            cout << "Continue? (Yes: y, No: n): ";
+            cout << "Continue adding classes? (Yes: y, No: n): ";
             char check;
             cin >> check;
             if (check != 'y')
@@ -289,8 +295,8 @@ void CreateSchoolYear(SchoolYear *&pHead, SchoolYear *&pCurr) //chỗ này có t
         clrscr();
         while (true)
         {
-            cout << "Input number of class you want to add student: \n";
             PrintClassesList(pHead->pClass);
+            cout << "\nInput number of class you want to add student: \n";
             int x;
             cin >> x;
             Classes *pTemp = pHead->pClass;
@@ -301,8 +307,11 @@ void CreateSchoolYear(SchoolYear *&pHead, SchoolYear *&pCurr) //chỗ này có t
                 InputStudent(pTemp->pStudent,studentInClass);
             }
             else
-                cout << "No class found.";
-            cout << "Continue? (Yes: y, No: n): ";
+            {
+                cout << "No class found.\n";
+                break;
+            }
+            cout << "Continue adding student to class? (Yes: y, No: n): ";
             char check;
             cin >> check;
             cin.clear();
@@ -316,6 +325,13 @@ void CreateSchoolYear(SchoolYear *&pHead, SchoolYear *&pCurr) //chỗ này có t
     }
     else
     {
+        cout << "School Year list: \n";
+        SchoolYear *pTemp = pHead;
+        while (pTemp != nullptr){
+            cout << pTemp->years << " ";
+            pTemp = pTemp->pNext;
+        }
+        cout << "\n";
         pCurr->pNext = new SchoolYear;
         pCurr = pCurr->pNext;
         cout << "Input school year (example: 2020-2021): ";
@@ -325,7 +341,7 @@ void CreateSchoolYear(SchoolYear *&pHead, SchoolYear *&pCurr) //chỗ này có t
         while (true)
         {
             CreateClasses(pCurr->pClass,pCurrY,i);
-            cout << "Continue? (Yes: y, No: n): ";
+            cout << "Continue adding classes? (Yes: y, No: n): ";
             char check;
             cin >> check;
             if (check != 'y')
@@ -336,7 +352,7 @@ void CreateSchoolYear(SchoolYear *&pHead, SchoolYear *&pCurr) //chỗ này có t
         
         while (true)
         {
-            cout << "Input classID you want to add student: ";
+            cout << "Input number of class you want to add student: \n";
             PrintClassesList(pCurr->pClass);
             int x;
             cin >> x;
@@ -348,8 +364,11 @@ void CreateSchoolYear(SchoolYear *&pHead, SchoolYear *&pCurr) //chỗ này có t
                 InputStudent(pTemp->pStudent,studentInClass);
             }
             else
-                cout << "No class found.";
-            cout << "Continue? (Yes: y, No: n): ";
+            {
+                cout << "No class found.\n";
+                break;
+            }
+            cout << "Continue adding students to class? (Yes: y, No: n): ";
             char check;
             cin >> check;
             cin.clear();
@@ -379,7 +398,7 @@ void CreateSemester(SchoolYear *pHead)
                 cout << "No"  << "     Start Date" <<  "      End Date\n";
                 while(pTemp != nullptr)
                 {
-                    cout << pTemp->No <<setw(10) << pTemp->startDate.day<<"/" << pTemp->startDate.month <<"/"<< pTemp->startDate.year<<<<setw(10) << pTemp->endDate.day<<"/" << pTemp->endDate.month<<"/" << pTemp->endDate.year <<"\n";
+                    cout << pTemp->No <<setw(10) << pTemp->startDate.day<<"/" << pTemp->startDate.month <<"/"<< pTemp->startDate.year<<setw(10) << pTemp->endDate.day<<"/" << pTemp->endDate.month<<"/" << pTemp->endDate.year <<"\n";
                     pTemp = pTemp->pNext;
                 }
             }
@@ -393,7 +412,7 @@ void CreateSemester(SchoolYear *pHead)
         pCurr->pSemester->No = x;
         cout << "Input start date (DD MM YYYY): ";
         cin >> pCurr->pSemester->startDate.day >> pCurr->pSemester->startDate.month >> pCurr->pSemester->startDate.year;
-        cout << "Input end date (DD MM YYYY)";
+        cout << "Input end date (DD MM YYYY): ";
         cin >> pCurr->pSemester->endDate.day >> pCurr->pSemester->endDate.month >> pCurr->pSemester->endDate.year;
         pCurr->pSemester->pCourse = nullptr;
         pCurr->pSemester->pNext = nullptr;
@@ -418,6 +437,7 @@ void CreateSemester(SchoolYear *pHead)
 //Long: chỗ để tên lớp nằm ở đâu nhỉ // Thư: ý Long là sao ha? tui chưa hiểu lắm...
 void CreateClasses(Classes*& pHead, Classes*& pCurr, int &i)
 {
+    
     if (pHead == nullptr)
     {
         pHead = new Classes;
@@ -431,7 +451,9 @@ void CreateClasses(Classes*& pHead, Classes*& pCurr, int &i)
         ++i; //Needed a variable to store the pTail of the linked list
     }
     else
-    {
+    {   
+        PrintClassesList(pHead);
+        cout << "\n";
         pCurr->pNext = new Classes;
         pCurr = pCurr->pNext;
         pCurr->No = i;
@@ -971,6 +993,14 @@ back1:
             goto backtocase2;
             break;
         }
+        case 4:
+        {
+            PrintCoursesList(pHead->pSemester->pCourse);
+            system("pause");
+            clrscr();
+            goto backtocase2;
+            break;
+        }
         case 5:
         {
             //back
@@ -991,7 +1021,8 @@ back1:
         cout << "\t\t      ********************************************\n";
         cout << "\t\t      *\t     1.Update scoreboard\t\t *\n";
         cout << "\t\t      *\t     2.View scoreboard of a course\t *\n";
-        cout << "\t\t      *\t     3.Back \t\t\t\t *\n";
+        cout << "\t\t      *\t     3.View scoreboard of a class\t *\n";
+        cout << "\t\t      *\t     4.Back \t\t\t\t *\n";
         cout << "\t\t      ********************************************\n\n";
         cout << "\t\t\t\tYour choice: "; cin >> choice2;
         switch (choice2)
@@ -1010,6 +1041,10 @@ back1:
             break;
         }
         case 3:
+        {
+            //view scoreboard of a classes
+        }
+        case 4:
         {
             //back
             clrscr();
@@ -1044,8 +1079,8 @@ back1:
 void RemoveEnrolledCourses(Courses*& pHead)
 {
     string ID;
-    char* DAY = new char[3];
-    char* session = new char[5];
+    char* DAY = new char[4];
+    char* session = new char[6];
     char opt = 'N';
     do {
         cout << "Please input the ID of the course that you wanna remove: "; getline(cin, ID);
