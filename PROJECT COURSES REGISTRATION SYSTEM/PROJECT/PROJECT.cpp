@@ -113,11 +113,12 @@ void PrintCoursesList(Courses* pHead)
 }
 void UpdateCourses(Courses*& pHead)
 {
-    cout << "Input courseID you want to update";
-    string a;
+    
+    cout << "Input number of course you want to update: ";
+    int a;
     cin >> a;
     Courses* pCurr = pHead;
-    while (pCurr != nullptr && pCurr->CourseID != a)
+    while (pCurr != nullptr && pCurr->No != a)
         pCurr = pCurr->pNext;
     if (pCurr != nullptr)
     {
@@ -125,55 +126,79 @@ void UpdateCourses(Courses*& pHead)
         cin >> pCurr->CourseID;
         cout << "Input name of course: ";
         cin.ignore();
-        getline(cin, pCurr->CourseName);
-        cout << "Input session: ";
-        cin.ignore();
-        cin.getline(pCurr->time1,5);
-        cout << "Input maximum number of students (Default: 50): ";
-        string maximum ="";
-        cin.ignore();
-        getline(cin,maximum);
-        if (!maximum.empty())
-            pCurr->Maximum = stoi(maximum);
-        else pCurr->Maximum = 50;
+        getline(cin, pHead->CourseName);
+        cout << "Input weekday of session 1: ";
+        cin.getline(pHead->weekday1,4);
+        cout << "Input time of session 1: ";
+        cin.getline(pHead->time1,6);
+        cout << "Input weekday of session 2: ";
+        cin.getline(pHead->weekday2,4);
+        cout << "Input time of session 2: ";
+        cin.getline(pHead->time2,6);
+        cout << "Input maximum number of students (Default: 50): "; //maximum?? // Thư: là số lượng học sinh tối đa có thể đăng ký (default là 50)
+        string input="";
+        int maximum = 50;
+        getline(cin,input);
+        if (!input.empty()){
+            istringstream stream(input);
+            stream >> maximum;
+        }
+        pHead->Maximum = maximum;
         cout << "Input Number of credits: ";
-        cin >> pCurr->Credits;
+        cin >> pHead->Credits;
         cout << "Input teacher's name: ";
         cin.ignore();
-        getline(cin, pCurr->TeacherName);
+        getline(cin, pHead->TeacherName);
     }
     else
         cout << "No course found.";
 }
-void RemoveCourses(Courses*& pHead) 
+void removeACourse(Courses *&pHead)
 {
-    string a;
-    cout << "Input courseID you want to remove: ";
+    cout << "Input number of course you want to delete: ";
+    int a;
     cin >> a;
-    if (pHead->CourseID == a)
+    Courses* pCurr = pHead;
+    if (pHead == nullptr)
     {
-        Courses* pCurr = pHead;
-        pHead = pHead->pNext;
-        delete pCurr;
+        cout << "No course found.\n";
+        system("pause");
         return;
+    }
+    if (pHead->No == a)
+    {
+        Courses *pTemp = pHead;
+        pHead = pHead->pNext;
+        delete pTemp;
     }
     else
     {
-        Courses* pCurr = pHead;
-        while (pCurr->pNext != nullptr && pCurr->pNext->CourseID != a)
-            pCurr = pCurr->pNext;
+        while (pCurr->pNext != nullptr && pCurr->pNext->No != a)
+            pCurr =pCurr->pNext;
         if (pCurr->pNext != nullptr)
         {
-            Courses* pTemp = pCurr->pNext;
+            Courses *pTemp = pCurr->pNext;
             pCurr->pNext = pCurr->pNext->pNext;
             delete pTemp;
+        }
+        else
+        {
+            cout << "No course found.\n";
+            system("pause");
             return;
         }
     }
-    cout << "No course found.";
+    pCurr = pHead;
+    int i = 1;
+    while (pCurr != nullptr)
+    {
+        pCurr->No = i;
+        pCurr = pCurr->pNext;
+        ++i;
+    }
+    cout << "Delete successfully.\n";
+    system("pause");
 }
-
-
 //Idea: check the SignIn linked list until there's is a correct ID - password combination
 //else the login process will restart again
 void LogIn(SignIn* pHead)
@@ -947,7 +972,7 @@ back1:
         cout << "\t\t      *\t  1.Create school year and classes\t *\n";
         cout << "\t\t      *\t  2.Create semesters and courses\t\t *\n";
         cout << "\t\t      *\t  3.View the list of all classes\t *\n";
-        cout << "\t\t      *\t  4.View the list of all courses\t *\n";
+        cout << "\t\t      *\t  4.View the list of all courses,update and delete courses\t *\n";
         cout << "\t\t      *\t  5.Back \t\t\t\t *\n";
         cout << "\t\t      ********************************************\n\n";
         cout << "\t\t\t\tYour Choice: "; cin >> choice2;
@@ -986,7 +1011,7 @@ back1:
         case 3:
         {
 
-            //PrintClassesList(pClass);
+            PrintClassesList(pHead->pClass);
             //View the list of all classes
             system("pause");
             clrscr();
@@ -997,6 +1022,16 @@ back1:
         {
             PrintCoursesList(pHead->pSemester->pCourse);
             system("pause");
+            cout << "\n1. Update a course";
+            cout << "\n2. Delete a course";
+            cout << "\n3. Go back\n";
+            int choice;
+            cout << "Your choice: ";
+            cin >> choice;
+            if (choice == 1)
+                UpdateCourses(pHead->pSemester->pCourse);
+            else if (choice == 2)
+                removeACourse(pHead->pSemester->pCourse);
             clrscr();
             goto backtocase2;
             break;
