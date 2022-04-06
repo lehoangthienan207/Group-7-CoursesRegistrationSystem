@@ -89,7 +89,7 @@ struct Semester
 struct SchoolYear{
 	string years{};
 	Classes *pClass{};
-	Semester *pSemester{};
+	Semester *pSemester{} = nullptr;
 	SchoolYear *pNext{};
 };
 // General

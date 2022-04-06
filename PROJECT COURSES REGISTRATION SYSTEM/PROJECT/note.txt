@@ -1,6 +1,6 @@
 đọc các csv:
 sign in: hoàn thành
-import csv student to class: chưa hoàn thành (cần chỉnh sửa vì sai cú pháp input csv)
+import csv student to class: hoàn thành (cần chỉnh sửa vì sai cú pháp input csv)
 
 
 đọc file trước khi chạy menu:
