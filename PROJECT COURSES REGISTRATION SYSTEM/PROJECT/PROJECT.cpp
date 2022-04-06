@@ -862,7 +862,7 @@ void MenuOfStaff()
     Students* pHStudent;
     ifstream studentInput;
     ScoreBoardOfCourse* pHScore;
-    
+    SignIn* pHSignin;
 
 
 back1:
@@ -884,6 +884,7 @@ back1:
         ChangePassword(Password);
         cout << "\n\nPassword change successfully\n\n";
         cout << "\nYou must login again.";
+        LogIn(pHSignin);
         break;
     }
     case 2: {
