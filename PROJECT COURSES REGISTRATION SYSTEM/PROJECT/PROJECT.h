@@ -5,6 +5,10 @@
 #include <fstream>
 #include <cstring>
 #include <iomanip>
+#include <direct.h>
+#include <bits/stdc++.h>
+#include <stdio.h>
+#include <cstdio>
 using namespace std;
 
 //fstream input, output;
@@ -152,6 +156,7 @@ void InputStudent(Students *& pHead, ifstream &studentInput);
 void inputSignInStaff(SignIn *&pHead);
 void inputSignInStudent(SignIn *&pHead);
 // output
+void foutSignInStaff(SignIn *pHead);
 void foutSchoolYear(SchoolYear *pHead);
 void foutClasses(SchoolYear*pHead);
 void foutSemester(SchoolYear*pHead);

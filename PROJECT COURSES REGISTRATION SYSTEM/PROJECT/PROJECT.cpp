@@ -1348,28 +1348,26 @@ void deleteScoreBoardOfStudent(ScoreBoardOfStudent *&pHead)
 
 void foutSchoolYear(SchoolYear *pHead)
 {
-    ofstream fout;
-    fout.open("schoolYearList.txt");
+    ofstream fout("schoolYearList.txt");
     SchoolYear *pCurr = pHead;
-    while (pCurr != nullptr)
-    {
-        fout << pCurr->years;
-        fout <<"\n";
+    while(pCurr != nullptr)
+    {   
+        fout << pCurr->years << " ";
+        _mkdir(pCurr->years.c_str());
         pCurr = pCurr->pNext;
     }
 }
 void foutClasses(SchoolYear*pHead)
 {
-    ofstream fout;
     SchoolYear *pCurr = pHead;
     while (pCurr != nullptr)
     {
-        fout.open(pCurr->years+ "classes" + ".txt");
-        
         Classes *pTemp = pCurr->pClass;
         while (pTemp != nullptr)
         {
-            fout << pTemp->Name << " " << pTemp->No << " " << pTemp->NumberOfStudents << " ";
+            ofstream fout;
+            fout.open(".\\"+ pCurr->years + "\\" + "classList.txt");
+            fout << pTemp->Name << " " << pTemp->No << " " << pTemp->NumberOfStudents << "\n";
             pTemp = pTemp->pNext;
         }
         //fout << "\n";
@@ -1381,16 +1379,15 @@ void foutClasses(SchoolYear*pHead)
 
 void foutSemester(SchoolYear*pHead)
 {
-    ofstream fout;
     SchoolYear *pCurr = pHead;
     while (pCurr != nullptr)
     {
-        fout.open(pCurr->years +"semester" + ".txt");
         Semester *pTemp = pCurr->pSemester;
         while (pTemp != nullptr)
         {
-            fout << pTemp->No << " " << pTemp->startDate.day <<  pTemp->startDate.month << " " << pTemp->startDate.year << " " << pTemp->endDate.day << " " << pTemp->endDate.month << " " << pTemp->endDate.year;
-            fout << '\n';
+            ofstream fout;
+            fout.open(".\\" + pCurr->years + "\\" + "semesterList.txt");
+            fout << pTemp->No << " " << pTemp->startDate.day << " " << pTemp->startDate.month << " " << pTemp->startDate.year << " " << pTemp->endDate.day << " " << pTemp->endDate.month << " " << pTemp->endDate.year << "\n";
             pTemp = pTemp->pNext;
         }
         pCurr = pCurr->pNext;
@@ -1620,3 +1617,28 @@ void readClassListAndStudent(SchoolYear *pHead)
 
 
 //phần bên trên chưa xong
+
+void foutSignInStaff(SignIn *pHead)
+{
+    remove("staff.csv");
+    ofstream fout("staff.csv");
+    fout << "ID,Password,Name,Email\n";
+    SignIn *pCurr = pHead;
+    while (pCurr != nullptr)
+    {
+        fout << pCurr->ID << "," << pCurr->Password << "," << pCurr->Name << "," << pCurr->Email << "\n";
+        pCurr = pCurr->pNext;
+    }
+} 
+void foutSignInStudent(SignIn *pHead)
+{
+    remove("student.csv");
+    ofstream fout("student.csv");
+    fout << "Student ID,PassWord,Student Name,Social ID,Date of Birth,Gender";
+    SignIn *pCurr = pHead;
+    while (pCurr != nullptr)
+    {
+        fout << pCurr->ID << "," << pCurr->Password << "," << pCurr->Name << "," << pCurr->SocialID << "," << pCurr->DoB <<"," << pCurr->Gender <<"\n"; 
+        pCurr = pCurr->pNext;
+    }
+}     
