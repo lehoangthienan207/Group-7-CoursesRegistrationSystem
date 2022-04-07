@@ -1111,6 +1111,41 @@ back1:
     }
 }
 
+void PrintScoreBoardOfClass(ScoreBoardOfCourse* pHead)
+{
+    ScoreBoardOfCourse* pCur = pHead;
+    cout << "\n\t\t\t\t\t------------------------   SCOREBOARD OF THE CLASS   -------------------------\n\n";
+    cout << setw(5) << left << "No";
+    cout << setw(10) << left << "ClassID";
+    cout << setw(15) << left << "StudentID";
+    cout << setw(28) << left << "FullName";
+    while (pCur) {
+        cout << setw(13) << left << pCur->CourseName;
+        pCur = pCur->pNext;
+    }
+    cout << setw(20) << left << "SemesterGPA";
+    cout << setw(20) << left << "OverallGPA";
+    cout << endl;
+
+    while (pCur) {
+        cout << setw(5) << left << pCur->No;
+        cout << setw(10) << left << pCur->classID;
+        cout << setw(15) << left << pCur->StudentID;
+        cout << setw(28) << left << pCur->StudentName;
+        while (pCur) {
+            cout << setw(13) << left << pCur->Finalterm;
+        }
+        // Nhi: Chỗ này là 1 cái GPA của kì này, 1 cái là overall GPA tính luôn GPA của các kì trước
+        // tạm thời mình chưa có thông tin ỏ chỗ này
+
+       /* cout << setw(20) << left << 
+        cout << setw(20) << left << */
+
+        cout << endl;
+        pCur = pCur->pNext;
+    }
+}
+
 void RemoveEnrolledCourses(Courses*& pHead)
 {
     string ID;

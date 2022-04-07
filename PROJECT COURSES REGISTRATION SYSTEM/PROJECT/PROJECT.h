@@ -123,6 +123,7 @@ void PrintStudentListInCourse(Students* pHead, Courses*pH);
 void InputScoreBoard(ScoreBoardOfCourse*& pHead);
 void PrintScoreBoard(ScoreBoardOfCourse* pHead);
 void MenuOfStaff(SignIn *pStaff, SignIn* pStudent,SchoolYear *&pHead,SchoolYear *&pCurr);
+void PrintScoreBoardOfClass(ScoreBoardOfCourse* pHead);
 
 // Thư: sao có nhiều hàm student ở đây bị mất vậy mọi người? tui nhớ là lần trước mới add vô :<
 // Student // tui add lại ở đây, đừng xóa nữa nhen :<
