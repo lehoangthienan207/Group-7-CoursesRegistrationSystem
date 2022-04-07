@@ -1320,6 +1320,7 @@ void foutSchoolYear(SchoolYear *pHead)
     {
         fout << pCurr->years;
         fout <<"\n";
+        pCurr = pCurr->pNext;
     }
 }
 void foutClasses(SchoolYear*pHead)
