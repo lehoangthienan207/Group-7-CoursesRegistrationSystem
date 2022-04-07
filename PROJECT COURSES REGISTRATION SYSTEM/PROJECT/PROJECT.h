@@ -6,15 +6,20 @@
 #include <cstring>
 #include <iomanip>
 #include <direct.h>
-#include <bits/stdc++.h>
-#include <stdio.h>
 #include <cstdio>
+#include <windows.h>
+#include <stdio.h>
 using namespace std;
 
-//fstream input, output;
-//Hải: nếu không nhất thiết phải dùng thì đừng dùng biến toàn cục
-
-
+bool publishcheck = false;
+struct SignIn;
+struct DoB;
+struct Students;
+struct Classes;
+struct ScoreBoardOfCourse;
+struct ScoreBoardOfStudent;
+struct Courses;
+struct Semester;
 
 struct SignIn {
 	string ID{};
@@ -24,6 +29,7 @@ struct SignIn {
 	string Email{};
 	string DoB{};
 	string Gender{};
+	Courses *pCStudent = nullptr;
 	SignIn* pNext{};
 };
 struct DoB {
@@ -46,7 +52,7 @@ struct Classes{
 	int No{};
 	string Name{};
 	int NumberOfStudents{};
-	Students* pStudent{};
+	Students* pStudent= nullptr;
 	Classes* pNext{};
 };
 
@@ -67,9 +73,10 @@ struct ScoreBoardOfCourse {
 };
 struct ScoreBoardOfStudent {
 	string StudentName{};
-	ScoreBoardOfCourse* pHead{};
+	ScoreBoardOfCourse* pHead = nullptr;
 	ScoreBoardOfStudent* pNext{};
 };
+
 struct Courses {
 	int No{};
 	string CourseID{};
@@ -89,12 +96,14 @@ struct Semester
 	int No{};
 	DoB startDate{};
 	DoB endDate{};
-	Courses *pCourse;
+	Courses *pCourse = nullptr;
 	Semester *pNext;
 };
+SignIn *pStudentEnroll = nullptr;
+Semester *pCurrentSemester = nullptr;
 struct SchoolYear{
 	string years{};
-	Classes *pClass{};
+	Classes *pClass = nullptr;
 	Semester *pSemester = nullptr;
 	SchoolYear *pNext{};
 };
@@ -136,7 +145,7 @@ void EnrollCourses(Courses*& pHead, Courses*& pStudents, int limit);
 void PrintEnrolledCourses(Courses* pHead);
 void RemoveEnrolledCourses(Courses*& pHead);
 void PrintScoreBoardOfStudents(ScoreBoardOfStudent*& pHead);
-void MenuOfStudent();
+void MenuOfStudent(SignIn *pStaff, SignIn* pStudent,SchoolYear *&pHead,SchoolYear *&pCurr);
 
 // clear screen
 void clrscr();
@@ -156,6 +165,7 @@ void InputStudent(Students *& pHead, ifstream &studentInput);
 void inputSignInStaff(SignIn *&pHead);
 void inputSignInStudent(SignIn *&pHead);
 // output
+void foutSignInStudent(SignIn *pHead);
 void foutSignInStaff(SignIn *pHead);
 void foutSchoolYear(SchoolYear *pHead);
 void foutClasses(SchoolYear*pHead);

@@ -3,12 +3,13 @@
 int main()
 {
 	SignIn *pStaff = nullptr;
+	SignIn *pStaffCurr = nullptr;
 	inputSignInStaff(pStaff);
 	SignIn *pStudent = nullptr;
+	SignIn *pStudentCurr = nullptr;
 	SchoolYear *pHead = nullptr;
 	SchoolYear *pCurr = pHead;
 	ScoreBoardOfStudent *pScoreBoard = nullptr;	
-	
 	inputSignInStudent(pStudent);
 	GeneralMenu(pStaff,pStudent,pHead,pCurr);
 	

@@ -210,11 +210,12 @@ void LogIn(SignIn* pHead)
     {
         cout << "Input ID: "; cin >> id_input;
         cout << "Input password: "; cin >> psw_input;
-        SignIn* pCurr = pHead;
+        SignIn *pCurr = pHead;
         while (pCurr != nullptr)
         {
             if (id_input == pCurr -> ID && psw_input == pCurr -> Password)
             {
+                pStudentEnroll = pCurr;
                 cout << "Sign-in successful" << endl;
                 status = false;
                 break;
@@ -261,16 +262,19 @@ void GeneralMenu(SignIn *pStaff, SignIn* pStudent,SchoolYear *&pHead,SchoolYear 
     {
         LogIn(pStaff);
         MenuOfStaff(pStaff,pStudent,pHead,pCurr);
-
-
     }
     else if (choice == 2)
     {
         LogIn(pStudent);
-        MenuOfStudent();
+        MenuOfStudent(pStaff,pStudent,pHead,pCurr);
     }
     else if (choice == 3)
     {
+        foutSignInStudent(pStudent);
+        foutSignInStaff(pStaff);
+        foutSchoolYear(pHead);
+        foutClasses(pHead);
+        foutSemester(pHead);
         exit(0);
     }
     else
@@ -284,7 +288,6 @@ void GeneralMenu(SignIn *pStaff, SignIn* pStudent,SchoolYear *&pHead,SchoolYear 
 //Long: Tui coi không thấy khai báo biến "Year" trong file header í
 void PrintClassesList(Classes* pHead)
 {
-    clrscr();
     cout << "Classes List: \n";
     cout << "No" << setw(10) << "Name" << setw(30) << "Number of students\n";
     Classes* pCurr = pHead;
@@ -328,7 +331,7 @@ void CreateSchoolYear(SchoolYear *&pHead, SchoolYear *&pCurr) //chỗ này có t
             while (pTemp != nullptr && pTemp->No != x) pTemp = pTemp->pNext;
             if (pTemp != nullptr)
             {
-                ifstream studentInClass(pTemp->Name + "." + "csv");
+                ifstream studentInClass(".\\"+pHead->years + "\\" + pTemp->Name+".csv");
                 InputStudent(pTemp->pStudent,studentInClass);
             }
             else
@@ -357,52 +360,106 @@ void CreateSchoolYear(SchoolYear *&pHead, SchoolYear *&pCurr) //chỗ này có t
             pTemp = pTemp->pNext;
         }
         cout << "\n";
-        pCurr->pNext = new SchoolYear;
-        pCurr = pCurr->pNext;
         cout << "Input school year (example: 2020-2021): ";
-        cin >> pCurr->years;
-        Classes *pCurrY = pCurr->pClass;
-        int i = 1;
-        while (true)
-        {
-            CreateClasses(pCurr->pClass,pCurrY,i);
-            cout << "Continue adding classes? (Yes: y, No: n): ";
-            char check;
-            cin >> check;
-            if (check != 'y')
-                break;
-        } 
-        //pCurrY = pCurr->pClass;
-        clrscr();
+        string a ="";
+        cin >> a;
+        while (pCurr->years != a && pCurr->pNext != nullptr) pCurr = pCurr->pNext;
+        cout << "\n";
         
-        while (true)
+        if (pCurr->years == a)
         {
-            cout << "Input number of class you want to add student: \n";
-            PrintClassesList(pCurr->pClass);
-            int x;
-            cin >> x;
-            Classes *pTemp = pCurr->pClass;
-            while (pTemp != nullptr && pTemp->No != x) pTemp = pTemp->pNext;
-            if (pTemp != nullptr)
+            Classes *pCurrY = pCurr->pClass;
+            int i = pCurrY->No +1;
+            while (true)
             {
-                ifstream studentInClass(pTemp->Name + "." + "csv");
-                InputStudent(pTemp->pStudent,studentInClass);
-            }
-            else
-            {
-                cout << "No class found.\n";
-                break;
-            }
-            cout << "Continue adding students to class? (Yes: y, No: n): ";
-            char check;
-            cin >> check;
-            cin.clear();
-            cin.ignore(10000,'\n');
+                CreateClasses(pCurr->pClass,pCurrY,i);
+                cout << "Continue adding classes? (Yes: y, No: n): ";
+                char check;
+                cin >> check;
+                if (check != 'y')
+                    break;
+            } 
+            //pCurrY = pCurr->pClass;
             clrscr();
-            if (check != 'y')
-                break;
+
+            while (true)
+            {
+                PrintClassesList(pCurr->pClass);
+                cout << "Input number of class you want to add student: \n";
+                int x;
+                cin >> x;
+                Classes *pTemp = pCurr->pClass;
+                while (pTemp != nullptr && pTemp->No != x) pTemp = pTemp->pNext;
+                if (pTemp != nullptr)
+                {
+                    ifstream studentInClass(".\\"+pCurr->years + "\\" + pTemp->Name+".csv");
+                    InputStudent(pTemp->pStudent,studentInClass);
+                }
+                else
+                {
+                    cout << "No class found.\n";
+                    break;
+                }
+                cout << "Continue adding students to class? (Yes: y, No: n): ";
+                char check;
+                cin >> check;
+                cin.clear();
+                cin.ignore(10000,'\n');
+                clrscr();
+                if (check != 'y')
+                    break;
+            }
         }
-        pCurr->pNext = nullptr;
+        else
+        {
+            while (pCurr->pNext != nullptr) pCurr =pCurr->pNext;
+            pCurr->pNext = new SchoolYear;
+            pCurr = pCurr->pNext;
+            pCurr->years =a;
+            Classes *pCurrY = pCurr->pClass;
+            int i = pCurr->pClass->No +1;
+            while (true)
+            {
+                CreateClasses(pCurr->pClass,pCurrY,i);
+                cout << "Continue adding classes? (Yes: y, No: n): ";
+                char check;
+                cin >> check;
+                if (check != 'y')
+                    break;
+            } 
+            //pCurrY = pCurr->pClass;
+            clrscr();
+        
+            while (true)
+            {
+            
+                PrintClassesList(pCurr->pClass);
+                cout << "Input number of class you want to add student: \n";
+                int x;
+                cin >> x;
+                Classes *pTemp = pCurr->pClass;
+                while (pTemp != nullptr && pTemp->No != x) pTemp = pTemp->pNext;
+                if (pTemp != nullptr)
+                {
+                    ifstream studentInClass(pTemp->Name + "." + "csv");
+                    InputStudent(pTemp->pStudent,studentInClass);
+                }
+                else
+                {
+                    cout << "No class found.\n";
+                    break;
+                }
+                cout << "Continue adding students to class? (Yes: y, No: n): ";
+                char check;
+                cin >> check;
+                cin.clear();
+                cin.ignore(10000,'\n');
+                clrscr();
+                if (check != 'y')
+                break;    
+            }
+            pCurr->pNext = nullptr;
+        }
     }
 }
 //Long: Có vẻ như là cần thêm biến Semester vào struct ScoreBoardOfCourse //Thư: Okay tui thêm nha
@@ -416,7 +473,7 @@ void CreateSemester(SchoolYear *pHead)
     while (pCurr != nullptr && pCurr->years != s) pCurr = pCurr->pNext;
     if (pCurr != nullptr)
     {
-        Semester *pTemp = pHead->pSemester;
+        Semester *pTemp = pCurr->pSemester;
             cout << "Semester list: \n";
             if (pTemp != nullptr)
             {
@@ -432,24 +489,43 @@ void CreateSemester(SchoolYear *pHead)
         int x;
         cout << "Input semester number: ";
         cin >> x;
-        while (pCurr->pSemester != nullptr) pCurr->pSemester = pCurr->pSemester->pNext;
-        pCurr->pSemester = new Semester;
-        pCurr->pSemester->No = x;
-        cout << "Input start date (DD MM YYYY): ";
-        cin >> pCurr->pSemester->startDate.day >> pCurr->pSemester->startDate.month >> pCurr->pSemester->startDate.year;
-        cout << "Input end date (DD MM YYYY): ";
-        cin >> pCurr->pSemester->endDate.day >> pCurr->pSemester->endDate.month >> pCurr->pSemester->endDate.year;
-        pCurr->pSemester->pCourse = nullptr;
-        pCurr->pSemester->pNext = nullptr;
-        int i = 1;
-        while(true)
+        while (pCurr->pSemester != nullptr && pCurr->pSemester->No != x) pCurr->pSemester = pCurr->pSemester->pNext;
+        if (pCurr->pSemester == nullptr) 
         {
-            CreateCourses(pCurr->pSemester->pCourse,i);
-            cout << "Continue adding courses? (y = yes, n = no)";
-            char check = 'n';
-            cin >> check;
-            if (check != 'y')
-                break;
+            pCurr->pSemester = new Semester;
+            if (pCurr == pHead)
+                pHead = pCurr;
+            pCurr->pSemester->No = x;
+            pCurrentSemester = pCurr->pSemester;
+            cout << "Input start date (DD MM YYYY): ";
+            cin >> pCurr->pSemester->startDate.day >> pCurr->pSemester->startDate.month >> pCurr->pSemester->startDate.year;
+            cout << "Input end date (DD MM YYYY): ";
+            cin >> pCurr->pSemester->endDate.day >> pCurr->pSemester->endDate.month >> pCurr->pSemester->endDate.year;
+            pCurr->pSemester->pCourse = nullptr;
+            pCurr->pSemester->pNext = nullptr;
+            int i = 1;
+            while(true)
+            {
+                CreateCourses(pCurr->pSemester->pCourse,i);
+                cout << "Continue adding courses? (y = yes, n = no): ";
+                char check = 'n';
+                cin >> check;
+                if (check != 'y')
+                    break;
+            }
+        }
+        else
+        {
+            int i = pCurr->pSemester->No +1;
+            while(true)
+            {
+                CreateCourses(pCurr->pSemester->pCourse,i);
+                cout << "Continue adding courses? (y = yes, n = no): ";
+                char check = 'n';
+                cin >> check;
+                if (check != 'y')
+                    break;
+            }
         }
     }
     else
@@ -478,6 +554,7 @@ void CreateClasses(Classes*& pHead, Classes*& pCurr, int &i)
     else
     {   
         PrintClassesList(pHead);
+        while (pCurr->pNext != nullptr) pCurr = pCurr->pNext;
         cout << "\n";
         pCurr->pNext = new Classes;
         pCurr = pCurr->pNext;
@@ -493,10 +570,12 @@ void CreateClasses(Classes*& pHead, Classes*& pCurr, int &i)
 
 void InputStudent(Students *& pHead, ifstream &studentInput)
 {
-    string key = "";
+    if (!isEmpty(studentInput))
+    {string key = "";
     getline(studentInput,key);
     Students *pCurr = pHead;
-    if (pHead == nullptr)
+    while (!studentInput.eof())
+    {if (pHead == nullptr)
     {
         pHead = new Students;
         getline(studentInput,key,',');
@@ -535,25 +614,16 @@ void InputStudent(Students *& pHead, ifstream &studentInput)
         getline(studentInput,key);
         pCurr->Gender = key;
         pCurr->pNext = nullptr;
-    }
-    cout << "\nCreate successfully.\n";
+    }}
+    cout << "\nCreate successfully.\n";}
+    else
+        cout << "\nFile Not Found.\n";
     system("pause");
 }
 
-void PrintStudentsListInClass(Students* pHead)
+void PrintStudentsListInClass(SchoolYear* pHead)
 {
-    //cần sửa
-    string name;
-    cout << "Enter name of class: ";
-    cin.ignore();
-    getline(cin, name);
-    ifstream input;
-    input.open(name.c_str());
-    while (!input.eof()) {
-        input >> pHead->No >> pHead->StudentID >> pHead->SocialID >> pHead->FirstName >> pHead->LastName >> pHead->Gender >> pHead->DateOfBirth.day >> pHead->DateOfBirth.month >> pHead->DateOfBirth.year;
-    }
-    Students* pCur = pHead;
-    cout << "\n\t\t--------------------------LIST OF STUDENTS IN ClASS " << name << "--------------------------\n\n";
+    cout << "\n\t\t--------------------------LIST OF STUDENTS IN ClASS " << pHead->pClass->Name << "--------------------------\n\n";
     cout << setw(5) << left << "No";
     cout << setw(15) << left << "StudentID";
     cout << setw(17) << left << "SocialID";
@@ -562,6 +632,7 @@ void PrintStudentsListInClass(Students* pHead)
     cout << setw(15) << left << "Gender";
     cout << setw(15) << left << "DateofBirth";
     cout << endl;
+    Students *pCur = pHead->pClass->pStudent;
     while (pCur)
     {
         cout << setw(5) << left << pCur->No;
@@ -570,11 +641,10 @@ void PrintStudentsListInClass(Students* pHead)
         cout << setw(25) << left << pCur->LastName;
         cout << setw(20) << left << pCur->FirstName;
         cout << setw(15) << left << pCur->Gender;
-        cout << setw(0) << left << pCur->DateOfBirth.day << "/" << pCur->DateOfBirth.month << "/" << pCur->DateOfBirth.year;
+        cout << setw(0) << left << pCur->DateOfBirth;
         cout << endl;
         pCur = pCur->pNext;
     }
-
 }
 
 void PrintStudentListInCourse(Students* pHead, Courses* pH) {
@@ -603,7 +673,7 @@ void PrintStudentListInCourse(Students* pHead, Courses* pH) {
             cout << setw(25) << left << pCur->FirstName;
             cout << setw(20) << left << pCur->LastName;
             cout << setw(15) << left << pCur->Gender;
-            cout << setw(0) << left << pCur->DateOfBirth.day << "/" << pCur->DateOfBirth.month << "/" << pCur->DateOfBirth.year;
+            cout << setw(0) << left << pCur->DateOfBirth;
             cout << endl;
             pCur = pCur->pNext;
         }
@@ -834,7 +904,7 @@ void EnrollCourses(Courses * &pHead, Courses * &pStudents, int limit)
     }
     else if (opt == 3) {
         clrscr();
-        MenuOfStudent();
+        //MenuOfStudent();
     }
 }
 
@@ -973,7 +1043,9 @@ back1:
         cout << "\t\t      *\t  2.Create semesters and courses\t\t *\n";
         cout << "\t\t      *\t  3.View the list of all classes\t *\n";
         cout << "\t\t      *\t  4.View the list of all courses,update and delete courses\t *\n";
-        cout << "\t\t      *\t  5.Back \t\t\t\t *\n";
+        cout << "\t\t      *\t  5.View the list of all student in a class\t *\n";
+        cout << "\t\t      *\t  6.View the list of all student in a course\t *\n";
+        cout << "\t\t      *\t  7.Back \t\t\t\t *\n";
         cout << "\t\t      ********************************************\n\n";
         cout << "\t\t\t\tYour Choice: "; cin >> choice2;
         switch (choice2)
@@ -1010,8 +1082,17 @@ back1:
         }
         case 3:
         {
-
-            PrintClassesList(pHead->pClass);
+            SchoolYear *pTempp = pHead;
+            while (pTempp != nullptr)
+            {
+                Classes *pTemp = pTempp->pClass;
+                while (pTemp != nullptr)
+                { 
+                    PrintClassesList(pTempp->pClass);
+                    pTemp = pTemp->pNext;
+                }
+                pTempp = pTempp->pNext;
+            }
             //View the list of all classes
             system("pause");
             clrscr();
@@ -1020,23 +1101,68 @@ back1:
         }
         case 4:
         {
-            PrintCoursesList(pHead->pSemester->pCourse);
-            system("pause");
-            cout << "\n1. Update a course";
-            cout << "\n2. Delete a course";
-            cout << "\n3. Go back\n";
-            int choice;
-            cout << "Your choice: ";
-            cin >> choice;
-            if (choice == 1)
-                UpdateCourses(pHead->pSemester->pCourse);
-            else if (choice == 2)
-                removeACourse(pHead->pSemester->pCourse);
-            clrscr();
+            SchoolYear *pTempp = pHead;
+            while (pTempp != nullptr)
+            {
+                PrintCoursesList(pCurrentSemester->pCourse);
+                system("pause");
+                cout << "\n1. Update a course";
+                cout << "\n2. Delete a course";
+                cout << "\n3. Go back\n";
+                int choice;
+                cout << "Your choice: ";
+                cin >> choice;
+                if (choice == 1)
+                UpdateCourses(pCurrentSemester->pCourse);
+                else if (choice == 2)
+                removeACourse(pCurrentSemester->pCourse);
+                clrscr();
+               pTempp = pTempp->pNext;
+            }
             goto backtocase2;
             break;
         }
         case 5:
+        {
+            cin.clear();
+            cin.ignore(10000,'\n');
+            clrscr();
+            SchoolYear *pTempp = pHead;
+            while (pTempp != nullptr)
+            {
+                cout << "SCHOOL YEAR: " << pTempp->years <<"\n";
+                PrintClassesList(pTempp->pClass);
+                pTempp = pTempp->pNext;
+            }
+            cout << "Input which school year you want to see: ";
+            string a ="";
+            cin >> a;
+            pTempp = pHead;
+            while (pTempp != nullptr && pTempp->years != a) pTempp =pTempp->pNext;
+            if (pTempp != nullptr)
+            {cout << "Input number of class you want to see: ";
+            int x;
+            cin >> x;
+            pTempp = pHead;
+            while (pTempp->pClass != nullptr && pTempp->pClass->No != x) pTempp->pClass = pTempp->pClass->pNext;
+            if (pTempp != nullptr)
+            {
+                PrintStudentsListInClass(pTempp);
+                cout << "\n";
+            }
+            else
+            {
+                cout << "No class found.";
+            }}
+            else
+                cout << "No school year found.";
+            system("pause");
+            clrscr();
+            pTempp = nullptr;
+            goto backtocase2;
+            break;
+        }
+        case 7:
         {
             //back
             clrscr();
@@ -1047,6 +1173,7 @@ back1:
         }
         default:
             cout << "Error.";
+            goto backtocase2;
             break;
         }
         break;
@@ -1160,7 +1287,7 @@ void RemoveEnrolledCourses(Courses*& pHead)
         Courses* pPrev = pCur;
         while (pCur != nullptr)
         {
-            if (pCur->CourseID == ID && pCur->Day == DAY && pCur->time1 == session)
+            if (pCur->CourseID == ID && pCur->weekday1 == DAY && pCur->time1 == session)
             {
                 if (pCur == pHead)
                 {
@@ -1185,16 +1312,14 @@ void RemoveEnrolledCourses(Courses*& pHead)
     } while (opt == 'Y' || opt == 'y');
 }
 
-void MenuOfStudent()
+void MenuOfStudent(SignIn *pStaff, SignIn* pStudent,SchoolYear *&pHead,SchoolYear *&pCurr)
 {
     string choose;
     int choice1;
     string Password;
-    SignIn* pHSignin;
-    Courses* pHCourse;
     Courses* PCCur;
     ScoreBoardOfStudent* pHScoreofStudent;
-
+    int limit = 5;
 
 stuback1:
     cout << "\n\t\t\t*****************STUDENT****************\n\n";
@@ -1206,7 +1331,6 @@ stuback1:
     cout << "\t\t      *\t\t 5.Cancel registered course\t *\n";
     cout << "\t\t      *\t\t 6.View scoreboard\t\t *\n";
     cout << "\t\t      *\t\t 7.Log out\t\t\t *\n";
-    cout << "\t\t      *\t\t 8.Back \t\t\t *\n";
     cout << "\t\t      ********************************************\n\n";
     cout << "\t\t\t\tYour Choice: "; cin >> choice1;
     clrscr();
@@ -1216,73 +1340,68 @@ stuback1:
     case 1:
     {
 
-        //view profile
-
-        cout << "\n\n\tDo you want to go back to menu?(yes/no) ";
-        cin.ignore();
-        getline(cin, choose);
+        cout << "******PROFILE INFO**********\n";
+        cout << pStudent->Name << " " << pStudent->ID << " " << pStudent->SocialID << "\n";
+        cout << pStudent->DoB << " " << pStudent->Gender;
+        cout << "\n***************************\n";
+        system("pause");
         clrscr();
-        if (choose == "yes") {
-            goto stuback1;
-        }
-        else if (choose == "no") {
-            cout << "\n\n\tThank you!\n\n";
-        }
-
+        goto stuback1;
         break;
     }
     case 2:
     {
         //change password
-        ChangePassword(Password);
+        ChangePassword(pStudent->Password);
         clrscr();
         cout << "\n\nPassword change successfully!\n\n";
         cout << "\nYou must login again!\n";
+        GeneralMenu(pStaff,pStudent,pHead,pCurr);
         // cho học sinh exist và nhập lại thông tin đăng nhập
         break;
     }
     case 3:
     {
-        EnrollCourses(pHCourse, PCCur, 5);
+        
+        //EnrollCourses(pHead->pSemester->pCourse,pStudentEnroll->pCStudent,limit,pHead);
         //enroll courses
         cout << "\n\nRegistered successfully!\n\n";
         cout << "\n\n\t\tThank you!\n\n";
+        goto stuback1;
         break;
     }
     case 4:
     {
-        PrintEnrolledCourses(pHCourse);
+        PrintEnrolledCourses(pStudentEnroll->pCStudent);
         //print errolled courses
+        goto stuback1;
         break;
     }
     case 5:
     {
-        RemoveEnrolledCourses(pHCourse);
+        RemoveEnrolledCourses(pStudentEnroll->pCStudent);
         //remove course
+        goto stuback1;
         break;
     }
     case 6:
     {
         PrintScoreBoardOfStudents(pHScoreofStudent);
         //view scoreboard
+        goto stuback1;
         break;
     }
     case 7:
     {
-        //LogOut();
+        LogOut(pStaff,pStudent,pHead,pCurr);
         //log out
-        break;
-    }
-    case 8:
-    {
-        // go back to the general menu
         break;
     }
     default:
         cout << "\n\n\tError!\n\n";
+        goto stuback1;
         break;
     }
-
 }
 
 //clear scr function
@@ -1323,6 +1442,23 @@ void deleteCourses(Courses *&pHead)
     while(pHead != nullptr)
     {
         Courses *pCurr = pHead;
+        pHead = pHead->pNext;
+        delete pCurr;
+    }
+}
+void deleteSemester(Semester *&pHead){
+    while (pHead != nullptr)
+    {
+        Semester *pCurr = pHead;
+        pHead = pHead->pNext;
+        delete pCurr;
+    }
+}
+void deleteSchoolYear(SchoolYear *&pHead)
+{
+    while (pHead != nullptr)
+    {
+        SchoolYear *pCurr = pHead;
         pHead = pHead->pNext;
         delete pCurr;
     }
@@ -1486,52 +1622,10 @@ bool isEmpty(ifstream& pFile)
 {
     return pFile.peek() == ifstream::traits_type::eof();
 }
-void readFilesBeforeLogin(Classes *&pHClasses)
-{
-    //mở file txt chứa tên các lớp
-    ifstream classInput("listOfClasses.txt");
-    Classes *pCClasses = pHClasses;
-    if (!classInput && !isEmpty(classInput))
-    {
-        while (!classInput.eof())
-        {
-
-            if (pHClasses == nullptr)
-            {   //tạo các lớp và nhập tên các lớp vào
-                pHClasses = new Classes;
-                classInput.ignore();
-                getline(classInput,pHClasses->Name);
-                ifstream studentInput(pHClasses->Name + "." + "csv");
-
-                // nhập số học sinh
-                classInput >> pHClasses->NumberOfStudents;
-                InputStudent(pHClasses->pStudent,studentInput);
-                pHClasses->pNext = nullptr;
-                pCClasses = pHClasses;
-            }
-            else
-            {   //tạo các lớp và nhập tên các lớp vào
-                pCClasses->pNext = new Classes;
-                pCClasses = pCClasses->pNext;
-                classInput.ignore();
-                getline(classInput,pCClasses->Name);
-                ifstream studentInput(pCClasses->Name + "." + "csv");
-
-                // nhập số học sinh
-                classInput >> pCClasses->NumberOfStudents;
-                InputStudent(pCClasses->pStudent,studentInput);
-                pCClasses->pNext = nullptr;
-            }
-        }
-    }
-}
-
-
-
 void readSchoolYearlist(SchoolYear *&pHead)
 {
     ifstream input("schoolYearList.txt");
-    if (!input && !isEmpty(input))
+    if (!isEmpty(input))
     {
         SchoolYear *pCurr = pHead;
         while(!input.eof())
@@ -1557,65 +1651,10 @@ void readSchoolYearlist(SchoolYear *&pHead)
         }
     }
 }
-void readClassListAndStudent(SchoolYear *pHead)
-{
-    //cần sửa
-    SchoolYear *pCurr = pHead;
-    while (pCurr!= nullptr)
-    {
-        ifstream input;
-        input.open(pCurr->years +"classes.txt");
-        while (!input.eof())
-        {
-            Classes* pTemp = pCurr->pClass;
-            string a = "";
-            input >> a;
-            ifstream classInput;
-            classInput.open(a+".csv");
-            while(!classInput.eof())
-            {
-                if (pCurr->pClass == nullptr)
-                {
-                    pCurr->pClass = new Classes;
-                    pCurr->pClass->Name = a;
-                    input >> pCurr->pClass->No;
-                    input >> pCurr->pClass->NumberOfStudents;
-                    pCurr->pClass->pStudent = new Students;
-                    classInput >> pCurr->pClass->pStudent->No >> pCurr->pClass->pStudent->StudentID >> pCurr->pClass->pStudent->LastName >> pCurr->pClass->pStudent->LastName;
-                    string DaT = "";
-                    classInput >> DaT;
-                    pCurr->pClass->pStudent->DateOfBirth.month = stoi(DaT.substr(0,2));
-                    pCurr->pClass->pStudent->DateOfBirth.day = stoi(DaT.substr(3,2));
-                    pCurr->pClass->pStudent->DateOfBirth.year = stoi(DaT.substr(6,4));
-                    classInput >> pCurr->pClass->pStudent->SocialID >> pCurr->pClass->pStudent->Gender;
-                    pCurr->pClass->pStudent->pNext =nullptr;
-                    pCurr->pClass->pNext = nullptr;
-                    pTemp = pCurr->pClass;
-                }
-                else
-                {
-                    pTemp->pNext = new Classes;
-                    pTemp = pTemp->pNext;
-                    pTemp->Name = a;
-                    input >> pTemp->No;
-                    input >> pTemp->NumberOfStudents;
-                    pTemp->pStudent = new Students;
-                    classInput >> pTemp->pStudent->No >> pTemp->pStudent->StudentID >> pTemp->pStudent->LastName >> pTemp->pStudent->LastName;
-                    pTemp->pStudent->DateOfBirth.month = stoi(DaT.substr(0,2));
-                    pTemp->pStudent->DateOfBirth.day = stoi(DaT.substr(3,2));
-                    pTemp->pStudent->DateOfBirth.year = stoi(DaT.substr(6,4));
-                    classInput >> pTemp->pStudent->SocialID >> pTemp->pStudent->Gender;
-                    pTemp->pStudent->pNext =nullptr;
-                    pTemp->pNext = nullptr;
-                }
-            }
-            pTemp = pTemp->pNext;
-        }
-        pCurr = pCurr->pNext;
-    }
-}
 
 
+//cần đọc lớp,semester trong school year list
+//cần đọc danh sách enrolled
 //phần bên trên chưa xong
 
 void foutSignInStaff(SignIn *pHead)
