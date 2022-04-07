@@ -58,6 +58,7 @@ struct ScoreBoardOfCourse {
 	float Overall{};
 	int Semester{};
 	int Year{};
+	string classID{};
 	ScoreBoardOfCourse* pNext{};
 };
 struct ScoreBoardOfStudent {
