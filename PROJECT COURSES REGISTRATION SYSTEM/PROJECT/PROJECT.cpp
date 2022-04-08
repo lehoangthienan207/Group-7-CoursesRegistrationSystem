@@ -876,7 +876,7 @@ void EnrollCourses(Courses*& pHead, Courses*& pStudents, int limit)
     int n = 0;
     int opt = 0;
     do {
-        PrintEnrolledCourses(pHead);
+        PrintCoursesList(pHead);
         cout << endl << "Please input the number of courses that you wanna pick: ";
         cin >> n;
         Courses* pCur = pStudents;
