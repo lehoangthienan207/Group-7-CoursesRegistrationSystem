@@ -140,6 +140,7 @@ void PrintScoreBoardOfClass(ScoreBoardOfCourse* pHead);
 
 // Thư: sao có nhiều hàm student ở đây bị mất vậy mọi người? tui nhớ là lần trước mới add vô :<
 // Student // tui add lại ở đây, đừng xóa nữa nhen :<
+bool MaximumStudentEnrollInCourse(Courses*& pHead, Courses*& pStudents);
 bool DuplicatedSession(Courses*& pHead, Courses*& pStudents);
 void EnrollCourses(Courses*& pHead, Courses*& pStudents, int limit);
 void PrintEnrolledCourses(Courses* pHead);
