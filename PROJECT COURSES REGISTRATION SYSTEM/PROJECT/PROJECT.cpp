@@ -1398,12 +1398,17 @@ void RemoveEnrolledCourses(Courses*& pHead)
     int no = 0;
     int opt = 0;
     do {
-        PrintEnrolledCourses(pHead);
+        PrintCoursesList(pHead);
         cout << endl << "\t\t\t\tYour choice: "; cin >> no;
         Courses* pCur = pHead;
         Courses* pPrev = pCur;
+        bool check = false;
         while (pCur != nullptr)
         {
+            if (check)
+            {
+                pCur->No = pCur->No - 1;
+            }
             if (pCur->No == no)
             {
                 if (pCur == pHead)
@@ -1411,11 +1416,13 @@ void RemoveEnrolledCourses(Courses*& pHead)
                     Courses* pTemp = pHead;
                     pHead = pHead->pNext;
                     delete pTemp;
+                    check = true;
                 }
                 else {
                     pPrev->pNext = pCur->pNext;
                     delete pCur;
                     pCur = pPrev->pNext;
+                    check = true;
                 }
             }
             else {
