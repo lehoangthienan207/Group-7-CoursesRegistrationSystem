@@ -1013,7 +1013,7 @@ void EnrollCourses(Courses*& pHead, Courses*& pStudents, int limit)
         cout << "\t\t\t\t*        1. Continue Enrolling        *" << endl;
         cout << "\t\t\t\t*        2. View List of Courses      *" << endl;
         cout << "\t\t\t\t*        3. Back to Menu              *" << endl;
-        cout << "\t\t\t\tt***************************************" << endl;
+        cout << "\t\t\t\t***************************************" << endl;
         cout << endl;
         cout << "\t\t\t\t\tYour choice: "; cin >> opt;
         if (opt == 1) limit = limit - n;
@@ -1395,19 +1395,16 @@ void PrintScoreBoardOfClass(ScoreBoardOfCourse* pHead)
 
 void RemoveEnrolledCourses(Courses*& pHead)
 {
-    string ID;
-    char* DAY = new char[4];
-    char* session = new char[6];
-    char opt = 'N';
+    int no = 0;
+    int opt = 0;
     do {
-        cout << "Please input the ID of the course that you wanna remove: "; getline(cin, ID);
-        cout << "Please input the DAY of the course that you wanna remove: "; cin.getline(DAY, 3);
-        cout << "Please input the session of the course that you wanna remove: "; cin.getline(session, 5);
+        PrintEnrolledCourses(pHead);
+        cout << endl << "\t\t\t\tYour choice: "; cin >> no;
         Courses* pCur = pHead;
         Courses* pPrev = pCur;
         while (pCur != nullptr)
         {
-            if (pCur->CourseID == ID && pCur->weekday1 == DAY && pCur->time1 == session)
+            if (pCur->No == no)
             {
                 if (pCur == pHead)
                 {
@@ -1426,10 +1423,28 @@ void RemoveEnrolledCourses(Courses*& pHead)
                 pCur = pCur->pNext;
             }
         }
-        cout << "Do you wanna remove more courses or you wanna print your all enrolled courses?" << endl;
-        cout << "Please enter 'Y' if you wanna remove more and 'N' if you wanna print courses" << endl;
-        cout << "Please enter here: "; cin >> opt;
-    } while (opt == 'Y' || opt == 'y');
+        cout << "\t\t\t\t***************************************" << endl;
+        cout << "\t\t\t\t*        1. Continue Cancelling       *" << endl;
+        cout << "\t\t\t\t*        2. View List of Courses      *" << endl;
+        cout << "\t\t\t\t*        3. Back to Menu              *" << endl;
+        cout << "\t\t\t\t***************************************" << endl;
+        cout << endl;
+        cout << "\t\t\t\t\tYour choice: "; cin >> opt;
+    } while (opt == 1);
+    if (opt == 2)
+    {
+        clrscr;
+        PrintCoursesList(pHead);
+    }
+    else if (opt == 3)
+    {
+        clrscr;
+      //  MenuOfStudents();
+    }
+    else if (opt != 1)
+    {
+        cout << "Not found" << endl;
+    }
 }
 
 void MenuOfStudent(SignIn *pStaff, SignIn* pStudent,SchoolYear *&pHead,SchoolYear *&pCurr)
