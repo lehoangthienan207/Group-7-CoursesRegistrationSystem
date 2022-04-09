@@ -1823,3 +1823,34 @@ void foutSignInStudent(SignIn *pHead)
         pCurr = pCurr->pNext;
     }
 }     
+
+void ExportStudentInCourse(Courses*& pH, Students*& pHead)
+{
+    fstream output;
+    Courses* C_pCurr = C_pHead;
+    Students* S_pCurr = S_pHead;
+    remove("student_list.csv")
+    output. open("student_list.csv", ios::out);
+    string course_choice;
+    cout << "Input the ID of the course you want to print out: ";
+    cin >> course_choice;
+    while (C_pCurr != nullptr)
+    {
+        if (Coursesname == pH->CourseID)
+        {
+            output << S_pCurr->No << ", ";
+            output << S_pCurr->StudentID << ", ";
+            output << S_pCurr->SocialID << ", ";
+            output << S_pCurr->FirstName << ", ";
+            output << S_pCurr->LastName << ", ";
+            output << S_pCurr->Gender << ", ";
+            output << S_pCurr->DateOfBirth << ", ";
+            output << endl;
+            S_pCurr = S_pCurr->pNext;
+        }
+        else
+        {
+            cout << "This course does not exist.\n";
+        }
+    }
+}
