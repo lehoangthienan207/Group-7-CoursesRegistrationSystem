@@ -689,7 +689,7 @@ void PrintStudentListInCourse(Students* pHead, Courses* pH) {
     // Students
 
 
-bool MaximumStudentEnrollInCourse(Courses*& pHead, Courses*& pStudents)
+bool MaximumStudentEnrollInCourse(Courses*& pHead, Courses*& pStudents, int& number) // add a variable "number"
 {
     Courses* pCur = pStudents;
     Courses* pCurrent = pHead;
@@ -712,28 +712,29 @@ bool MaximumStudentEnrollInCourse(Courses*& pHead, Courses*& pStudents)
                     pCurrent->Maximum--;
                 else {
                     cout << "This course cannot be register anymore, please choose another!" << endl;
-                    MaximumStudentEnrollInCourse(pHead, pStudents);
+                    MaximumStudentEnrollInCourse(pHead, pStudents, number);
                     return false;
                 }
-        
-            pStudents = new Courses;
-            pStudents->CourseID = pCurrent->CourseID;
-            pStudents->CourseName = pCurrent->CourseName;
-            pStudents->Credits = pCurrent->Credits;
-            for (int j = 0; j < 3; j++)
-                    {
-                        pStudents->weekday1[j] = pCurrent->weekday1[j];
-                        pStudents->weekday2[j] = pCurrent->weekday2[j];
-                    }
-            for (int j = 0; j < 5; j++)
-                    {
-                        pStudents->time1[j] = pCurrent->time1[j];
-                        pStudents->time2[j] = pCurrent->time2[j];
-                    }
-                
-            pStudents->TeacherName = pCurrent->TeacherName;
-            pPrev = pCurrent;
-            pCurrent = pCurrent->pNext;
+                pStudents = new Courses;
+                pStudents->CourseID = pCurrent->CourseID;
+                pStudents->CourseName = pCurrent->CourseName;
+                pStudents->Credits = pCurrent->Credits;
+                for (int j = 0; j < 3; j++)
+                {
+                    pStudents->weekday1[j] = pCurrent->weekday1[j];
+                    pStudents->weekday2[j] = pCurrent->weekday2[j];
+                }
+                for (int j = 0; j < 5; j++)
+                {
+                    pStudents->time1[j] = pCurrent->time1[j];
+                    pStudents->time2[j] = pCurrent->time2[j];
+                }
+                pStudents->TeacherName = pCurrent->TeacherName;
+                pStudents->No = number;
+                number++;
+                //pCur = pStudents
+                pPrev = pCurrent;
+                pCurrent = pCurrent->pNext;
             }
         }
     }
@@ -749,22 +750,12 @@ bool MaximumStudentEnrollInCourse(Courses*& pHead, Courses*& pStudents)
         {
             if (pCur->No == pCurrent->No)
             {
-                Courses* pTmp = pStudents;
-                while (pTmp != nullptr)
-                {
-                    if (((pTmp->weekday1[0] == pCurrent->weekday1[0] && pTmp->weekday1[1] == pCurrent->weekday1[1]) || (pTmp->weekday2[0] == pCurrent->weekday2[0] && pTmp->weekday2[1] == pCurrent->weekday2[1]) || (pTmp->weekday1[0] == pCurrent->weekday2[0] && pTmp->weekday1[1] == pCurrent->weekday2[1]) || (pTmp->weekday2[0] == pCurrent->weekday1[0] && pTmp->weekday2[1] == pCurrent->weekday1[1])) && ((pTmp->time1[0] == pCurrent->time1[0] && pTmp->time1[1] == pCurrent->time1[1]) || (pTmp->time2[0] == pCurrent->time2[0] && pTmp->time2[1] == pCurrent->time2[1]) || (pTmp->time1[0] == pCurrent->time2[0] && pTmp->time1[1] == pCurrent->time2[1]) || (pTmp->time2[0] == pCurrent->time1[0] && pTmp->time2[1] == pCurrent->time1[1])))
-                    {
-                        cout << "Your course cannot be register anymore, please choose another!" << endl;
-                        DuplicatedSession(pHead, pStudents);
-                        return false;
-                    }
-                    pTmp = pTmp->pNext;
-                }
+
                 if (pCurrent->Maximum > 1)
                     pCurrent->Maximum--;
                 else {
                     cout << "This course cannot be register anymore, please choose another!" << endl;
-                    MaximumStudentEnrollInCourse(pHead, pStudents);
+                    MaximumStudentEnrollInCourse(pHead, pStudents, number);
                     return false;
                 }
                 pCur->CourseID = pCurrent->CourseID;
@@ -781,31 +772,18 @@ bool MaximumStudentEnrollInCourse(Courses*& pHead, Courses*& pStudents)
                     pCur->time2[j] = pCurrent->time2[j];
                 }
                 pCur->TeacherName = pCurrent->TeacherName;
-                if (pCurrent->Maximum > 1)
-                    pCurrent->Maximum--;
-                else {
-                    if (pCurrent == pHead)
-                    {
-                        pCurrent = pHead->pNext;
-                        delete pHead;
-                        pHead = pCurrent;
-                        pPrev = pHead;
-                    }
-                    else {
-                        pPrev->pNext = pCurrent->pNext;
-                        delete pCurrent;
-                        pCurrent = pPrev->pNext;
-                    }
-                }
+                pCur->No = number; number++;
             }
             pPrev = pCurrent;
             pCurrent = pCurrent->pNext;
         }
+
     }
+
     return true;
 }
 
-bool DuplicatedSession(Courses*& pHead, Courses*& pStudents)
+bool DuplicatedSession(Courses*& pHead, Courses*& pStudents, int& number) // add a variable "number"
 {
     Courses* pCur = pStudents;
     Courses* pCurrent = pHead;
@@ -829,7 +807,7 @@ bool DuplicatedSession(Courses*& pHead, Courses*& pStudents)
                 if (((pTmp->weekday1[0] == pCurrent->weekday1[0] && pTmp->weekday1[1] == pCurrent->weekday1[1]) || (pTmp->weekday2[0] == pCurrent->weekday2[0] && pTmp->weekday2[1] == pCurrent->weekday2[1]) || (pTmp->weekday1[0] == pCurrent->weekday2[0] && pTmp->weekday1[1] == pCurrent->weekday2[1]) || (pTmp->weekday2[0] == pCurrent->weekday1[0] && pTmp->weekday2[1] == pCurrent->weekday1[1])) && ((pTmp->time1[0] == pCurrent->time1[0] && pTmp->time1[1] == pCurrent->time1[1]) || (pTmp->time2[0] == pCurrent->time2[0] && pTmp->time2[1] == pCurrent->time2[1]) || (pTmp->time1[0] == pCurrent->time2[0] && pTmp->time1[1] == pCurrent->time2[1]) || (pTmp->time2[0] == pCurrent->time1[0] && pTmp->time2[1] == pCurrent->time1[1])))
                 {
                     cout << "Your course sessions are conflict, please enroll in another course!" << endl;
-                    DuplicatedSession(pHead, pStudents);
+                    DuplicatedSession(pHead, pStudents, number);
                     return false;
                 }
                 pTmp = pTmp->pNext;
@@ -848,22 +826,7 @@ bool DuplicatedSession(Courses*& pHead, Courses*& pStudents)
                 pCur->time2[j] = pCurrent->time2[j];
             }
             pCur->TeacherName = pCurrent->TeacherName;
-            if (pCurrent->Maximum > 1)
-                pCurrent->Maximum--;
-            else {
-                if (pCurrent == pHead)
-                {
-                    pCurrent = pHead->pNext;
-                    delete pHead;
-                    pHead = pCurrent;
-                    pPrev = pHead;
-                }
-                else {
-                    pPrev->pNext = pCurrent->pNext;
-                    delete pCurrent;
-                    pCurrent = pPrev->pNext;
-                }
-            }
+            pCur->No = number; number++;
         }
         pPrev = pCurrent;
         pCurrent = pCurrent->pNext;
@@ -871,12 +834,12 @@ bool DuplicatedSession(Courses*& pHead, Courses*& pStudents)
     return true;
 }
 
-void EnrollCourses(Courses*& pHead, Courses*& pStudents, int limit)
+void EnrollCourses(Courses*& pHead, Courses*& pStudents, int limit, int& number)
 {
     int n = 0;
     int opt = 0;
     do {
-        PrintCoursesList(pHead);
+        PrintEnrolledCourses(pHead);
         cout << endl << "Please input the number of courses that you wanna pick: ";
         cin >> n;
         Courses* pCur = pStudents;
@@ -904,7 +867,7 @@ void EnrollCourses(Courses*& pHead, Courses*& pStudents, int limit)
                                 pCurrent->Maximum--;
                             else {
                                 cout << "This course cannot be register anymore, please choose another!" << endl;
-                                MaximumStudentEnrollInCourse(pHead, pStudents);
+                                MaximumStudentEnrollInCourse(pHead, pStudents, number);
                                 check2 = true;
                             }
                             if (check2 == true) break;
@@ -923,9 +886,10 @@ void EnrollCourses(Courses*& pHead, Courses*& pStudents, int limit)
                                     pStudents->time1[j] = pCurrent->time1[j];
                                     pStudents->time2[j] = pCurrent->time2[j];
                                 }
+                                pStudents->TeacherName = pCurrent->TeacherName;
+                                pStudents->No = number;
+                                number++;
                             }
-                            pStudents->TeacherName = pCurrent->TeacherName;
-                            //pCur = pStudents
                             pPrev = pCurrent;
                             pCurrent = pCurrent->pNext;
                         }
@@ -950,7 +914,7 @@ void EnrollCourses(Courses*& pHead, Courses*& pStudents, int limit)
                                 if (((pTmp->weekday1[0] == pCurrent->weekday1[0] && pTmp->weekday1[1] == pCurrent->weekday1[1]) || (pTmp->weekday2[0] == pCurrent->weekday2[0] && pTmp->weekday2[1] == pCurrent->weekday2[1]) || (pTmp->weekday1[0] == pCurrent->weekday2[0] && pTmp->weekday1[1] == pCurrent->weekday2[1]) || (pTmp->weekday2[0] == pCurrent->weekday1[0] && pTmp->weekday2[1] == pCurrent->weekday1[1])) && ((pTmp->time1[0] == pCurrent->time1[0] && pTmp->time1[1] == pCurrent->time1[1]) || (pTmp->time2[0] == pCurrent->time2[0] && pTmp->time2[1] == pCurrent->time2[1]) || (pTmp->time1[0] == pCurrent->time2[0] && pTmp->time1[1] == pCurrent->time2[1]) || (pTmp->time2[0] == pCurrent->time1[0] && pTmp->time2[1] == pCurrent->time1[1])))
                                 {
                                     cout << "Your course sessions are conflict, please enroll in another course!" << endl;
-                                    DuplicatedSession(pHead, pStudents);
+                                    DuplicatedSession(pHead, pStudents, number);
                                     check1 = true;
                                 }
                                 pTmp = pTmp->pNext;
@@ -959,7 +923,7 @@ void EnrollCourses(Courses*& pHead, Courses*& pStudents, int limit)
                                 pCurrent->Maximum--;
                             else {
                                 cout << "This course cannot be register anymore, please choose another!" << endl;
-                                MaximumStudentEnrollInCourse(pHead, pStudents);
+                                MaximumStudentEnrollInCourse(pHead, pStudents, number);
                                 check2 = true;
                             }
                             if (check1 == true || check2 == true) break;
@@ -979,22 +943,8 @@ void EnrollCourses(Courses*& pHead, Courses*& pStudents, int limit)
                                     pCur->time2[j] = pCurrent->time2[j];
                                 }
                                 pCur->TeacherName = pCurrent->TeacherName;
-                                if (pCurrent->Maximum > 1)
-                                    pCurrent->Maximum--;
-                                else {
-                                    if (pCurrent == pHead)
-                                    {
-                                        pCurrent = pHead->pNext;
-                                        delete pHead;
-                                        pHead = pCurrent;
-                                        pPrev = pHead;
-                                    }
-                                    else {
-                                        pPrev->pNext = pCurrent->pNext;
-                                        delete pCurrent;
-                                        pCurrent = pPrev->pNext;
-                                    }
-                                }
+                                pCur->No = number;
+                                number++;
                             }
                         }
                         pPrev = pCurrent;
@@ -1013,17 +963,17 @@ void EnrollCourses(Courses*& pHead, Courses*& pStudents, int limit)
         cout << "\t\t\t\t*        1. Continue Enrolling        *" << endl;
         cout << "\t\t\t\t*        2. View List of Courses      *" << endl;
         cout << "\t\t\t\t*        3. Back to Menu              *" << endl;
-        cout << "\t\t\t\t***************************************" << endl;
+        cout << "\t\t\t\tt***************************************" << endl;
         cout << endl;
         cout << "\t\t\t\t\tYour choice: "; cin >> opt;
         if (opt == 1) limit = limit - n;
     } while (opt == 1);
     if (opt == 2) {
-        clrscr();
-        PrintCoursesList(pStudents);
+        //clrscr();
+        //PrintCoursesList(pStudents);
     }
     else if (opt == 3) {
-        clrscr();
+        //clrscr();
         //MenuOfStudent();
     }
 }
@@ -1711,6 +1661,8 @@ void inputSignInStaff(SignIn *&pHead)
         }   
     }
 }
+
+
 void inputSignInStudent(SignIn *&pHead)
 {
     ifstream input;
