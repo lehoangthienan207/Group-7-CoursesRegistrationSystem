@@ -570,6 +570,48 @@ void CreateClasses(Classes*& pHead, Classes*& pCurr, int &i)
     }
 }
 
+void UpdateStudentResult(ScoreBoardOfCourse*& pHead)
+{
+    int studentID = 0;
+    cout << "Type in the Student ID: "; cin >> studentID;
+    ScoreBoardOfCourse* pCur = pHead;
+    while (pCur != nullptr)
+    {
+        int n = 0;
+        if (pCur->StudentID == studentID)
+        {
+            cout << "\t\t\t\t*************************************" << endl;
+            cout << "\t\t\t\t*        1. Midterm Score           *" << endl;
+            cout << "\t\t\t\t*        2. Finalterm Score         *" << endl;
+            cout << "\t\t\t\t*        3. Other Score             *" << endl;
+            cout << "\t\t\t\t*************************************" << endl;
+            cout << endl << "\t\t\t\t\tYour choice: "; cin >> n;
+            switch (n)
+            {
+            case 1: {
+                float MidtermScore = 0;
+                cout << "Type in new Midterm Score: "; cin >> MidtermScore;
+                pCur->Midterm = MidtermScore;
+                break;
+            }
+            case 2: {
+                float FinalScore = 0;
+                cout << "Type in new Midterm Score: "; cin >> FinalScore;
+                pCur->Midterm = FinalScore;
+                break;
+            }
+            case 3: {
+                float OtherScore = 0;
+                cout << "Type in new Midterm Score: "; cin >> OtherScore;
+                pCur->Midterm = OtherScore;
+                break;
+            }
+            default: cout << "System doesn't understand!" << endl;
+            }
+        }
+    }
+}
+
 void InputStudent(Students *& pHead, ifstream &studentInput)
 {
     if (!isEmpty(studentInput))
@@ -841,7 +883,7 @@ void EnrollCourses(Courses*& pHead, Courses*& pStudents, int limit, int& number)
     int n = 0;
     int opt = 0;
     do {
-        PrintEnrolledCourses(pHead);
+        PrintCoursesList(pHead);
         cout << endl << "Please input the number of courses that you wanna pick: ";
         cin >> n;
         Courses* pCur = pStudents;
@@ -971,14 +1013,16 @@ void EnrollCourses(Courses*& pHead, Courses*& pStudents, int limit, int& number)
         if (opt == 1) limit = limit - n;
     } while (opt == 1);
     if (opt == 2) {
-        //clrscr();
-        //PrintCoursesList(pStudents);
+        clrscr();
+        PrintCoursesList(pStudents);
     }
     else if (opt == 3) {
-        //clrscr();
+        clrscr();
         //MenuOfStudent();
     }
 }
+
+
 
 void PrintEnrolledCourses(Courses* pHead)
 {
