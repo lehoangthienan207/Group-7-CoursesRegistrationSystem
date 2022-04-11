@@ -363,6 +363,7 @@ void CreateSchoolYear(SchoolYear *&pHead, SchoolYear *&pCurr) //chỗ này có t
         cout << "Input school year (example: 2020-2021): ";
         string a ="";
         cin >> a;
+        pCurr = pHead;
         while (pCurr->years != a && pCurr->pNext != nullptr) pCurr = pCurr->pNext;
         cout << "\n";
         
@@ -409,6 +410,7 @@ void CreateSchoolYear(SchoolYear *&pHead, SchoolYear *&pCurr) //chỗ này có t
                 if (check != 'y')
                     break;
             }
+            while (pCurr->pNext != nullptr) pCurr =pCurr->pNext;
         }
         else
         {
@@ -957,7 +959,7 @@ void EnrollCourses(Courses*& pHead, Courses*& pStudents, int limit, int& number)
         else {
             cout << "You cannot register more than 5 courses! " << endl;
             cout << "Please register again!" << endl;
-            EnrollCourses(pHead, pStudents, limit);
+            EnrollCourses(pHead, pStudents, limit,number);
         }
         cout << "\t\t\t\t***************************************" << endl;
         cout << "\t\t\t\t*        1. Continue Enrolling        *" << endl;
@@ -1776,33 +1778,50 @@ void foutSignInStudent(SignIn *pHead)
     }
 }     
 
-void ExportStudentInCourse(Courses*& pH, Students*& pHead)
-{
-    fstream output;
-    Courses* C_pCurr = C_pHead;
-    Students* S_pCurr = S_pHead;
-    remove("student_list.csv")
-    output. open("student_list.csv", ios::out);
-    string course_choice;
-    cout << "Input the ID of the course you want to print out: ";
-    cin >> course_choice;
-    while (C_pCurr != nullptr)
+void ExportStudentInCourse(Students*& pStudent, SchoolYear *pHead)
+{ 
+    cout << "School Year list: \n";
+    SchoolYear *pTemp = pHead;
+    while (pTemp != nullptr){
+        cout << pTemp->years << " ";
+            pTemp = pTemp->pNext;
+    }
+    cout << "\n";
+    cout << "Input school year (example: 2020-2021): ";
+    string a ="";
+    cin >> a;
+    SchoolYear *pCurr = pHead;
+    while (pCurr != nullptr && pCurr->years != a) pCurr = pCurr->pNext;
+    if (pCurr != nullptr)
     {
-        if (Coursesname == pH->CourseID)
+        PrintCoursesList()
+        fstream output;
+        remove("student_list.csv");
+        int a;
+        PrintCoursesList(pCurr->pSemester->pCourse);
+        cout << "\nInput No of the course you want to print out: ";
+        cin >> a;
+    
+        Courses *S_pCurr = pHead->pSemester->pCourse;
+        while (S_pCurr != nullptr && S_pCurr->No != a){ 
+            S_pCurr=S_pCurr->pNext;
+        }
+        if (S_pCurr != nullptr)
         {
-            output << S_pCurr->No << ", ";
-            output << S_pCurr->StudentID << ", ";
-            output << S_pCurr->SocialID << ", ";
-            output << S_pCurr->FirstName << ", ";
-            output << S_pCurr->LastName << ", ";
-            output << S_pCurr->Gender << ", ";
-            output << S_pCurr->DateOfBirth << ", ";
+            output.open(".\\" + pCurr->years + "\\"+ pCurr->years + "student_list.csv", ios::out);
+            output << S_pCurr->No << ",";
+            output << S_pCurr->StudentID << ",";
+            output << S_pCurr->SocialID << ",";
+            output << S_pCurr->FirstName << ",";
+            output << S_pCurr->LastName << ",";
+            output << S_pCurr->Gender << ",";
+            output << S_pCurr->DateOfBirth << "\n";
             output << endl;
-            S_pCurr = S_pCurr->pNext;
         }
-        else
-        {
-            cout << "This course does not exist.\n";
-        }
+        S_pCurr = S_pCurr->pNext;
+    }
+    else
+    {
+        cout << "No school year found.\n";
     }
 }
