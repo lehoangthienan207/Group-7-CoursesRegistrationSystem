@@ -216,6 +216,7 @@ void LogIn(SignIn* pHead)
             if (id_input == pCurr -> ID && psw_input == pCurr -> Password)
             {
                 pStudentEnroll = pCurr;
+                pCurrentStaff = pCurr;
                 cout << "Sign-in successful" << endl;
                 status = false;
                 break;
@@ -574,7 +575,7 @@ void UpdateStudentResult(ScoreBoardOfCourse*& pHead)
 {
     int studentID = 0;
     cout << "Type in the Student ID: "; cin >> studentID;
-    ScoreBoardOfCourse* pCur = pHead;
+    ScoreOfStudentInBoard* pCur = pHead->pStudent;
     while (pCur != nullptr)
     {
         int n = 0;
@@ -665,9 +666,9 @@ void InputStudent(Students *& pHead, ifstream &studentInput)
     system("pause");
 }
 
-void PrintStudentsListInClass(SchoolYear* pHead)
+void PrintStudentsListInClass(Classes* pHead)
 {
-    cout << "\n\t\t--------------------------LIST OF STUDENTS IN ClASS " << pHead->pClass->Name << "--------------------------\n\n";
+    cout << "\n\t\t--------------------------LIST OF STUDENTS IN ClASS " << pHead->Name << "--------------------------\n\n";
     cout << setw(5) << left << "No";
     cout << setw(15) << left << "StudentID";
     cout << setw(17) << left << "SocialID";
@@ -676,7 +677,7 @@ void PrintStudentsListInClass(SchoolYear* pHead)
     cout << setw(15) << left << "Gender";
     cout << setw(15) << left << "DateofBirth";
     cout << endl;
-    Students *pCur = pHead->pClass->pStudent;
+    Students *pCur = pHead->pStudent;
     while (pCur)
     {
         cout << setw(5) << left << pCur->No;
@@ -691,13 +692,8 @@ void PrintStudentsListInClass(SchoolYear* pHead)
     }
 }
 
-void PrintStudentListInCourse(Students* pHead, Courses* pH) {
-    // cần sửa
-    string Coursesname = "";
-    cout << "Enter the name of courses: ";
-    cin.ignore();
-    getline(cin, Coursesname);
-    Students* pCur = pHead;
+void PrintStudentListInCourse(Courses *pHead) {
+    Students* pCur = pHead->pStudent;
     cout << "\n\t\t--------------------------LIST OF STUDENTS IN COURSE--------------------------\n\n";
     cout << setw(5) << left << "No";
     cout << setw(15) << left << "StudentID";
@@ -709,25 +705,15 @@ void PrintStudentListInCourse(Students* pHead, Courses* pH) {
     cout << endl;
     while (pCur)
     {
-        if (Coursesname == pH->CourseName)
-        {
-            cout << setw(5) << left << pCur->No;
-            cout << setw(15) << left << pCur->StudentID;
-            cout << setw(17) << left << pCur->SocialID;
-            cout << setw(25) << left << pCur->FirstName;
-            cout << setw(20) << left << pCur->LastName;
-            cout << setw(15) << left << pCur->Gender;
-            cout << setw(0) << left << pCur->DateOfBirth;
-            cout << endl;
-            pCur = pCur->pNext;
-        }
-        else
-        {
-            cout << "This course does not exist.\n";
-            //cout << "Please re-enter the course name: ";
-            //cin.ignore();
-            //getline(cin, Coursesname);
-        }
+        cout << setw(5) << left << pCur->No;
+        cout << setw(15) << left << pCur->StudentID;
+        cout << setw(17) << left << pCur->SocialID;
+        cout << setw(25) << left << pCur->LastName;
+        cout << setw(20) << left << pCur->FirstName;
+        cout << setw(15) << left << pCur->Gender;
+        cout << setw(0) << left << pCur->DateOfBirth;
+        cout << endl;
+        pCur = pCur->pNext;
     }
 }
     // Students
@@ -1056,12 +1042,9 @@ void PrintEnrolledCourses(Courses* pHead)
     }
 }
 
-void PrintScoreBoardOfStudents(ScoreBoardOfStudent*& pHead)
+void PrintScoreBoardOfStudents(ScoreBoardOfCourse*& pHead)
 {
-    int year;
-    int semester;
-    cout << "Please enter the Year: "; cin >> year;
-    cout << "Please enter the Semester: "; cin >> semester;
+
     cout << setw(15) << left << "Course ID";
     cout << setw(20) << left << "Course Name";
     cout << setw(12) << left << "Midterm";
@@ -1071,17 +1054,18 @@ void PrintScoreBoardOfStudents(ScoreBoardOfStudent*& pHead)
     cout << endl;
     cout << setfill('-') << setw(83) << '-';
     cout << endl;
-    ScoreBoardOfCourse* pCur = pHead->pHead;
+    ScoreBoardOfCourse* pCur = pHead;
     while (pCur != nullptr )
     {
-        if (pCur->Year == year && pCur->Semester == semester)
+        ScoreOfStudentInBoard *pTemp = pCur->pStudent;
+        if (pCur->pStudent->StudentID == atoi(pStudentEnroll->ID.c_str()))
         {
             cout << setw(15) << left << pCur->CourseID;
             cout << setw(20) << left << pCur->CourseName;
-            cout << setw(12) << left << pCur->Midterm;
-            cout << setw(12) << right << pCur->Finalterm;
-            cout << setw(12) << right << pCur->OtherScore;
-            cout << setw(12) << right << pCur->Overall;
+            cout << setw(12) << left << pTemp->Midterm;
+            cout << setw(12) << right << pTemp->Finalterm;
+            cout << setw(12) << right << pTemp->OtherScore;
+            cout << setw(12) << right << pTemp->Overall;
             cout << endl;
         }
         pCur = pCur->pNext;
@@ -1090,10 +1074,7 @@ void PrintScoreBoardOfStudents(ScoreBoardOfStudent*& pHead)
 
 void PrintScoreBoard(ScoreBoardOfCourse* pHead)
 {
-    int year;
-    int semester;
-    cout << "Please enter the Year: "; cin >> year;
-    cout << "Please enter the Semester: "; cin >> semester;
+    
     cout << setw(15) << left << "Course ID";
     cout << setw(20) << left << "Course Name";
     cout << setw(12) << left << "Midterm";
@@ -1106,16 +1087,14 @@ void PrintScoreBoard(ScoreBoardOfCourse* pHead)
     ScoreBoardOfCourse* pCur = pHead;
     while (pCur != nullptr)
     {
-        if (pCur->Year == year && pCur->Semester == semester)
-        {
-            cout << setw(15) << left << pCur->CourseID;
-            cout << setw(20) << left << pCur->CourseName;
-            cout << setw(12) << left << pCur->Midterm;
-            cout << setw(12) << right << pCur->Finalterm;
-            cout << setw(12) << right << pCur->OtherScore;
-            cout << setw(12) << right << pCur->Overall;
-            cout << endl;
-        }
+        ScoreOfStudentInBoard *pTemp = pCur->pStudent;
+        cout << setw(15) << left << pCur->CourseID;
+        cout << setw(20) << left << pCur->CourseName;
+        cout << setw(12) << left << pTemp->Midterm;
+        cout << setw(12) << right << pTemp->Finalterm;
+        cout << setw(12) << right << pTemp->OtherScore;
+        cout << setw(12) << right << pTemp->Overall;
+        cout << endl;
         pCur = pCur->pNext;
     }
 }
@@ -1240,8 +1219,8 @@ back1:
         }
         case 5:
         {
-            cin.clear();
-            cin.ignore(10000,'\n');
+            //cin.clear();
+           // cin.ignore(10000,'\n');
             clrscr();
             SchoolYear *pTempp = pHead;
             while (pTempp != nullptr)
@@ -1256,20 +1235,59 @@ back1:
             pTempp = pHead;
             while (pTempp != nullptr && pTempp->years != a) pTempp =pTempp->pNext;
             if (pTempp != nullptr)
-            {cout << "Input number of class you want to see: ";
-            int x;
-            cin >> x;
-            pTempp = pHead;
-            while (pTempp->pClass != nullptr && pTempp->pClass->No != x) pTempp->pClass = pTempp->pClass->pNext;
-            if (pTempp != nullptr)
             {
-                PrintStudentsListInClass(pTempp);
-                cout << "\n";
+                cout << "Input number of class you want to see: ";
+                int x;
+                cin >> x;
+                while (pTempp->pClass != nullptr && pTempp->pClass->No != x) pTempp->pClass = pTempp->pClass->pNext;
+                if (pTempp->pClass != nullptr)
+                {
+                    PrintStudentsListInClass(pTempp->pClass);
+                    cout << "\n";
+                }
+                else
+                {
+                    cout << "No class found.";
+                }
+            }
+            else
+                cout << "No school year found.";
+            system("pause");
+            clrscr();
+            pTempp = nullptr;
+            goto backtocase2;
+            break;
+        }
+        case 6:
+        {
+            clrscr();
+            Semester *pTemp = pCurrentSemester;
+            Semester *pTempp = pCurrentSemester;
+            if (pTemp != nullptr)
+            {
+                PrintCoursesList(pTemp->pCourse);
             }
             else
             {
-                cout << "No class found.";
-            }}
+                cout << "Currently no active semester. \n";
+                goto backtocase2;
+            }
+            if (pTemp != nullptr)
+            {
+                cout << "Input number of courses you want to see: ";
+                int x;
+                cin >> x;
+                while (pTempp->pCourse != nullptr && pTempp->pCourse->No != x) pTempp->pCourse =  pTempp->pCourse->pNext;
+                if (pTempp->pCourse != nullptr)
+                {
+                    PrintStudentListInCourse(pTempp->pCourse);
+                    cout << "\n";
+                }
+                else
+                {
+                    cout << "No course found.";
+                }
+            }
             else
                 cout << "No school year found.";
             system("pause");
@@ -1300,7 +1318,8 @@ back1:
         cout << "\t\t      *\t     1.Update scoreboard\t\t *\n";
         cout << "\t\t      *\t     2.View scoreboard of a course\t *\n";
         cout << "\t\t      *\t     3.View scoreboard of a class\t *\n";
-        cout << "\t\t      *\t     4.Back \t\t\t\t *\n";
+        cout << "\t\t      *\t     4.View scoreboard of a class\t *\n";
+        cout << "\t\t      *\t     5.Back \t\t\t\t *\n";
         cout << "\t\t      ********************************************\n\n";
         cout << "\t\t\t\tYour choice: "; cin >> choice2;
         switch (choice2)
@@ -1322,7 +1341,7 @@ back1:
         {
             //view scoreboard of a classes
         }
-        case 4:
+        case 5:
         {
             //back
             clrscr();
@@ -1341,7 +1360,7 @@ back1:
     case 5:
     {
         cout << "*******Profile info********\n";
-        cout << pStaff->Name << "\n" << pStaff->ID << "\n" << pStaff->Email << "\n";
+        cout << pCurrentStaff->Name << "\n" << pCurrentStaff->ID << "\n" << pCurrentStaff->Email << "\n";
         cout << "***************************";
         system("pause");
         goto back1;
@@ -1369,7 +1388,7 @@ void PrintScoreBoardOfClass(ScoreBoardOfCourse* pHead)
     cout << setw(20) << left << "SemesterGPA";
     cout << setw(20) << left << "OverallGPA";
     cout << endl;
-
+    ScoreOfStudentInBoard *pTemp = pCur->pStudent;
     while (pCur) {
         cout << setw(5) << left << pCur->No;
         cout << setw(10) << left << pCur->classID;
@@ -1383,7 +1402,7 @@ void PrintScoreBoardOfClass(ScoreBoardOfCourse* pHead)
 
        /* cout << setw(20) << left << 
         cout << setw(20) << left << */
-
+        //chắc là bỏ chứ giờ k kịp làm
         cout << endl;
         pCur = pCur->pNext;
     }
@@ -1428,7 +1447,6 @@ void RemoveEnrolledCourses(Courses*& pHead)
         }
         cout << "\t\t\t\t***************************************" << endl;
         cout << "\t\t\t\t*        1. Continue Cancelling       *" << endl;
-        cout << "\t\t\t\t*        2. View List of Courses      *" << endl;
         cout << "\t\t\t\t*        3. Back to Menu              *" << endl;
         cout << "\t\t\t\t***************************************" << endl;
         cout << endl;
@@ -1438,6 +1456,7 @@ void RemoveEnrolledCourses(Courses*& pHead)
     {
         clrscr;
         PrintCoursesList(pHead);
+        return;
     }
     else if (opt == 3)
     {
@@ -1480,7 +1499,7 @@ stuback1:
 
         cout << "******PROFILE INFO**********\n";
         cout << pStudent->Name << " " << pStudent->ID << " " << pStudent->SocialID << "\n";
-        cout << pStudent->DoB << " " << pStudent->Gender;
+        cout << pStudent->DoB << " " << pStudent->Gender << " " pStudent;
         cout << "\n***************************\n";
         system("pause");
         clrscr();
@@ -1731,8 +1750,10 @@ void inputSignInStudent(SignIn *&pHead)
             pHead->SocialID = key;
             getline(input,key,',');
             pHead->DoB = key;
-            getline(input,key);
+            getline(input,key,',');
             pHead->Gender = key;
+            getline(input,key);
+            pHead->Class = key;
             pHead->pNext = nullptr;
             pCurr = pHead;
             
@@ -1824,48 +1845,202 @@ void foutSignInStudent(SignIn *pHead)
 
 void ExportStudentInCourse(Students*& pStudent, SchoolYear *pHead)
 { 
-    cout << "School Year list: \n";
-    SchoolYear *pTemp = pHead;
-    while (pTemp != nullptr){
-        cout << pTemp->years << " ";
-            pTemp = pTemp->pNext;
+    fstream output;
+    SchoolYear *pSchoolYear = pHead;
+    Semester *pTemp = pHead->pSemester;
+    if (pCurrentSemester != nullptr)
+        while (pSchoolYear != nullptr)
+        {
+            bool check = false;
+            pTemp = pSchoolYear->pSemester;
+            while (pTemp != nullptr)
+                if (pTemp != pCurrentSemester)
+                    pTemp = pTemp->pNext;
+                else
+                {
+                    check = true;
+                    break;
+                }
+            if (check)
+                break;
+            pSchoolYear = pSchoolYear->pNext;
+        }
+    else
+    {
+        cout << "\nCurrently no Semester available.\n";
+        return;
     }
-    cout << "\n";
-    cout << "Input school year (example: 2020-2021): ";
-    string a ="";
-    cin >> a;
-    SchoolYear *pCurr = pHead;
-    while (pCurr != nullptr && pCurr->years != a) pCurr = pCurr->pNext;
+    Courses* pCurr = pCurrentSemester->pCourse;
+    int course_choice;
+    PrintCoursesList(pCurrentSemester->pCourse);    
+    cout << "Input the No of the course you want to export: ";
+    cin >> course_choice;
+    while (pCurr != nullptr && pCurr->No != course_choice) pCurr = pCurr->pNext;
     if (pCurr != nullptr)
     {
-        PrintCoursesList()
-        fstream output;
-        remove("student_list.csv");
-        int a;
-        PrintCoursesList(pCurr->pSemester->pCourse);
-        cout << "\nInput No of the course you want to print out: ";
-        cin >> a;
-    
-        Courses *S_pCurr = pHead->pSemester->pCourse;
-        while (S_pCurr != nullptr && S_pCurr->No != a){ 
-            S_pCurr=S_pCurr->pNext;
-        }
-        if (S_pCurr != nullptr)
+        output.open(".\\" + pSchoolYear->years + "\\" + "semester " + to_string(pCurrentSemester->No) + "\\"+pCurr->CourseName+"_student_list.csv", ios::out);
+        output << "No" << ",";
+        output << "Student ID" << ",";
+        output << "First Name" << ",";
+        output << "Last Name" << ",";
+        output << "Date Of Birth" << ",";
+        output << "Class" << ",";
+        output << "Mid Term" <<",";
+        output << "Final Term" <<",";
+        output << "Other Score" <<",";
+        output << "Overall" << "\n";
+        Students *pStudent = pCurr->pStudent;
+        while (pStudent != nullptr)
         {
-            output.open(".\\" + pCurr->years + "\\"+ pCurr->years + "student_list.csv", ios::out);
-            output << S_pCurr->No << ",";
-            output << S_pCurr->StudentID << ",";
-            output << S_pCurr->SocialID << ",";
-            output << S_pCurr->FirstName << ",";
-            output << S_pCurr->LastName << ",";
-            output << S_pCurr->Gender << ",";
-            output << S_pCurr->DateOfBirth << "\n";
-            output << endl;
+            output << pStudent->No <<",";
+            output << pStudent->StudentID <<",";
+            output << pStudent->FirstName <<",";
+            output << pStudent->LastName << ",";
+            output << pStudent->DateOfBirth<<"\n";
+            pStudent = pStudent->pNext;
         }
-        S_pCurr = S_pCurr->pNext;
+        cout << "Export successfully.";
+        output.close();
+        system("pause");
+        clrscr();
     }
     else
     {
-        cout << "No school year found.\n";
+        cout << "No Course found.";
+    }
+}
+void importScoreBoardCourse(ScoreBoardOfCourse *&pScoreBoardCourse, ScoreBoardOfStudent *&PrintScoreBoardOfStudents, SchoolYear *pSchoolYear)
+{   
+    bool check = false;
+    SchoolYear *pTemp = pSchoolYear;
+    while (pTemp != nullptr)
+    {
+        check = false;
+        if (pTemp->pSemester != nullptr && pTemp->pSemester != pCurrentSemester) pTemp->pSemester = pTemp->pSemester->pNext;
+        if (pTemp->pSemester != nullptr)
+        {
+            check = true;
+            break;
+        }
+        if(check)
+            break;
+        pTemp = pTemp->pNext;
+    }
+    if (check)
+    {
+        Courses* pCurr = pCurrentSemester->pCourse;
+        int course_choice;
+        PrintCoursesList(pCurrentSemester->pCourse);    
+        cout << "Input the No of the course you want to import: ";
+        cin >> course_choice;
+        
+
+        while (pCurr != nullptr && pCurr->No != course_choice) pCurr = pCurr->pNext;
+        if (pCurr != nullptr)
+        {
+            if (pScoreBoardCourse == nullptr)
+            {pScoreBoardCourse = new ScoreBoardOfCourse;
+            pScoreBoardCourse->CourseName = pCurr->CourseName;
+            pScoreBoardCourse->CourseID = pCurr->CourseID; 
+            string a = "";
+            ifstream input(".\\"+pTemp->years+"\\"+ "semester " + to_string(pCurrentSemester->No) + "\\"+pCurr->CourseName+"_student_list.csv");
+            getline(input,a);
+            while (!input.eof())
+            {
+                pScoreBoardCourse->pStudent = new ScoreBoardOfStudent;
+                ScoreOfStudentInBoard *pTemp = pScoreBoardCourse->pStudent;
+                getline(input,a,',');
+                pTemp->No = atoi(a.c_str());
+                getline(input,a,',');
+                pTemp->FirstName = a;
+                getline(input,a,',');
+                pTemp->LastName = a;
+                getline(input,a,',');
+                pTemp->DateOfBirth = a;
+                getline(input,a,',');
+                pTemp->classID = a;
+                getline(input,a,',');
+                pTemp->Midterm = atof(a.c_str());
+                getline(input,a,',');
+                pTemp->Finalterm = atof(a.c_str());
+                getline(input,a,',');
+                pTemp->OtherScore = atof(a.c_str());
+                getline(input,a);
+                pTemp->Finalterm = atof(a.c_str());
+            }   
+            cout << "Import Successfully";
+            system("pause");
+            pScoreBoardCourse->pNext = nullptr;}
+            else
+            {
+                ScoreBoardOfCourse *pCurrScore = pScoreBoardCourse;
+                while (pCurrScore->pNext != nullptr) pCurrScore = pCurrScore->pNext;
+                pCurrScore->pNext = new ScoreBoardOfCourse;
+                pCurrScore = pCurrScore->pNext;
+                pCurrScore->CourseName = pCurr->CourseName;
+           pCurrScore->CourseID = pCurr->CourseID; 
+            string a = "";
+            ifstream input(".\\"+pTemp->years+"\\"+ "semester " + to_string(pCurrentSemester->No) + "\\"+pCurr->CourseName+"_student_list.csv");
+            getline(input,a);
+            while (!input.eof())
+            {
+                pCurrScore->pStudent = new ScoreBoardOfStudent;
+                ScoreOfStudentInBoard *pTemp = pCurrScore->pStudent;
+                getline(input,a,',');
+                pTemp->No = atoi(a.c_str());
+                getline(input,a,',');
+                pTemp->FirstName = a;
+                getline(input,a,',');
+                pTemp->LastName = a;
+                getline(input,a,',');
+                pTemp->DateOfBirth = a;
+                getline(input,a,',');
+                pTemp->classID = a;
+                getline(input,a,',');
+                pTemp->Midterm = atof(a.c_str());
+                getline(input,a,',');
+                pTemp->Finalterm = atof(a.c_str());
+                getline(input,a,',');
+                pTemp->OtherScore = atof(a.c_str());
+                getline(input,a);
+                pTemp->Finalterm = atof(a.c_str());
+            }   
+            cout << "Import Successfully";
+            system("pause");
+            pCurrScore->pNext = nullptr;
+            }
+        }
+        
+        else
+        {
+            cout << "No Course found.";
+        }
+    }
+    else
+    {
+        cout << "\nCurrently no Semester available.\n";
+        return;
+    }
+}
+void deleteScoreBoard(ScoreBoardOfCourse *&pBoard, ScoreBoardOfStudent *&pStudent)
+{
+    ScoreOfStudentInBoard *pTemp = pScoreBoardCourse->pStudent;
+    while (pTemp != nullptr)
+    {
+        ScoreOfStudentInBoard *pTempp = pTemp;
+        pTemp = pTemp->next;
+        delete pTempp;
+    }
+    while (pStudent != nullptr)
+    {
+        ScoreBoardOfCourse *pTempp = pStudent;
+        pStudent = pStudent->pNext;
+        delete pTempp;
+    }
+    while (pBoard != nullptr)
+    {
+        ScoreBoardOfCourse *pTempp = pBoard;
+        pBoard = pBoard->pNext;
+        delete pTempp;
     }
 }

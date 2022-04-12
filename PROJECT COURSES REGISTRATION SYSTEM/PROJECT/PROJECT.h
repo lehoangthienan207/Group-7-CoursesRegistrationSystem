@@ -20,6 +20,7 @@ struct ScoreBoardOfCourse;
 struct ScoreBoardOfStudent;
 struct Courses;
 struct Semester;
+struct ScoreOfStudentInBoard;
 
 struct SignIn {
 	string ID{};
@@ -29,6 +30,7 @@ struct SignIn {
 	string Email{};
 	string DoB{};
 	string Gender{};
+	string Class{};
 	Courses *pCStudent = nullptr;
 	SignIn* pNext{};
 };
@@ -57,19 +59,23 @@ struct Classes{
 };
 
 struct ScoreBoardOfCourse {
-	int No{};
 	string CourseID{};
 	string CourseName{};
+	ScoreOfStudentInBoard *pStudent = nullptr;
+	ScoreBoardOfCourse* pNext{};
+};
+struct ScoreOfStudentInBoard{
+	int No{};
 	int StudentID{};
-	string StudentName;
+	string FirstName;
+	string LastName; 
+	string DateOfBirth;
 	float Midterm{};
 	float Finalterm{};
 	float OtherScore{};
 	float Overall{};
-	int Semester{};
-	int Year{};
 	string classID{};
-	ScoreBoardOfCourse* pNext{};
+	ScoreOfStudentInBoard *next = nullptr;
 };
 struct ScoreBoardOfStudent {
 	string StudentName{};
@@ -99,14 +105,18 @@ struct Semester
 	Courses *pCourse = nullptr;
 	Semester *pNext;
 };
-SignIn *pStudentEnroll = nullptr;
-Semester *pCurrentSemester = nullptr;
+
 struct SchoolYear{
 	string years{};
 	Classes *pClass = nullptr;
 	Semester *pSemester = nullptr;
 	SchoolYear *pNext{};
 };
+SignIn *pStudentEnroll = nullptr;
+SignIn *pCurrentStaff = nullptr;
+Semester *pCurrentSemester = nullptr;
+DoB currentDateAndTime;
+DoB currentSemesterDAT;
 // General
 //void ChooseTypeOfUser(int& type);
 void GeneralMenu(SignIn *pStaff, SignIn* pStudent,SchoolYear *&pHead,SchoolYear *&pCurr);
@@ -162,6 +172,7 @@ void deleteSignIn(SignIn *&pHead);
 void deleteCourses(Courses *&pHead);
 void deleteScoreBoardOfCourse(ScoreBoardOfCourse *&pHead);
 void deleteScoreBoardOfStudent(ScoreBoardOfStudent *&pHead);
+void deleteScoreBoard(ScoreBoardOfCourse *&pBoard, ScoreBoardOfStudent *&pStudent);
 // input
 void InputStudent(Students *& pHead, ifstream &studentInput);
 void inputSignInStaff(SignIn *&pHead);
