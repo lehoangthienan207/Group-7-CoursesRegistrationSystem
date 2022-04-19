@@ -5,8 +5,7 @@ int main()
 	//vì chỗ này yêu cầu kiểm tra 1 session có active hay không
 	//nên để cho người dùng nhập thời gian để dễ demo hơn
 	//để đổi thời gian thì quay về login
-	cout << "Input Current Date And Time (DD MM YYYY): ";
-	cin >> currentDateAndTime.day >> currentDateAndTime.month >> currentDateAndTime.year;
+	
 
 	SignIn *pStaff = nullptr;
 	SignIn *pStaffCurr = nullptr;
@@ -31,6 +30,6 @@ int main()
 	deleteSchoolYear(pHead);
 	deleteSignIn(pStaff);
 	deleteSignIn(pStudent);
-	deleteScoreBoard(pScoreBoardCourse,pScoreBoardStudent);
+	//deleteScoreBoard(pScoreBoardCourse,pScoreBoardStudent);
 	return 0;
 }

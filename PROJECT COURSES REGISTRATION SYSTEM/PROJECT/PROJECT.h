@@ -26,6 +26,8 @@ struct SignIn {
 	string ID{};
 	string Password{};
 	string Name{};
+	string LastName{};
+	string FirstName{};
 	string SocialID{};
 	string Email{};
 	string DoB{};
@@ -33,6 +35,7 @@ struct SignIn {
 	string Class{};
 	Courses *pCStudent = nullptr;
 	SignIn* pNext{};
+	int numberofCourse = 0;
 };
 struct DoB {
 	int day{};
@@ -116,7 +119,8 @@ SignIn *pStudentEnroll = nullptr;
 SignIn *pCurrentStaff = nullptr;
 Semester *pCurrentSemester = nullptr;
 DoB currentDateAndTime;
-DoB currentSemesterDAT;
+DoB currentSemesterstart;
+DoB currentSemesterend;
 // General
 //void ChooseTypeOfUser(int& type);
 void GeneralMenu(SignIn *pStaff, SignIn* pStudent,SchoolYear *&pHead,SchoolYear *&pCurr);
@@ -156,9 +160,9 @@ bool DuplicatedSession(Courses*& pHead, Courses*& pStudents, int& number);
 void EnrollCourses(Courses*& pHead, Courses*& pStudents, int limit, int& number);
 void PrintEnrolledCourses(Courses* pHead);
 void RemoveEnrolledCourses(Courses*& pHead);
-void PrintScoreBoardOfStudents(ScoreBoardOfStudent*& pHead);
+//void PrintScoreBoardOfStudents(ScoreBoardOfStudent*& pHead);
 void MenuOfStudent(SignIn *pStaff, SignIn* pStudent,SchoolYear *&pHead,SchoolYear *&pCurr);
-
+bool checkCourses(Courses *pStudents, Courses *pC);
 // clear screen
 void clrscr();
 
@@ -185,6 +189,6 @@ void foutClasses(SchoolYear*pHead);
 void foutSemester(SchoolYear*pHead);
 
 //readfile
-void readSchoolYearlist(SchoolYear *&pHead);
+void readSchoolYearlist(SchoolYear *&pHead,SchoolYear *&pCurr);
 void readClassListAndStudent(SchoolYear *pHead);
 void readSemesterList(SchoolYear *pHead);
