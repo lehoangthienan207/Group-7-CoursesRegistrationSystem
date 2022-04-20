@@ -155,7 +155,8 @@ void UpdateCourses(Courses*& pHead)
 }
 void removeACourse(Courses *&pHead)
 {
-    cout << "Input number of course you want to delete: ";
+    PrintCoursesList(pHead);
+    cout << "\nInput number of course you want to delete: ";
     int a;
     cin >> a;
     Courses* pCurr = pHead;
@@ -702,8 +703,8 @@ void PrintStudentsListInClass(Classes* pHead)
     }
 }
 
-void PrintStudentListInCourse(Courses *pHead) {
-    Students* pCur = pHead->pStudent;
+void PrintStudentListInCourse(Courses *pHead,SignIn *pStudent) {
+    SignIn *pCur = pStudent;
     cout << "\n\t\t--------------------------LIST OF STUDENTS IN COURSE--------------------------\n\n";
     cout << setw(5) << left << "No";
     cout << setw(15) << left << "StudentID";
@@ -713,18 +714,25 @@ void PrintStudentListInCourse(Courses *pHead) {
     cout << setw(15) << left << "Gender";
     cout << setw(15) << left << "DateofBirth";
     cout << endl;
-    while (pCur)
+    int i =1;
+    while (pCur != nullptr)
     {
-        cout << setw(5) << left << pCur->No;
-        cout << setw(15) << left << pCur->StudentID;
-        cout << setw(17) << left << pCur->SocialID;
-        cout << setw(25) << left << pCur->LastName;
-        cout << setw(20) << left << pCur->FirstName;
-        cout << setw(15) << left << pCur->Gender;
-        cout << setw(0) << left << pCur->DateOfBirth;
-        cout << endl;
+        //bool check = false;
+        if (pCur->pCStudent != nullptr && pCur->pCStudent->CourseID == pHead->CourseID && pCur->pCStudent->CourseName == pHead->CourseName)
+        {
+            //check = true;
+            cout << setw(5) << left << i++;
+            cout << setw(15) << left << pCur->ID;
+            cout << setw(17) << left << pCur->SocialID;
+            cout << setw(25) << left << pCur->LastName;
+            cout << setw(20) << left << pCur->FirstName;
+            cout << setw(15) << left << pCur->Gender;
+            cout << setw(0) << left << pCur->DoB;
+            cout << endl;
+        }
         pCur = pCur->pNext;
     }
+    
 }
     // Students
 
@@ -874,13 +882,13 @@ bool DuplicatedSession(Courses*& pHead, Courses*& pStudents, int& number) // add
     return true;
 }
 
-void EnrollCourses(Courses*& pHead, Courses*& pStudents, int limit, int& number)
+/*void EnrollCourses(Courses*& pHead, Courses*& pStudents, int limit, int& number)
 {
     int n = 0;
     int opt = 0;
     do {
-        PrintCoursesList(pHead);
-        cout << endl << "Please input numbers of courses that you wanna pick: ";
+        PrintEnrolledCourses(pHead);
+        cout << endl << "Please input the number of courses that you wanna pick: ";
         cin >> n;
         Courses* pCur = pStudents;
         Courses* pCurrent = pHead;
@@ -889,7 +897,6 @@ void EnrollCourses(Courses*& pHead, Courses*& pStudents, int limit, int& number)
         {
             for (int i = 0; i < n; i++)
             {
-                cout << "CHECK NNNNN\n";
                 int no = 0;
                 cout << "Your choice: "; cin >> no;
                 if (pStudents == nullptr)
@@ -917,12 +924,12 @@ void EnrollCourses(Courses*& pHead, Courses*& pStudents, int limit, int& number)
                                 pStudents->CourseID = pCurrent->CourseID;
                                 pStudents->CourseName = pCurrent->CourseName;
                                 pStudents->Credits = pCurrent->Credits;
-                                for (int j = 0; j < 4; j++)
+                                for (int j = 0; j < 3; j++)
                                 {
                                     pStudents->weekday1[j] = pCurrent->weekday1[j];
                                     pStudents->weekday2[j] = pCurrent->weekday2[j];
                                 }
-                                for (int j = 0; j < 6; j++)
+                                for (int j = 0; j < 5; j++)
                                 {
                                     pStudents->time1[j] = pCurrent->time1[j];
                                     pStudents->time2[j] = pCurrent->time2[j];
@@ -967,18 +974,18 @@ void EnrollCourses(Courses*& pHead, Courses*& pStudents, int limit, int& number)
                                 MaximumStudentEnrollInCourse(pHead, pStudents, number);
                                 check2 = true;
                             }
-                            if (check1 == true || check2 == true) break;
+                            if (check1 == true || check2 == true) break; 
                             else
                             {
                                 pCur->CourseID = pCurrent->CourseID;
                                 pCur->CourseName = pCurrent->CourseName;
                                 pCur->Credits = pCurrent->Credits;
-                                for (int j = 0; j < 4; j++)
+                                for (int j = 0; j < 3; j++)
                                 {
                                     pCur->weekday1[j] = pCurrent->weekday1[j];
                                     pCur->weekday2[j] = pCurrent->weekday2[j];
                                 }
-                                for (int j = 0; j < 6; j++)
+                                for (int j = 0; j < 5; j++)
                                 {
                                     pCur->time1[j] = pCurrent->time1[j];
                                     pCur->time2[j] = pCurrent->time2[j];
@@ -992,6 +999,7 @@ void EnrollCourses(Courses*& pHead, Courses*& pStudents, int limit, int& number)
                         pCurrent = pCurrent->pNext;
                     }
                 }
+
             }
         }
         else {
@@ -1001,7 +1009,8 @@ void EnrollCourses(Courses*& pHead, Courses*& pStudents, int limit, int& number)
         }
         cout << "\t\t\t\t***************************************" << endl;
         cout << "\t\t\t\t*        1. Continue Enrolling        *" << endl;
-        cout << "\t\t\t\t*        2. Back to Menu              *" << endl;
+        cout << "\t\t\t\t*        2. View List of Courses      *" << endl;
+        cout << "\t\t\t\t*        3. Back to Menu              *" << endl;
         cout << "\t\t\t\tt***************************************" << endl;
         cout << endl;
         cout << "\t\t\t\t\tYour choice: "; cin >> opt;
@@ -1009,17 +1018,19 @@ void EnrollCourses(Courses*& pHead, Courses*& pStudents, int limit, int& number)
     } while (opt == 1);
     if (opt == 2) {
         clrscr();
-        return;
+        PrintCoursesList(pStudents);
     }
-}
-
-/*void EnrollCourses(Courses*& pHead, Courses*& pStudents, int limit, int& number)
+    else if (opt == 3) {
+        clrscr();
+    }
+}*/
+void EnrollCourses(Courses*& pHead, Courses*& pStudents, int limit, int& number)
 {
-    
     while (true)
     { 
     if (number < limit)
     { 
+         Courses *pTemp = pStudents;
         PrintCoursesList(pHead);
         cout << "Input number of courses you want to pick: ";
         int a;
@@ -1033,63 +1044,51 @@ void EnrollCourses(Courses*& pHead, Courses*& pStudents, int limit, int& number)
             {
                 pStudents = new Courses;
                 pStudents->No = a;
-                pStudents->pNext = nullptr; 
                 pStudents->CourseID = pCurr->CourseID;
                 pStudents->CourseName = pCurr->CourseName;
                 pStudents->Credits = pCurr->Credits;
                 pStudents->Maximum = pCurr->Maximum;
                 pStudents->TeacherName = pCurr->TeacherName;
-                for (int i = 0; i < 4;++i)
-                {pStudents->time1[i] = pCurr->time1[i];
-                pStudents->time2[i] = pCurr->time2[i];}
-                for (int i = 0 ; i < 6; ++i)
-                {pStudents->weekday1[i] = pCurr->weekday1[i];
-                pStudents->weekday2[i] = pCurr->weekday2[i];}
+                strcpy(pStudents->time1,pCurr->time1);
+                strcpy(pStudents->time2,pCurr->time2);
+                strcpy(pStudents->weekday1,pCurr->weekday1);
+                strcpy(pStudents->weekday2,pCurr->weekday2);
                 ++number;
-                pCurr->pStudent = new Students;
-                pCurr->pStudent->FirstName = pStudentEnroll->FirstName;
-                pCurr->pStudent->LastName = pStudentEnroll->LastName;
-                pCurr->pStudent->DateOfBirth = pStudentEnroll->DoB;
-                pCurr->pStudent->Gender = pStudentEnroll->Gender;
-                pCurr->pStudent->SocialID = atoi(pStudentEnroll->SocialID.c_str());
-                pCurr->pStudent->StudentID = atoi(pStudentEnroll->ID.c_str());
+                pStudents->pNext = nullptr;
+                pTemp = pStudents;
             }
             else
             {
-                Courses *pTemp = pStudents;
-                while (pTemp != nullptr && pTemp->No != a) pTemp = pTemp->pNext;
-                if (pTemp != nullptr)
-                    cout << "Already Enrolled.\n";
+                Courses *pTam = pStudents;
+                while (pTam != nullptr && pTam->No != a) pTam = pTam->pNext;
+                if (pTam != nullptr)
+                    {cout << "Already Enrolled.\n";
+                    system("pause");}
                 else
                 {
-                    if (checkCourses(pTemp,pCurr))
+                    if (checkCourses(pStudents,pCurr))
                     {
-                        pTemp = new Courses;
+                        while (pTemp->pNext != nullptr) pTemp = pTemp->pNext;
+                        pTemp->pNext = new Courses;
+                        pTemp = pTemp->pNext;
                         pTemp->No = a;
-                        pTemp->pNext = nullptr; 
                         pTemp->CourseID = pCurr->CourseID;
                         pTemp->CourseName = pCurr->CourseName;
                         pTemp->Credits = pCurr->Credits;
                         pTemp->Maximum = pCurr->Maximum;
                         pTemp->TeacherName = pCurr->TeacherName;
-                        for (int i = 0; i < 4;++i)
-                        {pTemp->time1[i] = pCurr->time1[i];
-                        pTemp->time2[i] = pCurr->time2[i];}
-                        for (int i = 0; i < 6;++i)
-                        {pTemp->weekday1[i] = pCurr->weekday1[i];
-                        pTemp->weekday2[i] = pCurr->weekday2[i];}
+                        strcpy(pTemp->time1,pCurr->time1);
+                        strcpy(pTemp->time2,pCurr->time2);
+                        strcpy(pTemp->weekday1,pCurr->weekday1);
+                        strcpy(pTemp->weekday2,pCurr->weekday2);
+                        pTemp->pNext = nullptr; 
                         ++number;
-                        pCurr->pStudent = new Students;
-                        pCurr->pStudent->FirstName = pStudentEnroll->FirstName;
-                        pCurr->pStudent->LastName = pStudentEnroll->LastName;
-                        pCurr->pStudent->DateOfBirth = pStudentEnroll->DoB;
-                        pCurr->pStudent->Gender = pStudentEnroll->Gender;
-                        pCurr->pStudent->SocialID = atoi(pStudentEnroll->SocialID.c_str());
-                        pCurr->pStudent->StudentID = atoi(pStudentEnroll->ID.c_str());
+                   
                     }
                     else
                     {
                         cout << "Time of courses conflicted.\n";
+                        system("pause");
                     }   
                 }
             }
@@ -1097,8 +1096,11 @@ void EnrollCourses(Courses*& pHead, Courses*& pStudents, int limit, int& number)
         else
         {
             cout << "No Courses found.\n";
+            system("pause");
         }
-        cout << "Continue enroll? (y = yes, n = no)";
+        cout << "\n";
+        PrintEnrolledCourses(pStudents);
+        cout << "Continue enroll? (y = yes, n = no)\n";
         char ch;
         cin >> ch;
         if (ch != 'y')
@@ -1110,15 +1112,6 @@ void EnrollCourses(Courses*& pHead, Courses*& pStudents, int limit, int& number)
         return;
     }
     }
-}*/
-bool checkCourses(Courses *pStudents, Courses *pC)
-{
-    for (Courses *pCurr = pStudents; pCurr != nullptr; pCurr = pCurr->pNext)
-    {
-        if ((pCurr->time1 == pC->time1 && pCurr->weekday1 == pC->weekday1)||(pCurr->time1 == pC->time2 && pCurr->weekday1 == pC->weekday2) || (pCurr->time2 == pC->time1 && pCurr->weekday2 == pC->weekday1)||(pCurr->time2==pC->time2 && pCurr->weekday2 == pC->weekday2))
-            return false;
-    }
-    return true;
 }
 void PrintEnrolledCourses(Courses* pHead)
 {
@@ -1367,38 +1360,22 @@ back1:
         case 6:
         {
             clrscr();
-            Semester *pTemp = pCurrentSemester;
-            Semester *pTempp = pCurrentSemester;
+            PrintCoursesList(pHead->pSemester->pCourse);
+            int k;
+            cout << "Input number of course you want to see student: ";
+            cin >> k;
+            Courses *pTemp = pHead->pSemester->pCourse;
+            while (pTemp != nullptr && pTemp->No != k) pTemp = pTemp->pNext;
             if (pTemp != nullptr)
             {
-                PrintCoursesList(pTemp->pCourse);
+                PrintStudentListInCourse(pTemp,pStudent);
+                system("pause");
             }
             else
             {
-                cout << "Currently no active semester. \n";
-                goto backtocase2;
+                cout << "No Course found.\n";
+                system("pause");
             }
-            if (pTemp != nullptr)
-            {
-                cout << "Input number of courses you want to see: ";
-                int x;
-                cin >> x;
-                while (pTempp->pCourse != nullptr && pTempp->pCourse->No != x) pTempp->pCourse =  pTempp->pCourse->pNext;
-                if (pTempp->pCourse != nullptr)
-                {
-                    PrintStudentListInCourse(pTempp->pCourse);
-                    cout << "\n";
-                }
-                else
-                {
-                    cout << "No course found.";
-                }
-            }
-            else
-                cout << "No school year found.";
-            system("pause");
-            clrscr();
-            pTempp = nullptr;
             goto backtocase2;
             break;
         }
@@ -1564,18 +1541,31 @@ void RemoveEnrolledCourses(Courses*& pHead)
     if (opt == 2)
     {
         clrscr;
-    
     }
     else if (opt != 1)
     {
         cout << "Not found" << endl;
     }
 }
-
+bool checkCourses(Courses *pStudents, Courses *pC)
+{
+    for (Courses *pCurr = pStudents; pCurr != nullptr; pCurr = pCurr->pNext)
+    {
+        if (strcmp(pCurr->time1,pC->time1) == 0 && strcmp(pCurr->weekday1,pC->weekday1) ==0)
+            return false;
+        if (strcmp(pCurr->time2,pC->time1) == 0&& strcmp(pCurr->weekday2,pC->weekday1)== 0)
+            return false;
+        if (strcmp(pCurr->time1,pC->time2)== 0 && strcmp(pCurr->weekday1,pC->weekday2)== 0)
+            return false;
+        if (strcmp(pCurr->time2,pC->time2) == 0&& strcmp(pCurr->weekday2,pC->weekday2)== 0)
+            return false;
+    }
+    return true;
+}
 void MenuOfStudent(SignIn *pStaff, SignIn* pStudent,SchoolYear *&pHead,SchoolYear *&pCurr)
 {
     string choose;
-    int choice1;
+    char choice1;
     string Password;
     Courses* PCCur;
     ScoreBoardOfStudent* pHScoreofStudent;
@@ -1594,12 +1584,10 @@ stuback1:
     cout << "\t\t      ********************************************\n\n";
     cout << "\t\t\t\tYour Choice: "; cin >> choice1;
     clrscr();
-
     switch (choice1)
     {
-    case 1:
-    {
-
+        case '1':
+        {
         cout << "******PROFILE INFO**********\n";
         cout << pStudent->LastName << " " << pStudent->FirstName << " " << pStudent->ID << " " << pStudent->SocialID << "\n";
         cout << pStudent->DoB << " " << pStudent->Gender << " " << pStudent->Class;
@@ -1608,9 +1596,9 @@ stuback1:
         clrscr();
         goto stuback1;
         break;
-    }
-    case 2:
-    {
+        }
+        case '2':
+        {
         //change password
         ChangePassword(pStudent->Password);
         clrscr();
@@ -1620,25 +1608,25 @@ stuback1:
         // cho học sinh exist và nhập lại thông tin đăng nhập
         goto stuback1;
         break;
-    }
-    case 3:
-    {
+        }
+        case '3':
+        {
+            //while (pStudent != nullptr && pStudent != pStudentEnroll) pStudent = pStudent->pNext;
         EnrollCourses(pHead->pSemester->pCourse,pStudentEnroll->pCStudent,5,pStudentEnroll->numberofCourse);
         //enroll courses
         cout << "\n\nRegistered successfully!\n\n";
         cout << "\n\n\t\tThank you!\n\n";
         goto stuback1;
         break;
-    }
-    case 4:
-    {
-        cout << "1111111111111111111111111";
+        }
+        case '4':
+        {
         PrintEnrolledCourses(pStudentEnroll->pCStudent);
-        //print errolled courses
+        system("pause");
         goto stuback1;
         break;
-    }
-    case 5:
+        }
+    case '5':
     {
         int i = 1;
         Courses *pCurr = pStudentEnroll->pCStudent;
@@ -1652,14 +1640,14 @@ stuback1:
         goto stuback1;
         break;
     }
-    case 6:
+    case '6':
     {
        // PrintScoreBoardOfStudents(pHScoreofStudent);
         //view scoreboard
         goto stuback1;
         break;
     }
-    case 7:
+    case '7':
     {
         LogOut(pStaff,pStudent,pHead,pCurr);
         //log out

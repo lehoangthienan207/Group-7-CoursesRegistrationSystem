@@ -121,6 +121,7 @@ Semester *pCurrentSemester = nullptr;
 DoB currentDateAndTime;
 DoB currentSemesterstart;
 DoB currentSemesterend;
+
 // General
 //void ChooseTypeOfUser(int& type);
 void GeneralMenu(SignIn *pStaff, SignIn* pStudent,SchoolYear *&pHead,SchoolYear *&pCurr);
@@ -145,7 +146,7 @@ void PrintClassesList(Classes* pHead);
 
 void InputStudent(Students *& pHead, ifstream &studentInput);
 void PrintStudentsListInClass(Students* pHead);
-void PrintStudentListInCourse(Students* pHead, Courses*pH);
+void PrintStudentListInCourse(Courses *pHead,SignIn *pStudent);
 //Input scoreboard này tui thấy mình input trong hàm main cũng được nha
 void InputScoreBoard(ScoreBoardOfCourse*& pHead);
 void PrintScoreBoard(ScoreBoardOfCourse* pHead);
@@ -192,3 +193,5 @@ void foutSemester(SchoolYear*pHead);
 void readSchoolYearlist(SchoolYear *&pHead,SchoolYear *&pCurr);
 void readClassListAndStudent(SchoolYear *pHead);
 void readSemesterList(SchoolYear *pHead);
+
+bool checkCourses(Courses *pStudents, Courses *pC);
