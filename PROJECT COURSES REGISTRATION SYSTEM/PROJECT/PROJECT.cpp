@@ -1373,7 +1373,7 @@ back1:
             }
             else
             {
-                cout << "No Course found.\n";
+                cout << "No Course found." << endl;
                 system("pause");
             }
             goto backtocase2;
@@ -1413,7 +1413,7 @@ back1:
         {
             //Nhi: chỗ này kh có hàm update scoreboard , xủ lí chỗ này sao ha?
             //update scoreboard
-            cout << "\n\nScoreboard update successfully!\n";
+            cout << "\n\nScoreboard update successfully!"<<endl;
             break;
         }
         case 2:
@@ -1588,8 +1588,8 @@ stuback1:
     {
         case '1':
         {
-        cout << "******PROFILE INFO**********\n";
-        cout << pStudent->LastName << " " << pStudent->FirstName << " " << pStudent->ID << " " << pStudent->SocialID << "\n";
+            cout << "******PROFILE INFO**********" << endl;
+        cout << pStudent->LastName << " " << pStudent->FirstName << " " << pStudent->ID << " " << pStudent->SocialID <<endl;
         cout << pStudent->DoB << " " << pStudent->Gender << " " << pStudent->Class;
         cout << "\n***************************\n";
         system("pause");
@@ -1958,7 +1958,7 @@ void foutSignInStaff(SignIn *pHead)
     SignIn *pCurr = pHead;
     while (pCurr != nullptr)
     {
-        fout << pCurr->ID << "," << pCurr->Password << "," << pCurr->Name << "," << pCurr->Email << "\n";
+        fout << pCurr->ID << "," << pCurr->Password << "," << pCurr->Name << "," << pCurr->Email << endl;
         pCurr = pCurr->pNext;
     }
 } 
