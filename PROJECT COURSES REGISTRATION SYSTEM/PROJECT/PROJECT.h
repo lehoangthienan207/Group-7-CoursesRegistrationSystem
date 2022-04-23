@@ -127,7 +127,8 @@ DoB currentSemesterend;
 //void ChooseTypeOfUser(int& type);
 void GeneralMenu(SignIn *pStaff, SignIn* pStudent,SchoolYear *&pHead,SchoolYear *&pCurr);
 //void SignUp(SignIn*& pHead);
-void LogIn(SignIn* pHead);// Nhi: Long ơi chỗ này ông quên thêm biến trong hàm nha.
+void LogInStaff(SignIn* pHead);
+void LogInStudent(SignIn* pHead);// Nhi: Long ơi chỗ này ông quên thêm biến trong hàm nha.
 void ChangePassword(string& Password);
 void LogOut(SignIn *pStaff, SignIn* pStudent,SchoolYear *&pHead,SchoolYear *&pCurr);
 void ViewProfie(Students* pHead);// hàm mới để in thông tin học sinh nha.

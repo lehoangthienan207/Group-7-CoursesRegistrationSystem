@@ -202,7 +202,35 @@ void removeACourse(Courses *&pHead)
 }
 //Idea: check the SignIn linked list until there's is a correct ID - password combination
 //else the login process will restart again
-void LogIn(SignIn* pHead)
+void LogInStaff(SignIn* pHead)
+{
+    bool status = true;
+    string id_input;
+    string psw_input;
+    while (status)
+    {
+        cout << "Input ID: "; cin >> id_input;
+        cout << "Input password: "; cin >> psw_input;
+        SignIn *pCurr = pHead;
+        while (pCurr != nullptr)
+        {
+            if (id_input == pCurr -> ID && psw_input == pCurr -> Password)
+            {
+                pCurrentStaff = pCurr;
+                cout << "Sign-in successful" << endl;
+                status = false;
+                break;
+            }
+            else
+            {
+                pCurr = pCurr -> pNext;
+            }
+        }
+        if (status)
+            cout << "Login failed" << endl;
+    }
+}
+void LogInStudent(SignIn* pHead)
 {
     bool status = true;
     string id_input;
@@ -217,7 +245,6 @@ void LogIn(SignIn* pHead)
             if (id_input == pCurr -> ID && psw_input == pCurr -> Password)
             {
                 pStudentEnroll = pCurr;
-                pCurrentStaff = pCurr;
                 cout << "Sign-in successful" << endl;
                 status = false;
                 break;
@@ -316,12 +343,12 @@ void GeneralMenu(SignIn *pStaff, SignIn* pStudent,SchoolYear *&pHead,SchoolYear 
     cin.ignore(10000,'\n');
     if (choice == 1)
     {
-        LogIn(pStaff);
+        LogInStaff(pStaff);
         MenuOfStaff(pStaff,pStudent,pHead,pCurr);
     }
     else if (choice == 2)
     {
-        LogIn(pStudent);
+        LogInStudent(pStudent);
         MenuOfStudent(pStaff,pStudent,pHead,pCurr);
     }
     else if (choice == 3)
@@ -590,7 +617,14 @@ void CreateSemester(SchoolYear *pHead)
         }
         else
         {
-            int i = pCurr->pSemester->No +1;
+            int i = 1;
+            Courses *pT = pCurr->pSemester->pCourse;
+            while (pT != nullptr)
+            {
+                ++i;
+                pT = pT->pNext;
+            }
+            //int i = pCurr->pSemester->No +1;
             while(true)
             {
                 CreateCourses(pCurr->pSemester->pCourse,i);
@@ -1104,7 +1138,7 @@ void EnrollCourses(Courses* pHead, Courses*& pStudents, int limit, int& number)
         {
             if (pStudents == nullptr)
             {
-                cout << "NNNNNNNNNNNn\n";
+                //cout << "NNNNNNNNNNNn\n";
                 pStudents = new Courses;
                 pStudents->No = a;
                 pStudents->CourseID = pCurr->CourseID;
@@ -1675,7 +1709,8 @@ stuback1:
         }
         case '3':
         {
-            //while (pStudent != nullptr && pStudent != pStudentEnroll) pStudent = pStudent->pNext;
+            SignIn *pTemp = pStudent;
+            while (pTemp != nullptr && pTemp != pStudentEnroll) pTemp = pTemp->pNext;
         if (publishcheck == false)
         {
             cout << "Not Available\n";
@@ -1683,7 +1718,8 @@ stuback1:
             clrscr();
             goto stuback1;
         }
-        EnrollCourses(pHead->pSemester->pCourse,pStudentEnroll->pCStudent,5,pStudentEnroll->numberofCourse);
+        EnrollCourses(pHead->pSemester->pCourse,pTemp->pCStudent,5,pTemp->numberofCourse);
+        pStudentEnroll = pTemp;
         //enroll courses
         cout << "\n\nRegistered successfully!\n\n";
         cout << "\n\n\t\tThank you!\n\n";
@@ -1692,13 +1728,17 @@ stuback1:
         }
         case '4':
         {
-        PrintEnrolledCourses(pStudentEnroll->pCStudent);
+            SignIn *pTemp = pStudent;
+            while (pTemp != nullptr && pTemp != pStudentEnroll) pTemp = pTemp->pNext;
+        PrintEnrolledCourses(pTemp->pCStudent);
         system("pause");
         goto stuback1;
         break;
         }
     case '5':
     {
+        SignIn *pTemp = pStudent;
+        while (pTemp != nullptr && pTemp != pStudentEnroll) pTemp = pTemp->pNext;
         int i = 1;
         Courses *pCurr = pStudentEnroll->pCStudent;
         while (pCurr != nullptr)
@@ -1706,7 +1746,8 @@ stuback1:
             pCurr->No = i++;
             pCurr = pCurr->pNext;
         }
-        removeACourse(pStudentEnroll->pCStudent);
+        removeACourse(pTemp->pCStudent);
+        pStudentEnroll = pTemp;
         //remove course
         goto stuback1;
         break;
