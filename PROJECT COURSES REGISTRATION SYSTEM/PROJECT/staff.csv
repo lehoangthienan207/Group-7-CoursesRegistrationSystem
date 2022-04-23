@@ -1,5 +1,5 @@
 ID,Password,Name,Email
-D460101,123,Tran Thi Nhu Y,ttny@hcmus.edu.vn
+D460101,1234,Tran Thi Nhu Y,ttny@hcmus.edu.vn
 D520207,123,Cao Tran Bao Thuong,ctbthuong@hcmus.edu.vn 
 D420101,123,Le Thi Hong Hanh,lethhanh@hcmus.edu.vn
 D440201,123,Nguyen Thi Tu Anh,nttanh@hcmus.edu.vn
@@ -9,4 +9,4 @@ D480201,123,Vo Nam Thuc Doan,giaovu@fit.hcmus.edu.vn
 D440112,123,Nguyen Thi Tinh,nttinh@hcmus.edu.vn
 D440228,123,Lam Van Hao,lvhao@hcmus.edu.vn
 D510401,123,Nguyen Truong Hai,ngthai@hcmus.edu.vn
-D510406,123,Nguyen Thao Nguyen,ngtnguyen@hcmus.edu.vn
+D510406,123,Nguyen Thao Nguyen,ngtnguyen@hcmus.edu.vn;

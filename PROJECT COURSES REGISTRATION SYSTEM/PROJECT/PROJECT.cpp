@@ -126,15 +126,15 @@ void UpdateCourses(Courses*& pHead)
         cin >> pCurr->CourseID;
         cout << "Input name of course: ";
         cin.ignore();
-        getline(cin, pHead->CourseName);
+        getline(cin, pCurr->CourseName);
         cout << "Input weekday of session 1: ";
-        cin.getline(pHead->weekday1,4);
+        cin.getline(pCurr->weekday1,4);
         cout << "Input time of session 1: ";
-        cin.getline(pHead->time1,6);
+        cin.getline(pCurr->time1,6);
         cout << "Input weekday of session 2: ";
-        cin.getline(pHead->weekday2,4);
+        cin.getline(pCurr->weekday2,4);
         cout << "Input time of session 2: ";
-        cin.getline(pHead->time2,6);
+        cin.getline(pCurr->time2,6);
         cout << "Input maximum number of students (Default: 50): "; //maximum?? // Thư: là số lượng học sinh tối đa có thể đăng ký (default là 50)
         string input="";
         int maximum = 50;
@@ -143,12 +143,12 @@ void UpdateCourses(Courses*& pHead)
             istringstream stream(input);
             stream >> maximum;
         }
-        pHead->Maximum = maximum;
+        pCurr->Maximum = maximum;
         cout << "Input Number of credits: ";
-        cin >> pHead->Credits;
+        cin >> pCurr->Credits;
         cout << "Input teacher's name: ";
         cin.ignore();
-        getline(cin, pHead->TeacherName);
+        getline(cin, pCurr->TeacherName);
     }
     else
         cout << "No course found.";
@@ -2029,7 +2029,6 @@ void inputSignInStudent(SignIn *&pHead)
             pHead->Class = key;
             pHead->pNext = nullptr;
             pCurr = pHead;
-            
         }
         else
         {
@@ -2040,13 +2039,17 @@ void inputSignInStudent(SignIn *&pHead)
             getline(input,key,',');
             pCurr->Password = key;
             getline(input,key,',');
-            pCurr->Name = key;
+            pCurr->LastName = key;
+            getline(input,key,',');
+            pCurr->FirstName = key;
             getline(input,key,',');
             pCurr->SocialID = key;
             getline(input,key,',');
             pCurr->DoB = key;
-            getline(input,key);
+            getline(input,key,',');
             pCurr->Gender = key;
+            getline(input,key);
+            pCurr->Class = key;
             pCurr->pNext = nullptr;
         }   
     }
