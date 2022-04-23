@@ -1,2 +1,2 @@
 
-	SignIn *pStudentCurr = nullptr;
+	SchoolYear *pCurr = pHead;

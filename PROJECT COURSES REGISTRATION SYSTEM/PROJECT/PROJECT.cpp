@@ -420,10 +420,10 @@ void CreateSchoolYear(SchoolYear *&pHead, SchoolYear *&pCurr) //chỗ này có t
         string a ="";
         cin >> a;
         pCurr = pHead;
-        while (pCurr->years != a && pCurr->pNext != nullptr) pCurr = pCurr->pNext;
+        while (pCurr!= nullptr && pCurr->years != a) pCurr = pCurr->pNext;
         cout << "\n";
         
-        if (pCurr->years == a)
+        if (pCurr != nullptr)
         {
             Classes *pCurrY = pCurr->pClass;
             int i = pCurrY->No +1;
@@ -470,13 +470,22 @@ void CreateSchoolYear(SchoolYear *&pHead, SchoolYear *&pCurr) //chỗ này có t
         }
         else 
         {   
+   
             pCurr = pHead;
-            while (pCurr->pNext != nullptr) pCurr =pCurr->pNext;
+            //SchoolYear *pTemp = pCurr;
+            while (pCurr->pNext != nullptr) 
+            {
+                //pTemp = pCurr;
+                pCurr =pCurr->pNext;
+            }
+
             pCurr->pNext = new SchoolYear;
+
             pCurr = pCurr->pNext;
+
             pCurr->years =a;
             Classes *pCurrY = pCurr->pClass;
-            int i = pCurr->pClass->No +1;
+            int i = 1;
             while (true)
             {
                 CreateClasses(pCurr->pClass,pCurrY,i);
@@ -1095,6 +1104,7 @@ void EnrollCourses(Courses* pHead, Courses*& pStudents, int limit, int& number)
         {
             if (pStudents == nullptr)
             {
+                cout << "NNNNNNNNNNNn\n";
                 pStudents = new Courses;
                 pStudents->No = a;
                 pStudents->CourseID = pCurr->CourseID;
