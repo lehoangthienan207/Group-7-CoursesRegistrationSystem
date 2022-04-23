@@ -9,9 +9,10 @@
 #include <cstdio>
 #include <windows.h>
 #include <stdio.h>
+#include <stdlib.h>
 using namespace std;
 
-bool publishcheck = false;
+bool publishcheck = true;
 struct SignIn;
 struct DoB;
 struct Students;
@@ -158,7 +159,7 @@ void UpdateStudentResult(ScoreBoardOfCourse*& pHead);
 // Student // tui add lại ở đây, đừng xóa nữa nhen :<
 bool MaximumStudentEnrollInCourse(Courses*& pHead, Courses*& pStudents, int& number);
 bool DuplicatedSession(Courses*& pHead, Courses*& pStudents, int& number);
-void EnrollCourses(Courses*& pHead, Courses*& pStudents, int limit, int& number);
+void EnrollCourses(Courses* pHead, Courses*& pStudents, int limit, int& number);
 void PrintEnrolledCourses(Courses* pHead);
 void RemoveEnrolledCourses(Courses*& pHead);
 //void PrintScoreBoardOfStudents(ScoreBoardOfStudent*& pHead);
@@ -195,3 +196,4 @@ void readClassListAndStudent(SchoolYear *pHead);
 void readSemesterList(SchoolYear *pHead);
 
 bool checkCourses(Courses *pStudents, Courses *pC);
+void checkDate();

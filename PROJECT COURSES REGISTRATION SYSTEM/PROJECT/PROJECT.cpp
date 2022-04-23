@@ -247,10 +247,61 @@ void LogOut(SignIn *pStaff, SignIn* pStudent,SchoolYear *&pHead,SchoolYear *&pCu
     GeneralMenu(pStaff,pStudent,pHead,pCurr);
 }
 
+void checkDate()
+{
+    if (pCurrentSemester == nullptr)
+        return;
+    if (currentDateAndTime.year > pCurrentSemester->endDate.year)
+    {
+        publishcheck = false;
+        return;
+    }
+    else if (currentDateAndTime.year == pCurrentSemester->endDate.year)
+    {
+        if (currentDateAndTime.month > pCurrentSemester->endDate.month)
+        {
+            publishcheck = false;
+            return;
+        }
+        else if (currentDateAndTime.month == pCurrentSemester->endDate.month)
+        {
+            if (currentDateAndTime.day > pCurrentSemester->endDate.day)
+            {
+                publishcheck = false;
+                return;
+            }
+        }
+    }
+    if (currentDateAndTime.year < pCurrentSemester->startDate.year)
+    {
+        publishcheck = false;
+        return;
+    }
+    else if (currentDateAndTime.year == pCurrentSemester->startDate.year)
+    {
+        if (currentDateAndTime.month < pCurrentSemester->startDate.month)
+        {
+            publishcheck = false;
+            return;
+        }
+        else if (currentDateAndTime.month == pCurrentSemester->startDate.month)
+        {
+            if (currentDateAndTime.day < pCurrentSemester->startDate.day)
+            {
+                publishcheck = false;
+                return;
+            }
+        }
+    }
+    publishcheck = true;
+}
 void GeneralMenu(SignIn *pStaff, SignIn* pStudent,SchoolYear *&pHead,SchoolYear *&pCurr)
 {
+    if (pCurrentSemester != nullptr)
+        cout << "Active semester: " << pCurrentSemester->startDate.day << "/" << pCurrentSemester->startDate.month << "/" << pCurrentSemester->startDate.year << " -> " << pCurrentSemester->endDate.day << "/" << pCurrentSemester->endDate.month << "/" << pCurrentSemester->endDate.year << "\n";
     cout << "Input Current Date And Time (DD MM YYYY): ";
 	cin >> currentDateAndTime.day >> currentDateAndTime.month >> currentDateAndTime.year;
+    checkDate();
     clrscr();
     int choice;
     cout << "\n\t\t\t*****************LOGIN******************\n\n";
@@ -717,8 +768,8 @@ void PrintStudentListInCourse(Courses *pHead,SignIn *pStudent) {
     int i =1;
     while (pCur != nullptr)
     {
-        //bool check = false;
-        if (pCur->pCStudent != nullptr && pCur->pCStudent->CourseID == pHead->CourseID && pCur->pCStudent->CourseName == pHead->CourseName)
+        while (pCur->pCStudent != nullptr)
+        {if (pCur->pCStudent->CourseID == pHead->CourseID && pCur->pCStudent->CourseName == pHead->CourseName)
         {
             //check = true;
             cout << setw(5) << left << i++;
@@ -730,6 +781,8 @@ void PrintStudentListInCourse(Courses *pHead,SignIn *pStudent) {
             cout << setw(0) << left << pCur->DoB;
             cout << endl;
         }
+            pCur->pCStudent = pCur->pCStudent->pNext;
+        }
         pCur = pCur->pNext;
     }
     
@@ -737,7 +790,7 @@ void PrintStudentListInCourse(Courses *pHead,SignIn *pStudent) {
     // Students
 
 
-bool MaximumStudentEnrollInCourse(Courses*& pHead, Courses*& pStudents, int& number) // add a variable "number"
+/*bool MaximumStudentEnrollInCourse(Courses*& pHead, Courses*& pStudents, int& number) // add a variable "number"
 {
     Courses* pCur = pStudents;
     Courses* pCurrent = pHead;
@@ -829,9 +882,9 @@ bool MaximumStudentEnrollInCourse(Courses*& pHead, Courses*& pStudents, int& num
     }
 
     return true;
-}
+}*/
 
-bool DuplicatedSession(Courses*& pHead, Courses*& pStudents, int& number) // add a variable "number"
+/*bool DuplicatedSession(Courses*& pHead, Courses*& pStudents, int& number) // add a variable "number"
 {
     Courses* pCur = pStudents;
     Courses* pCurrent = pHead;
@@ -880,7 +933,7 @@ bool DuplicatedSession(Courses*& pHead, Courses*& pStudents, int& number) // add
         pCurrent = pCurrent->pNext;
     }
     return true;
-}
+}*/
 
 /*void EnrollCourses(Courses*& pHead, Courses*& pStudents, int limit, int& number)
 {
@@ -1024,7 +1077,7 @@ bool DuplicatedSession(Courses*& pHead, Courses*& pStudents, int& number) // add
         clrscr();
     }
 }*/
-void EnrollCourses(Courses*& pHead, Courses*& pStudents, int limit, int& number)
+void EnrollCourses(Courses* pHead, Courses*& pStudents, int limit, int& number)
 {
     while (true)
     { 
@@ -1351,9 +1404,10 @@ back1:
             }
             else
                 cout << "No school year found.";
+            pTempp = nullptr;
             system("pause");
             clrscr();
-            pTempp = nullptr;
+            
             goto backtocase2;
             break;
         }
@@ -1612,6 +1666,13 @@ stuback1:
         case '3':
         {
             //while (pStudent != nullptr && pStudent != pStudentEnroll) pStudent = pStudent->pNext;
+        if (publishcheck == false)
+        {
+            cout << "Not Available\n";
+            system("pause");
+            clrscr();
+            goto stuback1;
+        }
         EnrollCourses(pHead->pSemester->pCourse,pStudentEnroll->pCStudent,5,pStudentEnroll->numberofCourse);
         //enroll courses
         cout << "\n\nRegistered successfully!\n\n";
@@ -1662,7 +1723,7 @@ stuback1:
 
 //clear scr function
 void clrscr(){
-    cout << "\033[2J\033[1;1H";
+    system ("CLS");
 }
 
 void deleteClasses(Classes *&pHead)
@@ -1945,11 +2006,6 @@ bool isEmpty(ifstream& pFile)
     return pFile.peek() == ifstream::traits_type::eof();
 }
 
-
-//cần đọc lớp,semester trong school year list
-//cần đọc danh sách enrolled
-//phần bên trên chưa xong
-
 void foutSignInStaff(SignIn *pHead)
 {
     remove("staff.csv");
@@ -2230,6 +2286,5 @@ void readSemesterList(SchoolYear *pHead)
     while (pCurr != nullptr)
     {
         ifstream input(".\\"+pCurr->years + "\\" +"semesterList.txt");
-
     }
 }

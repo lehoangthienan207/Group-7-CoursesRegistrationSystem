@@ -1,0 +1,2 @@
+
+	SignIn *pStudentCurr = nullptr;
