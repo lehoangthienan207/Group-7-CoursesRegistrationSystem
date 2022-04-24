@@ -828,7 +828,7 @@ void PrintStudentListInCourse(Courses *pHead,SignIn *pStudent) {
         }
         pCur = pCur->pNext;
     }
-    
+    pCur = pStudent;
 }
     // Students
 
@@ -2327,6 +2327,17 @@ void readClassList(SchoolYear *pHead)
                     pCurr->pClass->pNext = nullptr;
                     ifstream readStudent(".\\" +pCurr->years + "\\" +pCurr->pClass->Name +".csv");
                     InputStudent(pCurr->pClass->pStudent,readStudent);
+                }
+                else
+                {
+                    Classes *pTemp = pCurr->pClass;
+                    while (pTemp->pNext != nullptr) pTemp = pTemp->pNext;
+                    pTemp->pNext = new Classes;
+                    pTemp = pTemp->pNext;
+                    input >> pTemp->Name >> pTemp->No >> pTemp->NumberOfStudents;
+                    pTemp->pNext = nullptr;
+                    ifstream readStudent(".\\" +pCurr->years + "\\" +pTemp->Name +".csv");
+                    InputStudent(pTemp->pStudent,readStudent);
                     pCurr->pClass = pCurr->pClass->pNext;  
                 }
             }
@@ -2340,5 +2351,15 @@ void readSemesterList(SchoolYear *pHead)
     while (pCurr != nullptr)
     {
         ifstream input(".\\"+pCurr->years + "\\" +"semesterList.txt");
+        if (input.good())
+        {
+            while (!input.eof())
+            {
+                if (pCurr->pSemester == nullptr)
+                {
+                    pCurr->pSemester = new Semester;    
+                }
+            }
+        }
     }
 }

@@ -131,7 +131,7 @@ void LogInStaff(SignIn* pHead);
 void LogInStudent(SignIn* pHead);// Nhi: Long ơi chỗ này ông quên thêm biến trong hàm nha.
 void ChangePassword(string& Password);
 void LogOut(SignIn *pStaff, SignIn* pStudent,SchoolYear *&pHead,SchoolYear *&pCurr);
-void ViewProfie(Students* pHead);// hàm mới để in thông tin học sinh nha.
+//void ViewProfie(Students* pHead);// hàm mới để in thông tin học sinh nha.
 // Staff
 /*void CreateSchoolYear(int& Year);*/ //Nhi: tui comment cái này lại nha, tại nó bị trùng hàm rồi.
 void CreateSchoolYear(SchoolYear *&pHead, SchoolYear *&pCurr);
