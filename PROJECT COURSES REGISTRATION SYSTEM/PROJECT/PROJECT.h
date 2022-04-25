@@ -117,6 +117,7 @@ struct SchoolYear{
 	SchoolYear *pNext{};
 };
 SignIn *pStudentEnroll = nullptr;
+SignIn *pStudentTemp = nullptr;
 SignIn *pCurrentStaff = nullptr;
 Semester *pCurrentSemester = nullptr;
 DoB currentDateAndTime;
@@ -185,16 +186,23 @@ void InputStudent(Students *& pHead, ifstream &studentInput);
 void inputSignInStaff(SignIn *&pHead);
 void inputSignInStudent(SignIn *&pHead);
 // output
+void foutCourses(SchoolYear *pHead);
 void foutSignInStudent(SignIn *pHead);
 void foutSignInStaff(SignIn *pHead);
 void foutSchoolYear(SchoolYear *pHead);
 void foutClasses(SchoolYear*pHead);
 void foutSemester(SchoolYear*pHead);
+void foutEnrolled(SchoolYear *pHead,SignIn *pStudent);
+void foutCurrentSemester(SchoolYear *pHead);
 
 //readfile
 void readSchoolYearlist(SchoolYear *&pHead,SchoolYear *&pCurr);
-void readClassListAndStudent(SchoolYear *pHead);
-void readSemesterList(SchoolYear *pHead);
-
+//void readClassListAndStudent(SchoolYear *pHead);
+void readClassList(SchoolYear *pHead);
+void readEnrolled(SchoolYear *pHead,SignIn *pStudent);
 bool checkCourses(Courses *pStudents, Courses *pC);
+void readSemesterList(SchoolYear *pHead);
+void readCurrentSemester(SchoolYear *pHead);
+void readCourses(SchoolYear *pHead);
+bool readfile();
 void checkDate();

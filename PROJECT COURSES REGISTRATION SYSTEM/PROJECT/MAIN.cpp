@@ -17,6 +17,15 @@ int main()
 	ScoreBoardOfStudent *pScoreBoardStudent = nullptr;	
 	ScoreBoardOfCourse *pScoreBoardCourse = nullptr;
 	inputSignInStudent(pStudent);
+	if (readfile())
+	{
+		readSchoolYearList(pHead,pCurr);
+		readClassList(pHead);
+		readSemesterList(pHead);
+		readCourses(pHead);
+		readCurrentSemester(pHead);
+		readEnrolled(pHead,pStudent);
+	}
 	GeneralMenu(pStaff,pStudent,pHead,pCurr);
 	
 
