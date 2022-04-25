@@ -1,2 +1,0 @@
-
-	SchoolYear *pCurr = pHead;

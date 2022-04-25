@@ -10,6 +10,7 @@
 #include <windows.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <queue>
 using namespace std;
 
 bool publishcheck = true;

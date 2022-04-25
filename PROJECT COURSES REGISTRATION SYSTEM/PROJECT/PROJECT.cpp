@@ -1729,6 +1729,7 @@ stuback1:
         //enroll courses
         cout << "\n\nRegistered successfully!\n\n";
         cout << "\n\n\t\tThank you!\n\n";
+
         foutEnrolled(pHead,pStudent);
         readEnrolled(pHead,pStudent);
         goto stuback1;
@@ -2319,6 +2320,7 @@ void readSchoolYearList(SchoolYear *&pHead,SchoolYear *&pCurr)
             pCurr->pNext = nullptr;
         }
     }
+    input.close();
 }
 void readClassList(SchoolYear *pHead)
 {
@@ -2357,8 +2359,10 @@ void readClassList(SchoolYear *pHead)
                 }
             }
         }
+        input.close();
         pCurr =pCurr->pNext;
     }
+
 }
 void readSemesterList(SchoolYear *pHead)
 {
@@ -2390,6 +2394,7 @@ void readSemesterList(SchoolYear *pHead)
                 }
             }
         }
+        input.close();
         pCurr = pCurr->pNext;
     }
 }
@@ -2427,7 +2432,7 @@ void foutEnrolled(SchoolYear *pHead,SignIn *pStudent)
                 
                     }
                 }
-                output.close();
+                //output.close();
                 pTemp = pTemp->pNext;
             }
         }
@@ -2447,17 +2452,30 @@ void readEnrolled(SchoolYear *pHead,SignIn *pStudent)
     }
     
     ifstream enrollList(".\\" + pCurr->years + "\\"+"semester " +to_string(pCurrentSemester->No)+"\\" + "enrolled.txt");
-    
     SignIn *pTemp = pStudent;
-    
-    if (enrollList.good())
+    if (enrollList)
     {
-       
+        int j = 0;
+        int arr[1000];
         string a = "";
-        enrollList >> a;
-        while (pTemp != nullptr)
+        getline(enrollList,a);
+        string b = "";
+        for (int i = 0 ; i < a.size();++i)
         {
-            if (pTemp->ID == a)
+            if (a[i] >= '0' &&a[i] <= '9')
+                b+=a[i];
+            if (a[i] ==' ')
+            {
+                //cout << atoi(b.c_str());
+                
+                arr[j++] = atoi(b.c_str());
+                b = "";
+            }
+        }
+        int k = 0;
+        while (pTemp != nullptr && k < j)
+        {
+            if (pTemp->ID == to_string(arr[k]))
             {
                
                 ifstream enroll(".\\" + pCurr->years +"\\" +"semester " + to_string(pCurr->pSemester->No)+"\\"+pTemp->ID+".txt");
@@ -2515,11 +2533,12 @@ void readEnrolled(SchoolYear *pHead,SignIn *pStudent)
                     pT->pNext = nullptr;
                     }
                 }
+                ++k;
             }
             pTemp = pTemp->pNext;
         }
-        
     }
+    
 }
 bool readfile()
 {
@@ -2571,6 +2590,7 @@ void readCourses(SchoolYear *pHead)
                     }
                 }
             }
+            input.close();
             pTemp = pTemp->pNext;
         }
         pCurr = pCurr->pNext;
@@ -2591,4 +2611,5 @@ void readCurrentSemester(SchoolYear *pHead)
         while (pTemp != nullptr && pTemp->No !=b ) pTemp = pTemp->pNext;
         if (pTemp!= nullptr) pCurrentSemester = pTemp;
     }
+    input.close();
 }

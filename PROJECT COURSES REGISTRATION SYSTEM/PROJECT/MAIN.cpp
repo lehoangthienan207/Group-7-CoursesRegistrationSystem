@@ -20,10 +20,15 @@ int main()
 	if (readfile())
 	{
 		readSchoolYearList(pHead,pCurr);
+		cout << "asdas\n";
 		readClassList(pHead);
+		cout << "asdas\n";
 		readSemesterList(pHead);
+		cout << "asdas\n";
 		readCourses(pHead);
+		cout << "asdas\n";
 		readCurrentSemester(pHead);
+		cout << "asdas\n";
 		readEnrolled(pHead,pStudent);
 	}
 	GeneralMenu(pStaff,pStudent,pHead,pCurr);
