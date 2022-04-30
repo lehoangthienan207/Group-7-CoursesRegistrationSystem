@@ -1928,11 +1928,11 @@ void foutSemester(SchoolYear*pHead)
         ofstream fout;
         fout.open(".\\" + pCurr->years + "\\" + "semesterList.txt");
         while (pTemp != nullptr)
-        {
-            if (pTemp->startDate.day == 0) break;   
+        {  
             fout << pTemp->No << " " << pTemp->startDate.day << " " << pTemp->startDate.month << " " << pTemp->startDate.year << " " << pTemp->endDate.day << " " << pTemp->endDate.month << " " << pTemp->endDate.year << "\n";
             pTemp = pTemp->pNext;
         }
+        fout.close();
         pCurr = pCurr->pNext;
     }
 }
@@ -1980,10 +1980,13 @@ void inputSignInStaff(SignIn *&pHead)
     SignIn *pCurr = pHead;
     while(!input.eof())
     {
+        getline(input,key,',');
+        if (key == "") break;
         if (pHead == nullptr)
         {
+
             pHead = new SignIn;
-            getline(input,key,',');
+            //getline(input,key,',');
             pHead->ID = key;
             getline(input,key,',');
             pHead->Password = key;
@@ -1998,7 +2001,7 @@ void inputSignInStaff(SignIn *&pHead)
         {
             pCurr->pNext = new SignIn;
             pCurr = pCurr->pNext;
-            getline(input,key,',');
+            //getline(input,key,',');
             pCurr->ID = key;
             getline(input,key,',');
             pCurr->Password = key;
@@ -2021,10 +2024,12 @@ void inputSignInStudent(SignIn *&pHead)
     SignIn *pCurr = pHead;
     while(!input.eof())
     {
+        getline(input,key,',');
+        if (key == "") break;
         if (pHead == nullptr)
         {
             pHead = new SignIn;
-            getline(input,key,',');
+            //getline(input,key,',');
             pHead->ID = key;
             getline(input,key,',');
             pHead->Password = key;
@@ -2047,7 +2052,7 @@ void inputSignInStudent(SignIn *&pHead)
         {
             pCurr->pNext = new SignIn;
             pCurr = pCurr->pNext;
-            getline(input,key,',');
+            //getline(input,key,',');
             pCurr->ID = key;
             getline(input,key,',');
             pCurr->Password = key;
@@ -2380,13 +2385,13 @@ void readSemesterList(SchoolYear *pHead)
         {
             while (input)
             {
-                int a;
+                string a;
                 input >> a;
-                if (a == 0) break;
+                if (a == "" || a == "0") break;
                 if (pCurr->pSemester == nullptr)
                 {
                     pCurr->pSemester = new Semester;    
-                    pCurr->pSemester->No = a;
+                    pCurr->pSemester->No = atoi(a.c_str());
                     input >> pCurr->pSemester->startDate.day >> pCurr->pSemester->startDate.month >> pCurr->pSemester->startDate.year;
                     input >> pCurr->pSemester->endDate.day >> pCurr->pSemester->endDate.month >> pCurr->pSemester->endDate.year;
                     pCurr->pSemester->pNext = nullptr;
@@ -2397,7 +2402,7 @@ void readSemesterList(SchoolYear *pHead)
                     while (pTemp->pNext != nullptr) pTemp = pTemp->pNext;
                     pTemp->pNext = new Semester;
                     pTemp = pTemp->pNext;
-                    pTemp->No = a;
+                    pTemp->No = atoi(a.c_str());
                     input >> pTemp->startDate.day >> pTemp->startDate.month >> pTemp->startDate.year >> pTemp->endDate.day >> pTemp->endDate.month >> pTemp->endDate.year;
                     pTemp->pNext= nullptr;
                 }
