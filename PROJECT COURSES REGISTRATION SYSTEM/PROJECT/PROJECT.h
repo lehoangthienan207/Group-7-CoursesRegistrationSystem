@@ -13,7 +13,7 @@
 #include <queue>
 using namespace std;
 
-bool publishcheck = true;
+bool publishcheck = false;
 struct SignIn;
 struct DoB;
 struct Students;
@@ -207,3 +207,4 @@ void readCurrentSemester(SchoolYear *pHead);
 void readCourses(SchoolYear *pHead);
 bool readfile();
 void checkDate();
+void ExportStudentInCourse(SignIn* pStudent, SchoolYear *pHead);
