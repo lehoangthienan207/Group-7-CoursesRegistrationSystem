@@ -89,6 +89,7 @@ struct ScoreBoardOfStudent {
 };
 
 struct Courses {
+	int semester;
 	int No{};
 	string CourseID{};
 	string CourseName{};
@@ -100,6 +101,7 @@ struct Courses {
 	int Credits{};
 	string TeacherName{};
 	Students *pStudent = nullptr;
+	ScoreOfStudentInBoard *pScore = nullptr;
 	Courses* pNext{};
 };
 struct Semester
@@ -208,3 +210,4 @@ void readCourses(SchoolYear *pHead);
 bool readfile();
 void checkDate();
 void ExportStudentInCourse(SignIn* pStudent, SchoolYear *pHead);
+void importScoreBoardOfACourse(SchoolYear *pHead,Courses *pCourseD);
