@@ -2453,14 +2453,11 @@ void readEnrolled(SchoolYear *pHead,SignIn *pStudent)
     SchoolYear *pCurr = pHead;
     while (pCurr!=nullptr)
     {
-        while (pCurr->pSemester != nullptr && pCurr->pSemester != pCurrentSemester)
-            pCurr->pSemester = pCurr->pSemester->pNext;
-        if(pCurr->pSemester != nullptr)
-            break;
-        pCurr = pCurr->pNext;
-    }
-    
-    ifstream enrollList(".\\" + pCurr->years + "\\"+"semester " +to_string(pCurrentSemester->No)+"\\" + "enrolled.txt");
+        Semester *pS = pCurr->pSemester;
+        while (pS != nullptr)
+        {
+            if (pS->No == 0) break;
+            ifstream enrollList(".\\" + pCurr->years + "\\"+"semester " +to_string(pS->No)+"\\" + "enrolled.txt");
     SignIn *pTemp = pStudent;
     if (enrollList)
     {
@@ -2547,7 +2544,10 @@ void readEnrolled(SchoolYear *pHead,SignIn *pStudent)
             pTemp = pTemp->pNext;
         }
     }
-    
+        pS = pS->pNext;
+        }
+        pCurr = pCurr->pNext;
+    }
 }
 bool readfile()
 {
