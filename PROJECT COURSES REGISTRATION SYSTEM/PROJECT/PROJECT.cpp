@@ -587,14 +587,12 @@ void CreateSemester(SchoolYear *pHead)
         int x;
         cout << "Input semester number: ";
         cin >> x;
-        while (pCurr->pSemester != nullptr && pCurr->pSemester->No != x) pCurr->pSemester = pCurr->pSemester->pNext;
         if (pCurr->pSemester == nullptr) 
         {
             pCurr->pSemester = new Semester;
             if (pCurr == pHead)
                 pHead = pCurr;
             pCurr->pSemester->No = x;
-            pCurrentSemester = pCurr->pSemester;
             cout << "Input start date (DD MM YYYY): ";
             cin >> pCurr->pSemester->startDate.day >> pCurr->pSemester->startDate.month >> pCurr->pSemester->startDate.year;
             currentSemesterstart.day = pCurr->pSemester->startDate.day;
@@ -617,11 +615,15 @@ void CreateSemester(SchoolYear *pHead)
                 if (check != 'y')
                     break;
             }
+            pCurrentSemester = pCurr->pSemester;
         }
-        else
+        else 
         {
-            int i = 1;
-            Courses *pT = pCurr->pSemester->pCourse;
+            pTemp = pCurr->pSemester;
+            while (pTemp != nullptr && pTemp->No != x) pTemp = pTemp->pNext;
+            if (pTemp != nullptr) 
+            {int i = 1;
+            Courses *pT = pTemp->pCourse;
             while (pT != nullptr)
             {
                 ++i;
@@ -637,6 +639,36 @@ void CreateSemester(SchoolYear *pHead)
                 if (check != 'y')
                     break;
             }
+                return;
+            }
+            pTemp = pCurr->pSemester;
+            while (pTemp->pNext != nullptr) pTemp = pTemp->pNext;
+            pTemp->pNext = new Semester;
+            pTemp = pTemp->pNext;
+            pTemp->No = x;
+            cout << "Input start date (DD MM YYYY): ";
+            cin >> pTemp->startDate.day >> pTemp->startDate.month >> pTemp->startDate.year;
+            currentSemesterstart.day = pTemp->startDate.day;
+            currentSemesterstart.month = pTemp->startDate.month;
+            currentSemesterstart.year = pTemp->startDate.year;
+            cout << "Input end date (DD MM YYYY): ";
+            cin >> pTemp->endDate.day >> pTemp->endDate.month >> pTemp->endDate.year;
+            currentSemesterend.day = pTemp->endDate.day;
+            currentSemesterend.month = pTemp->endDate.month;
+            currentSemesterend.year = pTemp->endDate.year;
+            pTemp->pCourse = nullptr;
+            pTemp->pNext = nullptr;
+            int i = 1;
+            while(true)
+            {
+                CreateCourses(pTemp->pCourse,i);
+                cout << "Continue adding courses? (y = yes, n = no): ";
+                char check = 'n';
+                cin >> check;
+                if (check != 'y')
+                    break;
+            }
+            pCurrentSemester = pTemp;
         }
     }
     else
