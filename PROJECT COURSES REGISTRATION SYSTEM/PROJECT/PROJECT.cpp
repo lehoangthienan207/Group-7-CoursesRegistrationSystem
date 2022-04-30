@@ -1942,6 +1942,7 @@ void foutCourses(SchoolYear *pHead)
             Courses *pTam = pTemp->pCourse;
             while (pTam != nullptr)
             {
+                if (pTam == nullptr) break;
                 output << pTam->No << " " << pTam->CourseID << " " << pTam->CourseName << " " << pTam->weekday1 << " " << pTam->time1 << " " << pTam->weekday2 << " " << pTam->time2 << " " << pTam->Maximum << " " << pTam->Credits << " " << pTam->TeacherName << "\n";
                 pTam = pTam->pNext;
             }
@@ -2371,12 +2372,15 @@ void readSemesterList(SchoolYear *pHead)
         ifstream input(".\\"+pCurr->years + "\\" +"semesterList.txt");
         if (input.good())
         {
-            while (!input.eof())
+            while (input)
             {
+                int a;
+                input >> a;
+                if (a == 0) break;
                 if (pCurr->pSemester == nullptr)
                 {
                     pCurr->pSemester = new Semester;    
-                    input >> pCurr->pSemester->No;
+                    pCurr->pSemester->No = a;
                     input >> pCurr->pSemester->startDate.day >> pCurr->pSemester->startDate.month >> pCurr->pSemester->startDate.year;
                     input >> pCurr->pSemester->endDate.day >> pCurr->pSemester->endDate.month >> pCurr->pSemester->endDate.year;
                     pCurr->pSemester->pNext = nullptr;
@@ -2387,7 +2391,7 @@ void readSemesterList(SchoolYear *pHead)
                     while (pTemp->pNext != nullptr) pTemp = pTemp->pNext;
                     pTemp->pNext = new Semester;
                     pTemp = pTemp->pNext;
-                    input >> pTemp->No;
+                    pTemp->No = a;
                     input >> pTemp->startDate.day >> pTemp->startDate.month >> pTemp->startDate.year >> pTemp->endDate.day >> pTemp->endDate.month >> pTemp->endDate.year;
                     pTemp->pNext= nullptr;
                 }
@@ -2402,8 +2406,7 @@ void foutEnrolled(SchoolYear *pHead,SignIn *pStudent)
     SchoolYear *pCurr = pHead;
     if (pCurrentSemester != nullptr)
     {
-        while (pCurr != nullptr && pCurr->pSemester != pCurrentSemester) pCurr = pCurr->pNext;
-        if (pCurr != nullptr)
+        while (pCurr != nullptr)
         {
             SignIn *pTemp = pStudent;
             ofstream output(".\\"+pCurr->years+"\\"+"semester " +to_string(pCurr->pSemester->No) +"\\"+"enrolled.txt");
@@ -2434,6 +2437,7 @@ void foutEnrolled(SchoolYear *pHead,SignIn *pStudent)
                 //output.close();
                 pTemp = pTemp->pNext;
             }
+            pCurr = pCurr->pNext;
         }
     }
 }

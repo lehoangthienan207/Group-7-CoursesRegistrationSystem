@@ -1,0 +1,19 @@
+đọc các csv:
+sign in: hoàn thành
+import csv student to class: hoàn thành 
+
+
+đọc file trước khi chạy menu:
+readSchoolYearlist: hoàn thành 
+readClassListAndStudent: chưa
+readSemesterAndCoursesList: chưa
+readEnrolledCourse: chưa
+
+
+xuất file khi đã chạy chương trình(xuất ra txt):
+xuất năm học: hoàn thành
+xuất lớp: chưa 
+xuất Semester: chưa 
+xuất file enrolled: chưa 
+
+deadline 10/4/2022;
