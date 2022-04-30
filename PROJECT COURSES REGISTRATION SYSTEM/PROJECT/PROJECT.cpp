@@ -1143,7 +1143,6 @@ void EnrollCourses(Courses* pHead, Courses*& pStudents, int limit, int& number)
             {
                 //cout << "NNNNNNNNNNNn\n";
                 pStudents = new Courses;
-                pStudents->semester = pCurrentSemester->No;
                 pStudents->No = a;
                 pStudents->CourseID = pCurr->CourseID;
                 pStudents->CourseName = pCurr->CourseName;
@@ -1172,7 +1171,6 @@ void EnrollCourses(Courses* pHead, Courses*& pStudents, int limit, int& number)
                         while (pTemp->pNext != nullptr) pTemp = pTemp->pNext;
                         pTemp->pNext = new Courses;
                         pTemp = pTemp->pNext;
-                        pTemp->semester = pCurrentSemester->No;
                         pTemp->No = a;
                         pTemp->CourseID = pCurr->CourseID;
                         pTemp->CourseName = pCurr->CourseName;
@@ -1982,12 +1980,10 @@ void inputSignInStaff(SignIn *&pHead)
     SignIn *pCurr = pHead;
     while(!input.eof())
     {
-        getline(input,key,',');
-        if (key == "") break;
         if (pHead == nullptr)
         {
             pHead = new SignIn;
-            //getline(input,key,',');
+            getline(input,key,',');
             pHead->ID = key;
             getline(input,key,',');
             pHead->Password = key;
@@ -2002,7 +1998,7 @@ void inputSignInStaff(SignIn *&pHead)
         {
             pCurr->pNext = new SignIn;
             pCurr = pCurr->pNext;
-            //getline(input,key,',');
+            getline(input,key,',');
             pCurr->ID = key;
             getline(input,key,',');
             pCurr->Password = key;
@@ -2135,7 +2131,7 @@ void ExportStudentInCourse(SignIn* pStudent, SchoolYear *pHead)
         output << "Mid Term" <<",";
         output << "Final Term" <<",";
         output << "Other Score" <<",";
-        output << "Total Mark" << "\n";
+        output << "Overall" << "\n";
         int i = 1;
         while (pT != nullptr)
         {
@@ -2167,70 +2163,48 @@ void ExportStudentInCourse(SignIn* pStudent, SchoolYear *pHead)
         cout << "No Course found.";
     }
 }
-void importScoreBoardOfACourse(SchoolYear *pHead,Courses *pCourseD)
-{
-    SchoolYear *pCurr = pHead;
-    Semester *pT = pCurr->pSemester;
-    while (pCurr != nullptr)
+/*void importScoreBoardCourse(ScoreBoardOfCourse *&pScoreBoardCourse, ScoreBoardOfStudent *&PrintScoreBoardOfStudents, SchoolYear *pSchoolYear)
+{   
+    bool check = false;
+    SchoolYear *pTemp = pSchoolYear;
+    while (pTemp != nullptr)
     {
-        pT = pCurr->pSemester;
-        bool check = false;
-        while (pT != nullptr)
+        check = false;
+        if (pTemp->pSemester != nullptr && pTemp->pSemester != pCurrentSemester) pTemp->pSemester = pTemp->pSemester->pNext;
+        if (pTemp->pSemester != nullptr)
         {
-            while (pT->pCourse != nullptr && pT->pCourse != pCourseD)
-                {
-                    pT->pCourse = pT->pCourse->pNext;
-                    check = true;
-                }
-            pT = pT->pNext;
-        }
-        if (check)
+            check = true;
             break;
-        pCurr = pCurr->pNext;
+        }
+        if(check)
+            break;
+        pTemp = pTemp->pNext;
     }
-    ifstream input(".\\" + pCurr->years + "\\" +"semester " +to_string(pT->No) + "\\" + pCourseD->CourseID + "_student_list.csv");
-    if (input)
+    if (check)
     {
-        string a = "";
-        getline(input,a);
-        while (input.eof())
+        Courses* pCurr = pCurrentSemester->pCourse;
+        int course_choice;
+        PrintCoursesList(pCurrentSemester->pCourse);    
+        cout << "Input the No of the course you want to import: ";
+        cin >> course_choice;
+        
+
+        while (pCurr != nullptr && pCurr->No != course_choice) pCurr = pCurr->pNext;
+        if (pCurr != nullptr)
         {
-            string temp;
-            getline(input,temp,',');
-            if (temp == "" || temp == "0") break;
-            ScoreOfStudentInBoard *pTemp = pCourseD->pScore;
-            if (pCourseD->pScore == nullptr)
+            if (pScoreBoardCourse == nullptr)
+            {pScoreBoardCourse = new ScoreBoardOfCourse;
+            pScoreBoardCourse->CourseName = pCurr->CourseName;
+            pScoreBoardCourse->CourseID = pCurr->CourseID; 
+            string a = "";
+            ifstream input(".\\"+pTemp->years+"\\"+ "semester " + to_string(pCurrentSemester->No) + "\\"+pCurr->CourseName+"_student_list.csv");
+            getline(input,a);
+            while (!input.eof())
             {
-                pCourseD->pScore = new ScoreOfStudentInBoard;
-                pCourseD->pScore->No = atoi(temp.c_str());
+                pScoreBoardCourse->pStudent = new ScoreBoardOfStudent;
+                ScoreOfStudentInBoard *pTemp = pScoreBoardCourse->pStudent;
                 getline(input,a,',');
-                pCourseD->pScore->StudentID =atoi(a.c_str());
-                getline(input,a,',');
-                pCourseD->pScore->FirstName = a;
-                getline(input,a,',');
-                pCourseD->pScore->LastName = a;
-                getline(input,a,',');
-                pCourseD->pScore->DateOfBirth = a;
-                getline(input,a,',');
-                pCourseD->pScore->classID = a;
-                getline(input,a,',');
-                pCourseD->pScore->Midterm = atof(a.c_str());
-                getline(input,a,',');
-                pCourseD->pScore->Finalterm = atof(a.c_str());
-                getline(input,a,',');
-                pCourseD->pScore->OtherScore = atof(a.c_str());
-                getline(input,a);
-                pCourseD->pScore->Overall = atof(a.c_str());
-                pCourseD->pScore->next = nullptr;
-                pTemp = pCourseD->pScore;
-            }
-            else
-            {
-                pTemp->next = new ScoreOfStudentInBoard;
-                pTemp = pTemp->next;
-                pTemp->No = atoi(temp.c_str());
-                getline(input,a,',');
-                pTemp->StudentID =atoi(a.c_str());
+                pTemp->No = atoi(a.c_str());
                 getline(input,a,',');
                 pTemp->FirstName = a;
                 getline(input,a,',');
@@ -2246,12 +2220,84 @@ void importScoreBoardOfACourse(SchoolYear *pHead,Courses *pCourseD)
                 getline(input,a,',');
                 pTemp->OtherScore = atof(a.c_str());
                 getline(input,a);
-                pTemp->Overall = atof(a.c_str());
-                pTemp->next = nullptr;
+                pTemp->Finalterm = atof(a.c_str());
+            }   
+            cout << "Import Successfully";
+            system("pause");
+            pScoreBoardCourse->pNext = nullptr;}
+            else
+            {
+                ScoreBoardOfCourse *pCurrScore = pScoreBoardCourse;
+                while (pCurrScore->pNext != nullptr) pCurrScore = pCurrScore->pNext;
+                pCurrScore->pNext = new ScoreBoardOfCourse;
+                pCurrScore = pCurrScore->pNext;
+                pCurrScore->CourseName = pCurr->CourseName;
+           pCurrScore->CourseID = pCurr->CourseID; 
+            string a = "";
+            ifstream input(".\\"+pTemp->years+"\\"+ "semester " + to_string(pCurrentSemester->No) + "\\"+pCurr->CourseName+"_student_list.csv");
+            getline(input,a);
+            while (!input.eof())
+            {
+                pCurrScore->pStudent = new ScoreBoardOfStudent;
+                ScoreOfStudentInBoard *pTemp = pCurrScore->pStudent;
+                getline(input,a,',');
+                pTemp->No = atoi(a.c_str());
+                getline(input,a,',');
+                pTemp->FirstName = a;
+                getline(input,a,',');
+                pTemp->LastName = a;
+                getline(input,a,',');
+                pTemp->DateOfBirth = a;
+                getline(input,a,',');
+                pTemp->classID = a;
+                getline(input,a,',');
+                pTemp->Midterm = atof(a.c_str());
+                getline(input,a,',');
+                pTemp->Finalterm = atof(a.c_str());
+                getline(input,a,',');
+                pTemp->OtherScore = atof(a.c_str());
+                getline(input,a);
+                pTemp->Finalterm = atof(a.c_str());
+            }   
+            cout << "Import Successfully";
+            system("pause");
+            pCurrScore->pNext = nullptr;
             }
         }
+        
+        else
+        {
+            cout << "No Course found.";
+        }
     }
-}
+    else
+    {
+        cout << "\nCurrently no Semester available.\n";
+        return;
+    }
+}*/
+/*void deleteScoreBoard(ScoreBoardOfCourse *&pBoard, ScoreBoardOfStudent *&pStudent)
+{
+    ScoreOfStudentInBoard *pTemp = pScoreBoardCourse->pStudent;
+    while (pTemp != nullptr)
+    {
+        ScoreOfStudentInBoard *pTempp = pTemp;
+        pTemp = pTemp->next;
+        delete pTempp;
+    }
+    while (pStudent != nullptr)
+    {
+        ScoreBoardOfCourse *pTempp = pStudent;
+        pStudent = pStudent->pNext;
+        delete pTempp;
+    }
+    while (pBoard != nullptr)
+    {
+        ScoreBoardOfCourse *pTempp = pBoard;
+        pBoard = pBoard->pNext;
+        delete pTempp;
+    }
+}*/
 void readSchoolYearList(SchoolYear *&pHead,SchoolYear *&pCurr)
 {
     ifstream input("schoolYearList.txt");
@@ -2334,10 +2380,9 @@ void readSemesterList(SchoolYear *pHead)
         {
             while (input)
             {
-                string temp = "";
-                input >> temp;
-                if (temp == "" || temp == "0") break;
-                int a = atoi(temp.c_str());
+                int a;
+                input >> a;
+                if (a == 0) break;
                 if (pCurr->pSemester == nullptr)
                 {
                     pCurr->pSemester = new Semester;    
@@ -2371,7 +2416,6 @@ void foutEnrolled(SchoolYear *pHead,SignIn *pStudent)
         {
             SignIn *pTemp = pStudent;
             ofstream output(".\\"+pCurr->years+"\\"+"semester " +to_string(pCurr->pSemester->No) +"\\"+"enrolled.txt");
-            output << pCurr->pSemester->No << " ";
             while (pTemp != nullptr)
             {
                 if (pTemp->pCStudent != nullptr)
@@ -2379,9 +2423,7 @@ void foutEnrolled(SchoolYear *pHead,SignIn *pStudent)
                     ofstream outCourses(".\\"+pCurr->years+"\\"+"semester " +to_string(pCurr->pSemester->No) +"\\"+pTemp->ID+".txt");
                     output << pTemp->ID << " ";
                     while(pTemp->pCStudent != nullptr)
-                    {
-                        if (pTemp->pCStudent->semester == pCurr->pSemester->No)
-                       { outCourses << pTemp->pCStudent->No << " " << pTemp->pCStudent->CourseID << " " << pTemp->pCStudent->CourseName << " " << pTemp->pCStudent->Credits << " " << pTemp->pCStudent->Maximum << " " << pTemp->pCStudent->TeacherName << " ";
+                    {outCourses << pTemp->pCStudent->No << " " << pTemp->pCStudent->CourseID << " " << pTemp->pCStudent->CourseName << " " << pTemp->pCStudent->Credits << " " << pTemp->pCStudent->Maximum << " " << pTemp->pCStudent->TeacherName << " ";
                     for (int i = 0 ; i < strlen(pTemp->pCStudent->time1);++i)
                         outCourses << pTemp->pCStudent->time1[i];
                     outCourses << " ";
@@ -2394,7 +2436,8 @@ void foutEnrolled(SchoolYear *pHead,SignIn *pStudent)
                     for (int i = 0 ; i < strlen(pTemp->pCStudent->weekday2);++i)
                         outCourses << pTemp->pCStudent->weekday2[i];
                     outCourses << "\n";
-                        pTemp->pCStudent = pTemp->pCStudent->pNext;}
+                        pTemp->pCStudent = pTemp->pCStudent->pNext;
+                
                     }
                 }
                 //output.close();
@@ -2410,13 +2453,14 @@ void readEnrolled(SchoolYear *pHead,SignIn *pStudent)
     SchoolYear *pCurr = pHead;
     while (pCurr!=nullptr)
     {
-        while (pCurr->pSemester != nullptr)
-        {
-            ifstream enrollList(".\\" + pCurr->years + "\\"+"semester " +to_string(pCurr->pSemester->No)+"\\" + "enrolled.txt");
-    string tam;
-    enrollList >> tam;
-    if (tam == "" || tam == "0") return;
-    int semester = atoi(tam.c_str());
+        while (pCurr->pSemester != nullptr && pCurr->pSemester != pCurrentSemester)
+            pCurr->pSemester = pCurr->pSemester->pNext;
+        if(pCurr->pSemester != nullptr)
+            break;
+        pCurr = pCurr->pNext;
+    }
+    
+    ifstream enrollList(".\\" + pCurr->years + "\\"+"semester " +to_string(pCurrentSemester->No)+"\\" + "enrolled.txt");
     SignIn *pTemp = pStudent;
     if (enrollList)
     {
@@ -2453,7 +2497,6 @@ void readEnrolled(SchoolYear *pHead,SignIn *pStudent)
                     if (b == "")
                         break;
                         pTemp->pCStudent = new Courses;
-                pTemp->pCStudent->semester = semester;
                 pTemp->pCStudent->No = atoi(b.c_str());
                 enroll >> pTemp->pCStudent->CourseID;
                 enroll >> pTemp->pCStudent->CourseName;
@@ -2481,7 +2524,6 @@ void readEnrolled(SchoolYear *pHead,SignIn *pStudent)
                         Courses *pT = pTemp->pCStudent;
                     while (pT->pNext != nullptr) pT = pT->pNext;
                     pT->pNext = new Courses;
-                    pT->semester = semester;
                     pT = pT->pNext;
                     pT->No = atoi(b.c_str());
                     enroll >> pT->CourseID;
@@ -2505,12 +2547,6 @@ void readEnrolled(SchoolYear *pHead,SignIn *pStudent)
             pTemp = pTemp->pNext;
         }
     }
-            pCurr->pSemester = pCurr->pSemester->pNext;
-        }     
-        pCurr = pCurr->pNext;
-    }
-    
-    
     
 }
 bool readfile()
