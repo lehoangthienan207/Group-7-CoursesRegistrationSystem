@@ -1500,13 +1500,12 @@ back1:
         break;
     }
     case 3: {
-        goto back1;
-        break;
-        /*cout << "\n\t\t\t*****************STAFF******************\n\n";
+        backtoscoreboard: 
+        cout << "\n\t\t\t*****************STAFF******************\n\n";
         cout << "\t\t      ********************************************\n";
         cout << "\t\t      *\t     1.Update scoreboard\t\t *\n";
         cout << "\t\t      *\t     2.View scoreboard of a course\t *\n";
-        cout << "\t\t      *\t     3.View scoreboard of a class\t *\n";
+        cout << "\t\t      *\t     3.Export students of a course\t *\n";
         cout << "\t\t      *\t     4.View scoreboard of a class\t *\n";
         cout << "\t\t      *\t     5.Back \t\t\t\t *\n";
         cout << "\t\t      ********************************************\n\n";
@@ -1528,6 +1527,12 @@ back1:
         }
         case 3:
         {
+            ExportStudentInCourse(pStudent,pHead);
+            goto backtoscoreboard;
+            break;
+        }
+        case 4:
+        {
             //view scoreboard of a classes
         }
         case 5:
@@ -1540,7 +1545,7 @@ back1:
         default:
             cout << "\n\nError!\n\n";
             break;
-        }*/
+        }
     }
     case 4: {
         LogOut(pStaff,pStudent,pHead,pCurr);
@@ -1920,10 +1925,11 @@ void foutSemester(SchoolYear*pHead)
     while (pCurr != nullptr)
     {
         Semester *pTemp = pCurr->pSemester;
+        ofstream fout;
+        fout.open(".\\" + pCurr->years + "\\" + "semesterList.txt");
         while (pTemp != nullptr)
         {
-            ofstream fout;
-            fout.open(".\\" + pCurr->years + "\\" + "semesterList.txt");
+            if (pTemp->startDate.day == 0) break;   
             fout << pTemp->No << " " << pTemp->startDate.day << " " << pTemp->startDate.month << " " << pTemp->startDate.year << " " << pTemp->endDate.day << " " << pTemp->endDate.month << " " << pTemp->endDate.year << "\n";
             pTemp = pTemp->pNext;
         }
@@ -1942,7 +1948,7 @@ void foutCourses(SchoolYear *pHead)
             Courses *pTam = pTemp->pCourse;
             while (pTam != nullptr)
             {
-                if (pTam == nullptr) break;
+                if (pTam->No == 0) break;
                 output << pTam->No << " " << pTam->CourseID << " " << pTam->CourseName << " " << pTam->weekday1 << " " << pTam->time1 << " " << pTam->weekday2 << " " << pTam->time2 << " " << pTam->Maximum << " " << pTam->Credits << " " << pTam->TeacherName << "\n";
                 pTam = pTam->pNext;
             }
@@ -2570,15 +2576,19 @@ void readCourses(SchoolYear *pHead)
             ifstream input(".\\" + pCurr->years + "\\" + "semester " + to_string(pCurr->pSemester->No) + "\\" + "courselist.txt");
             if (!input.fail())
             {
-                
                 while (!input.eof())
                 {
-                   
+                    int a;
+                    input >> a;
+                    string ID ="";
+                    input >> ID;
+                    if (ID == "") break;
                     if (pTemp->pCourse == nullptr)
                     {
-                      
                         pTemp->pCourse = new Courses;
-                        input >> pTemp->pCourse->No >> pTemp->pCourse->CourseID >> pTemp->pCourse->CourseName >> pTemp->pCourse->weekday1 >> pTemp->pCourse->time1 >> pTemp->pCourse->weekday2 >> pTemp->pCourse->time2 >> pTemp->pCourse->Maximum >> pTemp->pCourse->Credits >> pTemp->pCourse->TeacherName;
+                        pTemp->pCourse->No = a;
+                        pTemp->pCourse->CourseID = ID;
+                        input  >> pTemp->pCourse->CourseName >> pTemp->pCourse->weekday1 >> pTemp->pCourse->time1 >> pTemp->pCourse->weekday2 >> pTemp->pCourse->time2 >> pTemp->pCourse->Maximum >> pTemp->pCourse->Credits >> pTemp->pCourse->TeacherName;
                         pTemp->pCourse->pNext = nullptr;
                     }
                     else
@@ -2588,7 +2598,9 @@ void readCourses(SchoolYear *pHead)
                         while (pT->pNext != nullptr) pT = pT->pNext;
                         pT->pNext = new Courses;
                         pT = pT->pNext;
-                        input >> pT->No >> pT->CourseID >> pT->CourseName >> pT->weekday1 >> pT->time1 >> pT->weekday2 >> pT->time2 >> pT->Maximum >> pT->Credits >> pT->TeacherName;
+                        pT->No = a;
+                        pT->CourseID = ID;
+                        input>> pT->CourseName >> pT->weekday1 >> pT->time1 >> pT->weekday2 >> pT->time2 >> pT->Maximum >> pT->Credits >> pT->TeacherName;
                         pT->pNext = nullptr;
                     }
                 }
@@ -2599,6 +2611,7 @@ void readCourses(SchoolYear *pHead)
         pCurr = pCurr->pNext;
     }
 }
+
 void readCurrentSemester(SchoolYear *pHead)
 {
     SchoolYear *pCurr = pHead;
