@@ -1943,7 +1943,7 @@ void foutCourses(SchoolYear *pHead)
             while (pTam != nullptr)
             {
                 output << pTam->No << " " << pTam->CourseID << " " << pTam->CourseName << " " << pTam->weekday1 << " " << pTam->time1 << " " << pTam->weekday2 << " " << pTam->time2 << " " << pTam->Maximum << " " << pTam->Credits << " " << pTam->TeacherName << "\n";
-
+                pTam = pTam->pNext;
             }
             pTemp = pTemp->pNext;
         }
@@ -2091,42 +2091,30 @@ void foutSignInStudent(SignIn *pHead)
     }
 }     
 
-void ExportStudentInCourse(Students*& pStudent, SchoolYear *pHead)
+void ExportStudentInCourse(SignIn* pStudent, SchoolYear *pHead)
 { 
-    fstream output;
-    SchoolYear *pSchoolYear = pHead;
-    Semester *pTemp = pHead->pSemester;
+    SchoolYear *pCurr = pHead;
+    Semester* pTemp = pCurr->pSemester;
     if (pCurrentSemester != nullptr)
-        while (pSchoolYear != nullptr)
-        {
-            bool check = false;
-            pTemp = pSchoolYear->pSemester;
-            while (pTemp != nullptr)
-                if (pTemp != pCurrentSemester)
-                    pTemp = pTemp->pNext;
-                else
-                {
-                    check = true;
-                    break;
-                }
-            if (check)
-                break;
-            pSchoolYear = pSchoolYear->pNext;
-        }
-    else
+    {while (pCurr != nullptr)
     {
-        cout << "\nCurrently no Semester available.\n";
-        return;
-    }
-    Courses* pCurr = pCurrentSemester->pCourse;
+        while (pTemp != nullptr && pTemp != pCurrentSemester) pTemp = pTemp->pNext;
+        if (pTemp != nullptr)
+            break;
+        pCurr = pCurr->pNext;
+    }}
+    if (pCurr == nullptr) return;
+    Courses* pCur = pCurrentSemester->pCourse;
     int course_choice;
+    SignIn *pT = pStudent;
     PrintCoursesList(pCurrentSemester->pCourse);    
     cout << "Input the No of the course you want to export: ";
     cin >> course_choice;
-    while (pCurr != nullptr && pCurr->No != course_choice) pCurr = pCurr->pNext;
-    if (pCurr != nullptr)
+    while (pCur != nullptr && pCur->No != course_choice) pCur = pCur->pNext;
+    if (pCur != nullptr)
     {
-        output.open(".\\" + pSchoolYear->years + "\\" + "semester " + to_string(pCurrentSemester->No) + "\\"+pCurr->CourseName+"_student_list.csv", ios::out);
+        fstream output;
+        output.open(".\\" + pCurr->years + "\\" + "semester " + to_string(pCurrentSemester->No) + "\\"+pCur->CourseName+"_student_list.csv", ios::out);
         output << "No" << ",";
         output << "Student ID" << ",";
         output << "First Name" << ",";
@@ -2137,23 +2125,34 @@ void ExportStudentInCourse(Students*& pStudent, SchoolYear *pHead)
         output << "Final Term" <<",";
         output << "Other Score" <<",";
         output << "Overall" << "\n";
-        Students *pStudent = pCurr->pStudent;
-        while (pStudent != nullptr)
+        int i = 1;
+        while (pT != nullptr)
         {
-            output << pStudent->No <<",";
-            output << pStudent->StudentID <<",";
-            output << pStudent->FirstName <<",";
-            output << pStudent->LastName << ",";
-            output << pStudent->DateOfBirth<<"\n";
-            pStudent = pStudent->pNext;
+            while (pT->pCStudent != nullptr)
+            {
+                if (pT->pCStudent->CourseID == pCur->CourseID && pT->pCStudent->CourseName == pT->pCStudent->CourseName)
+                {
+                    output << i++ << ",";
+                    output << pT->ID << ",";
+                    output << pT->FirstName << ",";
+                    output << pT->LastName << ",";
+                    output << pT->DoB << ",";
+                    output << pT->Class << ",\n";
+                }
+                pT->pCStudent = pT->pCStudent->pNext;
+            }
+            pT = pT->pNext;
         }
-        cout << "Export successfully.";
+        readEnrolled(pHead,pStudent);
+        cout << "Export successfully.\n";
         output.close();
+        publishcheck = true;
         system("pause");
         clrscr();
     }
     else
     {
+        //publishcheck = false;
         cout << "No Course found.";
     }
 }
