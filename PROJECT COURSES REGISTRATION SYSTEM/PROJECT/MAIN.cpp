@@ -24,15 +24,17 @@ int main()
 		readSemesterList(pHead);
 		readCourses(pHead);
 		readCurrentSemester(pHead);
+		//cout << "pCurrentSemester->No: " << pCurrentSemester->No << "\n";
 		readEnrolled(pHead,pStudent);
 	}
 	GeneralMenu(pStaff,pStudent,pHead,pCurr);
 	
 
 
-
+	
 	delete pCurrentSemester;
 	delete pCurrentStaff;
+	deleteScoreOfStudentInBoard(pHead);
 	deleteCourses(pHead->pSemester->pCourse);
 	deleteClasses(pHead->pClass);
 	deleteSemester(pHead->pSemester);

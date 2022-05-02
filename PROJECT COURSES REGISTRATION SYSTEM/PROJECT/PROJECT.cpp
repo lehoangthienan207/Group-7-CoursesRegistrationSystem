@@ -170,6 +170,7 @@ void removeACourse(Courses *&pHead)
     {
         Courses *pTemp = pHead;
         pHead = pHead->pNext;
+        checkremove = true;
         delete pTemp;
     }
     else
@@ -178,6 +179,7 @@ void removeACourse(Courses *&pHead)
             pCurr =pCurr->pNext;
         if (pCurr->pNext != nullptr)
         {
+            checkremove = true;
             Courses *pTemp = pCurr->pNext;
             pCurr->pNext = pCurr->pNext->pNext;
             delete pTemp;
@@ -365,7 +367,7 @@ void GeneralMenu(SignIn *pStaff, SignIn* pStudent,SchoolYear *&pHead,SchoolYear 
     }
     else
     {
-        cout << "Error, please try again";
+        cout << "Error, please try again.\n";
         GeneralMenu(pStaff,pStudent,pHead,pCurr);
     }
 }
@@ -608,6 +610,7 @@ void CreateSemester(SchoolYear *pHead)
             int i = 1;
             while(true)
             {
+                PrintCoursesList(pCurr->pSemester->pCourse);
                 CreateCourses(pCurr->pSemester->pCourse,i);
                 cout << "Continue adding courses? (y = yes, n = no): ";
                 char check = 'n';
@@ -632,6 +635,7 @@ void CreateSemester(SchoolYear *pHead)
             //int i = pCurr->pSemester->No +1;
             while(true)
             {
+                PrintCoursesList(pCurr->pSemester->pCourse);
                 CreateCourses(pCurr->pSemester->pCourse,i);
                 cout << "Continue adding courses? (y = yes, n = no): ";
                 char check = 'n';
@@ -639,6 +643,7 @@ void CreateSemester(SchoolYear *pHead)
                 if (check != 'y')
                     break;
             }
+                pCurrentSemester = pTemp;
                 return;
             }
             pTemp = pCurr->pSemester;
@@ -670,6 +675,7 @@ void CreateSemester(SchoolYear *pHead)
             }
             pCurrentSemester = pTemp;
         }
+        foutCourses(pHead);
     }
     else
     {
@@ -711,7 +717,7 @@ void CreateClasses(Classes*& pHead, Classes*& pCurr, int &i)
     }
 }
 
-void UpdateStudentResult(ScoreBoardOfCourse*& pHead)
+/*void UpdateStudentResult(ScoreBoardOfCourse*& pHead)
 {
     int studentID = 0;
     cout << "Type in the Student ID: "; cin >> studentID;
@@ -751,7 +757,7 @@ void UpdateStudentResult(ScoreBoardOfCourse*& pHead)
             }
         }
     }
-}
+}*/
 
 void InputStudent(Students *& pHead, ifstream &studentInput)
 {
@@ -846,7 +852,8 @@ void PrintStudentListInCourse(Courses *pHead,SignIn *pStudent) {
     int i =1;
     while (pCur != nullptr)
     {
-        while (pCur->pCStudent != nullptr)
+        if (pCurrentSemester->No == 1)
+        {while (pCur->pCStudent != nullptr)
         {if (pCur->pCStudent->CourseID == pHead->CourseID && pCur->pCStudent->CourseName == pHead->CourseName)
         {
             //check = true;
@@ -860,6 +867,43 @@ void PrintStudentListInCourse(Courses *pHead,SignIn *pStudent) {
             cout << endl;
         }
             pCur->pCStudent = pCur->pCStudent->pNext;
+        }
+        }
+        if (pCurrentSemester->No == 2)
+        {
+            while (pCur->pCStudent2 != nullptr)
+        {if (pCur->pCStudent2->CourseID == pHead->CourseID && pCur->pCStudent2->CourseName == pHead->CourseName)
+        {
+            //check = true;
+            cout << setw(5) << left << i++;
+            cout << setw(15) << left << pCur->ID;
+            cout << setw(17) << left << pCur->SocialID;
+            cout << setw(25) << left << pCur->LastName;
+            cout << setw(20) << left << pCur->FirstName;
+            cout << setw(15) << left << pCur->Gender;
+            cout << setw(0) << left << pCur->DoB;
+            cout << endl;
+        }
+            pCur->pCStudent2 = pCur->pCStudent2->pNext;
+        }
+        if (pCurrentSemester->No == 3)
+        {
+            while (pCur->pCStudent3 != nullptr)
+        {if (pCur->pCStudent3->CourseID == pHead->CourseID && pCur->pCStudent3->CourseName == pHead->CourseName)
+        {
+            //check = true;
+            cout << setw(5) << left << i++;
+            cout << setw(15) << left << pCur->ID;
+            cout << setw(17) << left << pCur->SocialID;
+            cout << setw(25) << left << pCur->LastName;
+            cout << setw(20) << left << pCur->FirstName;
+            cout << setw(15) << left << pCur->Gender;
+            cout << setw(0) << left << pCur->DoB;
+            cout << endl;
+        }
+            pCur->pCStudent3 = pCur->pCStudent3->pNext;
+        }
+        }
         }
         pCur = pCur->pNext;
     }
@@ -1188,6 +1232,8 @@ void EnrollCourses(Courses* pHead, Courses*& pStudents, int limit, int& number)
                 ++number;
                 pStudents->pNext = nullptr;
                 pTemp = pStudents;
+                cout << "\n\nRegistered successfully!\n\n";
+                cout << "\n\n\t\tThank you!\n\n";
             }
             else
             {
@@ -1215,7 +1261,8 @@ void EnrollCourses(Courses* pHead, Courses*& pStudents, int limit, int& number)
                         strcpy(pTemp->weekday2,pCurr->weekday2);
                         pTemp->pNext = nullptr; 
                         ++number;
-                   
+                        cout << "\n\nRegistered successfully!\n\n";
+                        cout << "\n\n\t\tThank you!\n\n";
                     }
                     else
                     {
@@ -1307,7 +1354,7 @@ void PrintEnrolledCourses(Courses* pHead)
     }
 }*/
 
-void PrintScoreBoard(ScoreBoardOfCourse* pHead)
+void PrintScoreBoard(ScoreOfStudentInBoard* pHead)
 {
     
     cout << setw(15) << left << "Course ID";
@@ -1319,7 +1366,7 @@ void PrintScoreBoard(ScoreBoardOfCourse* pHead)
     cout << endl;
     cout << setfill('-') << setw(83) << '-';
     cout << endl;
-    ScoreBoardOfCourse* pCur = pHead;
+    ScoreOfStudentInBoard* pCur = pHead;
     while (pCur != nullptr)
     {
         ScoreOfStudentInBoard *pTemp = pCur->pStudent;
@@ -1495,11 +1542,11 @@ back1:
         case 6:
         {
             clrscr();
-            PrintCoursesList(pHead->pSemester->pCourse);
+            PrintCoursesList(pCurrentSemester->pCourse);
             int k;
             cout << "Input number of course you want to see student: ";
             cin >> k;
-            Courses *pTemp = pHead->pSemester->pCourse;
+            Courses *pTemp = pCurrentSemester->pCourse;
             while (pTemp != nullptr && pTemp->No != k) pTemp = pTemp->pNext;
             if (pTemp != nullptr)
             {
@@ -1538,8 +1585,9 @@ back1:
         cout << "\t\t      *\t     1.Update scoreboard\t\t *\n";
         cout << "\t\t      *\t     2.View scoreboard of a course\t *\n";
         cout << "\t\t      *\t     3.Export students of a course\t *\n";
-        cout << "\t\t      *\t     4.View scoreboard of a class\t *\n";
-        cout << "\t\t      *\t     5.Back \t\t\t\t *\n";
+        cout << "\t\t      *\t     4.Import students of a course\t *\n";
+        cout << "\t\t      *\t     5.View scoreboard of a class\t *\n";
+        cout << "\t\t      *\t     6.Back \t\t\t\t *\n";
         cout << "\t\t      ********************************************\n\n";
         cout << "\t\t\t\tYour choice: "; cin >> choice2;
         switch (choice2)
@@ -1565,9 +1613,34 @@ back1:
         }
         case 4:
         {
-            //view scoreboard of a classes
+            SchoolYear *pCurr = pHead;
+            while (pCurr != nullptr)
+            {
+                while (pCurr->pSemester!= nullptr && pCurr->pSemester != pCurrentSemester)
+                    pCurr->pSemester = pCurr->pSemester->pNext;
+                pCurr = pCurr->pNext;
+            }
+            PrintCoursesList(pCurrentSemester->pCourse);
+            int i = 0;
+            cout << "\nInput number of course you want to import: ";
+            cin >> i;
+            Courses* pTemp =pCurrentSemester->pCourse;
+            while (pTemp != nullptr && pTemp->No != i) pTemp = pTemp->pNext;
+            if (pTemp != nullptr)
+            {
+                importScoreBoardOfCourse(pHead,pTemp);
+                //cout << "Import successfully.\n";
+            }
+            else 
+            {
+                cout << "No course found.\n";
+            }
+            system("pause");
+            clrscr();
+            goto back1;
+            break;
         }
-        case 5:
+        case 6:
         {
             //back
             clrscr();
@@ -1713,6 +1786,7 @@ void MenuOfStudent(SignIn *pStaff, SignIn* pStudent,SchoolYear *&pHead,SchoolYea
     int number = 1;
 
 stuback1:
+
     cout << "\n\t\t\t*****************STUDENT****************\n\n";
     cout << "\t\t      ********************************************\n";
     cout << "\t\t      *\t\t 1.View Profile\t\t\t *\n";
@@ -1761,14 +1835,22 @@ stuback1:
             clrscr();
             goto stuback1;
         }
-        EnrollCourses(pHead->pSemester->pCourse,pTemp->pCStudent,5,pTemp->numberofCourse);
+        //cout << "pTemp->numberofCourse: " << pTemp->numberofCourse << "\n";
+        if (pCurrentSemester->No == 1)
+        EnrollCourses(pCurrentSemester->pCourse,pTemp->pCStudent,5,pTemp->numberofCourse);
+        else if (pCurrentSemester->No == 2)
+        {EnrollCourses(pCurrentSemester->pCourse,pTemp->pCStudent2,5,pTemp->numberofCourse2);
+            if (pTemp->pCStudent2 != nullptr) cout << "NOT NULL\n";
+            else cout << "NULL\n";
+        }
+        else if (pCurrentSemester->No == 3)
+        EnrollCourses(pCurrentSemester->pCourse,pTemp->pCStudent3,5,pTemp->numberofCourse3);
         pStudentEnroll = pTemp;
         //enroll courses
-        cout << "\n\nRegistered successfully!\n\n";
-        cout << "\n\n\t\tThank you!\n\n";
-
         foutEnrolled(pHead,pStudent);
         readEnrolled(pHead,pStudent);
+        if (pTemp->pCStudent2 != nullptr) cout << "NOT NULL\n";
+            else cout << "NULL\n";
         goto stuback1;
         break;
         }
@@ -1776,8 +1858,15 @@ stuback1:
         {
             SignIn *pTemp = pStudent;
             while (pTemp != nullptr && pTemp != pStudentEnroll) pTemp = pTemp->pNext;
-        PrintEnrolledCourses(pTemp->pCStudent);
+            if (pCurrentSemester->No == 1)
+            PrintEnrolledCourses(pTemp->pCStudent);
+            else if (pCurrentSemester->No == 2)
+            PrintEnrolledCourses(pTemp->pCStudent2);
+            else if (pCurrentSemester->No == 3)
+            PrintEnrolledCourses(pTemp->pCStudent3);
+                
         system("pause");
+
         //foutEnrolled(pHead,pStudent);
         goto stuback1;
         break;
@@ -1793,8 +1882,27 @@ stuback1:
             pCurr->No = i++;
             pCurr = pCurr->pNext;
         }
-        removeACourse(pTemp->pCStudent);
+        if (pCurrentSemester->No == 1)
+        {
+            removeACourse(pTemp->pCStudent);
+            if (checkremove)
+                pTemp->numberofCourse--;
+        }
+        else if (pCurrentSemester->No == 2)
+        {
+            removeACourse(pTemp->pCStudent2);
+            if (checkremove)
+                pTemp->numberofCourse2--;
+        }
+        else if (pCurrentSemester->No == 3)
+        {
+            removeACourse(pTemp->pCStudent3);
+            if (checkremove)
+                pTemp->numberofCourse3--;
+        }
+        checkremove = false;
         pStudentEnroll = pTemp;
+
         //remove course
         foutEnrolled(pHead,pStudent);
         readEnrolled(pHead,pStudent);
@@ -2452,14 +2560,16 @@ void foutEnrolled(SchoolYear *pHead,SignIn *pStudent)
         while (pCurr != nullptr)
         {
             SignIn *pTemp = pStudent;
-            ofstream output(".\\"+pCurr->years+"\\"+"semester " +to_string(pCurr->pSemester->No) +"\\"+"enrolled.txt");
+            ofstream output(".\\"+pCurr->years+"\\"+"semester " +to_string(pCurrentSemester->No) +"\\"+"enrolled.txt");
             while (pTemp != nullptr)
             {
-                if (pTemp->pCStudent != nullptr)
+                if (pCurrentSemester->No == 1)
+                {if (pTemp->pCStudent != nullptr)
                 {
-                    ofstream outCourses(".\\"+pCurr->years+"\\"+"semester " +to_string(pCurr->pSemester->No) +"\\"+pTemp->ID+".txt");
+                    ofstream outCourses(".\\"+pCurr->years+"\\"+"semester " +to_string(pCurrentSemester->No) +"\\"+pTemp->ID+".txt");
                     output << pTemp->ID << " ";
-                    while(pTemp->pCStudent != nullptr)
+                    if (pCurrentSemester->No == 1)
+                    {while(pTemp->pCStudent != nullptr)
                     {outCourses << pTemp->pCStudent->No << " " << pTemp->pCStudent->CourseID << " " << pTemp->pCStudent->CourseName << " " << pTemp->pCStudent->Credits << " " << pTemp->pCStudent->Maximum << " " << pTemp->pCStudent->TeacherName << " ";
                     for (int i = 0 ; i < strlen(pTemp->pCStudent->time1);++i)
                         outCourses << pTemp->pCStudent->time1[i];
@@ -2474,8 +2584,171 @@ void foutEnrolled(SchoolYear *pHead,SignIn *pStudent)
                         outCourses << pTemp->pCStudent->weekday2[i];
                     outCourses << "\n";
                         pTemp->pCStudent = pTemp->pCStudent->pNext;
-                
+                    }}
+                    else if (pCurrentSemester->No == 2)
+                    {
+                        while(pTemp->pCStudent2 != nullptr)
+                    {outCourses << pTemp->pCStudent2->No << " " << pTemp->pCStudent2->CourseID << " " << pTemp->pCStudent2->CourseName << " " << pTemp->pCStudent2->Credits << " " << pTemp->pCStudent2->Maximum << " " << pTemp->pCStudent2->TeacherName << " ";
+                    for (int i = 0 ; i < strlen(pTemp->pCStudent->time1);++i)
+                        outCourses << pTemp->pCStudent2->time1[i];
+                    outCourses << " ";
+                    for (int i = 0 ; i < strlen(pTemp->pCStudent->time2);++i)
+                        outCourses << pTemp->pCStudent2->time2[i];
+                    outCourses << " ";
+                    for (int i = 0 ; i < strlen(pTemp->pCStudent->weekday1);++i)
+                        outCourses << pTemp->pCStudent2->weekday1[i];
+                    outCourses << " ";
+                    for (int i = 0 ; i < strlen(pTemp->pCStudent->weekday2);++i)
+                        outCourses << pTemp->pCStudent2->weekday2[i];
+                    outCourses << "\n";
+                        pTemp->pCStudent2 = pTemp->pCStudent2->pNext;
                     }
+                    }
+                    else if (pCurrentSemester->No == 3)
+                    {
+                        while(pTemp->pCStudent3 != nullptr)
+                    {outCourses << pTemp->pCStudent3->No << " " << pTemp->pCStudent3->CourseID << " " << pTemp->pCStudent3->CourseName << " " << pTemp->pCStudent3->Credits << " " << pTemp->pCStudent3->Maximum << " " << pTemp->pCStudent3->TeacherName << " ";
+                    for (int i = 0 ; i < strlen(pTemp->pCStudent->time1);++i)
+                        outCourses << pTemp->pCStudent3->time1[i];
+                    outCourses << " ";
+                    for (int i = 0 ; i < strlen(pTemp->pCStudent->time2);++i)
+                        outCourses << pTemp->pCStudent3->time2[i];
+                    outCourses << " ";
+                    for (int i = 0 ; i < strlen(pTemp->pCStudent->weekday1);++i)
+                        outCourses << pTemp->pCStudent3->weekday1[i];
+                    outCourses << " ";
+                    for (int i = 0 ; i < strlen(pTemp->pCStudent->weekday2);++i)
+                        outCourses << pTemp->pCStudent3->weekday2[i];
+                    outCourses << "\n";
+                        pTemp->pCStudent3 = pTemp->pCStudent3->pNext;
+                    }
+                    }
+                }}
+                else if (pCurrentSemester->No == 2)
+                {
+                    if (pTemp->pCStudent2 != nullptr)
+                {
+                    ofstream outCourses(".\\"+pCurr->years+"\\"+"semester " +to_string(pCurrentSemester->No) +"\\"+pTemp->ID+".txt");
+                    output << pTemp->ID << " ";
+                    if (pCurrentSemester->No == 1)
+                    {while(pTemp->pCStudent != nullptr)
+                    {outCourses << pTemp->pCStudent->No << " " << pTemp->pCStudent->CourseID << " " << pTemp->pCStudent->CourseName << " " << pTemp->pCStudent->Credits << " " << pTemp->pCStudent->Maximum << " " << pTemp->pCStudent->TeacherName << " ";
+                    for (int i = 0 ; i < strlen(pTemp->pCStudent->time1);++i)
+                        outCourses << pTemp->pCStudent->time1[i];
+                    outCourses << " ";
+                    for (int i = 0 ; i < strlen(pTemp->pCStudent->time2);++i)
+                        outCourses << pTemp->pCStudent->time2[i];
+                    outCourses << " ";
+                    for (int i = 0 ; i < strlen(pTemp->pCStudent->weekday1);++i)
+                        outCourses << pTemp->pCStudent->weekday1[i];
+                    outCourses << " ";
+                    for (int i = 0 ; i < strlen(pTemp->pCStudent->weekday2);++i)
+                        outCourses << pTemp->pCStudent->weekday2[i];
+                    outCourses << "\n";
+                        pTemp->pCStudent = pTemp->pCStudent->pNext;
+                    }}
+                    else if (pCurrentSemester->No == 2)
+                    {
+                        while(pTemp->pCStudent2 != nullptr)
+                    {outCourses << pTemp->pCStudent2->No << " " << pTemp->pCStudent2->CourseID << " " << pTemp->pCStudent2->CourseName << " " << pTemp->pCStudent2->Credits << " " << pTemp->pCStudent2->Maximum << " " << pTemp->pCStudent2->TeacherName << " ";
+                    for (int i = 0 ; i < strlen(pTemp->pCStudent->time1);++i)
+                        outCourses << pTemp->pCStudent2->time1[i];
+                    outCourses << " ";
+                    for (int i = 0 ; i < strlen(pTemp->pCStudent->time2);++i)
+                        outCourses << pTemp->pCStudent2->time2[i];
+                    outCourses << " ";
+                    for (int i = 0 ; i < strlen(pTemp->pCStudent->weekday1);++i)
+                        outCourses << pTemp->pCStudent2->weekday1[i];
+                    outCourses << " ";
+                    for (int i = 0 ; i < strlen(pTemp->pCStudent->weekday2);++i)
+                        outCourses << pTemp->pCStudent2->weekday2[i];
+                    outCourses << "\n";
+                        pTemp->pCStudent2 = pTemp->pCStudent2->pNext;
+                    }
+                    }
+                    else if (pCurrentSemester->No == 3)
+                    {
+                        while(pTemp->pCStudent3 != nullptr)
+                    {outCourses << pTemp->pCStudent3->No << " " << pTemp->pCStudent3->CourseID << " " << pTemp->pCStudent3->CourseName << " " << pTemp->pCStudent3->Credits << " " << pTemp->pCStudent3->Maximum << " " << pTemp->pCStudent3->TeacherName << " ";
+                    for (int i = 0 ; i < strlen(pTemp->pCStudent->time1);++i)
+                        outCourses << pTemp->pCStudent3->time1[i];
+                    outCourses << " ";
+                    for (int i = 0 ; i < strlen(pTemp->pCStudent->time2);++i)
+                        outCourses << pTemp->pCStudent3->time2[i];
+                    outCourses << " ";
+                    for (int i = 0 ; i < strlen(pTemp->pCStudent->weekday1);++i)
+                        outCourses << pTemp->pCStudent3->weekday1[i];
+                    outCourses << " ";
+                    for (int i = 0 ; i < strlen(pTemp->pCStudent->weekday2);++i)
+                        outCourses << pTemp->pCStudent3->weekday2[i];
+                    outCourses << "\n";
+                        pTemp->pCStudent3 = pTemp->pCStudent3->pNext;
+                    }
+                    }
+                }
+                }
+                else if (pCurrentSemester->No == 3)
+                {
+                    if (pTemp->pCStudent3 != nullptr)
+                {
+                    ofstream outCourses(".\\"+pCurr->years+"\\"+"semester " +to_string(pCurrentSemester->No) +"\\"+pTemp->ID+".txt");
+                    output << pTemp->ID << " ";
+                    if (pCurrentSemester->No == 1)
+                    {while(pTemp->pCStudent != nullptr)
+                    {outCourses << pTemp->pCStudent->No << " " << pTemp->pCStudent->CourseID << " " << pTemp->pCStudent->CourseName << " " << pTemp->pCStudent->Credits << " " << pTemp->pCStudent->Maximum << " " << pTemp->pCStudent->TeacherName << " ";
+                    for (int i = 0 ; i < strlen(pTemp->pCStudent->time1);++i)
+                        outCourses << pTemp->pCStudent->time1[i];
+                    outCourses << " ";
+                    for (int i = 0 ; i < strlen(pTemp->pCStudent->time2);++i)
+                        outCourses << pTemp->pCStudent->time2[i];
+                    outCourses << " ";
+                    for (int i = 0 ; i < strlen(pTemp->pCStudent->weekday1);++i)
+                        outCourses << pTemp->pCStudent->weekday1[i];
+                    outCourses << " ";
+                    for (int i = 0 ; i < strlen(pTemp->pCStudent->weekday2);++i)
+                        outCourses << pTemp->pCStudent->weekday2[i];
+                    outCourses << "\n";
+                        pTemp->pCStudent = pTemp->pCStudent->pNext;
+                    }}
+                    else if (pCurrentSemester->No == 2)
+                    {
+                        while(pTemp->pCStudent2 != nullptr)
+                    {outCourses << pTemp->pCStudent2->No << " " << pTemp->pCStudent2->CourseID << " " << pTemp->pCStudent2->CourseName << " " << pTemp->pCStudent2->Credits << " " << pTemp->pCStudent2->Maximum << " " << pTemp->pCStudent2->TeacherName << " ";
+                    for (int i = 0 ; i < strlen(pTemp->pCStudent->time1);++i)
+                        outCourses << pTemp->pCStudent2->time1[i];
+                    outCourses << " ";
+                    for (int i = 0 ; i < strlen(pTemp->pCStudent->time2);++i)
+                        outCourses << pTemp->pCStudent2->time2[i];
+                    outCourses << " ";
+                    for (int i = 0 ; i < strlen(pTemp->pCStudent->weekday1);++i)
+                        outCourses << pTemp->pCStudent2->weekday1[i];
+                    outCourses << " ";
+                    for (int i = 0 ; i < strlen(pTemp->pCStudent->weekday2);++i)
+                        outCourses << pTemp->pCStudent2->weekday2[i];
+                    outCourses << "\n";
+                        pTemp->pCStudent2 = pTemp->pCStudent2->pNext;
+                    }
+                    }
+                    else if (pCurrentSemester->No == 3)
+                    {
+                        while(pTemp->pCStudent3 != nullptr)
+                    {outCourses << pTemp->pCStudent3->No << " " << pTemp->pCStudent3->CourseID << " " << pTemp->pCStudent3->CourseName << " " << pTemp->pCStudent3->Credits << " " << pTemp->pCStudent3->Maximum << " " << pTemp->pCStudent3->TeacherName << " ";
+                    for (int i = 0 ; i < strlen(pTemp->pCStudent->time1);++i)
+                        outCourses << pTemp->pCStudent3->time1[i];
+                    outCourses << " ";
+                    for (int i = 0 ; i < strlen(pTemp->pCStudent->time2);++i)
+                        outCourses << pTemp->pCStudent3->time2[i];
+                    outCourses << " ";
+                    for (int i = 0 ; i < strlen(pTemp->pCStudent->weekday1);++i)
+                        outCourses << pTemp->pCStudent3->weekday1[i];
+                    outCourses << " ";
+                    for (int i = 0 ; i < strlen(pTemp->pCStudent->weekday2);++i)
+                        outCourses << pTemp->pCStudent3->weekday2[i];
+                    outCourses << "\n";
+                        pTemp->pCStudent3 = pTemp->pCStudent3->pNext;
+                    }
+                    }
+                }
                 }
                 //output.close();
                 pTemp = pTemp->pNext;
@@ -2494,10 +2767,12 @@ void readEnrolled(SchoolYear *pHead,SignIn *pStudent)
         while (pS != nullptr)
         {
             if (pS->No == 0) break;
+            //cout << "pS->No: " << pS->No << "\n";
             ifstream enrollList(".\\" + pCurr->years + "\\"+"semester " +to_string(pS->No)+"\\" + "enrolled.txt");
     SignIn *pTemp = pStudent;
     if (enrollList)
     {
+        //cout << "check\n";
         int j = 0;
         int arr[1000];
         string a = "";
@@ -2515,7 +2790,14 @@ void readEnrolled(SchoolYear *pHead,SignIn *pStudent)
                 b = "";
             }
         }
+        //cout << "check\n";
         int k = 0;
+        if (pTemp != nullptr)
+        {
+            pTemp->numberofCourse = 0;
+            pTemp->numberofCourse2 = 0;
+            pTemp->numberofCourse3 = 0;
+        }
         while (pTemp != nullptr && k < j)
         {
             if (pTemp->ID == to_string(arr[k]))
@@ -2524,7 +2806,8 @@ void readEnrolled(SchoolYear *pHead,SignIn *pStudent)
                 ifstream enroll(".\\" + pCurr->years +"\\" +"semester " + to_string(pCurr->pSemester->No)+"\\"+pTemp->ID+".txt");
                 while (enroll)
                 {
-                    if (pTemp->pCStudent == nullptr)
+                    if (pCurr->pSemester->No == 1)
+                    {if (pTemp->pCStudent == nullptr)
                     {
                     string b;
                     enroll >> b;
@@ -2574,6 +2857,119 @@ void readEnrolled(SchoolYear *pHead,SignIn *pStudent)
                     enroll.ignore();
                     enroll.getline(pT->weekday2,4);
                     pT->pNext = nullptr;
+                    }
+                    pTemp->numberofCourse++;
+                    }
+                    else if (pCurr->pSemester->No == 2)
+                    {
+                        //cout << "check2\n";
+                        if (pTemp->pCStudent2 == nullptr)
+                    {
+                    string b;
+                    enroll >> b;
+                    if (b == "")
+                        break;
+                        pTemp->pCStudent2 = new Courses;
+                pTemp->pCStudent2->No = atoi(b.c_str());
+                enroll >> pTemp->pCStudent2->CourseID;
+                enroll >> pTemp->pCStudent2->CourseName;
+                enroll >> pTemp->pCStudent2->Credits >> pTemp->pCStudent2->Maximum >> pTemp->pCStudent2->TeacherName;
+                char temp[4];
+                enroll >> temp;
+                strcpy(pTemp->pCStudent2->time1,temp);
+                enroll >> temp;
+                strcpy(pTemp->pCStudent2->time2,temp);
+                char temp2[6];
+                enroll >>temp2;
+                strcpy(pTemp->pCStudent2->weekday1,temp2);
+                enroll.ignore();
+                enroll.getline(pTemp->pCStudent2->weekday2,4);
+                    pTemp->pCStudent2->pNext = nullptr;
+                     }
+                    else
+                    {
+                    //cout << "NNNN2\n";
+                    
+                    string b;
+                    enroll >> b;
+                    if (b == "")
+                        break;
+                        Courses *pT = pTemp->pCStudent2;
+                    while (pT->pNext != nullptr) pT = pT->pNext;
+                    pT->pNext = new Courses;
+                    pT = pT->pNext;
+                    pT->No = atoi(b.c_str());
+                    enroll >> pT->CourseID;
+                    enroll >> pT->CourseName;
+                    enroll >> pT->Credits >> pT->Maximum >> pT->TeacherName;
+                    char temp[4];
+                    enroll >> temp;
+                    strcpy(pT->time1,temp);
+                    enroll >> temp;
+                    strcpy(pT->time2,temp);
+                    char temp2[6];
+                    enroll >>temp2;
+                    strcpy(pT->weekday1,temp2);
+                    enroll.ignore();
+                    enroll.getline(pT->weekday2,4);
+                    pT->pNext = nullptr;
+                    }
+                    pTemp->numberofCourse2++;
+                    }
+                    else
+                    {
+                        if (pTemp->pCStudent3 == nullptr)
+                    {
+                    string b;
+                    enroll >> b;
+                    if (b == "")
+                        break;
+                        pTemp->pCStudent3 = new Courses;
+                pTemp->pCStudent3->No = atoi(b.c_str());
+                enroll >> pTemp->pCStudent3->CourseID;
+                enroll >> pTemp->pCStudent3->CourseName;
+                enroll >> pTemp->pCStudent3->Credits >> pTemp->pCStudent3->Maximum >> pTemp->pCStudent3->TeacherName;
+                char temp[4];
+                enroll >> temp;
+                strcpy(pTemp->pCStudent3->time1,temp);
+                enroll >> temp;
+                strcpy(pTemp->pCStudent3->time2,temp);
+                char temp2[6];
+                enroll >>temp2;
+                strcpy(pTemp->pCStudent3->weekday1,temp2);
+                enroll.ignore();
+                enroll.getline(pTemp->pCStudent3->weekday2,4);
+                    pTemp->pCStudent3->pNext = nullptr;
+                     }
+                    else
+                    {
+                    //cout << "NNNN2\n";
+                    
+                    string b;
+                    enroll >> b;
+                    if (b == "")
+                        break;
+                        Courses *pT = pTemp->pCStudent3;
+                    while (pT->pNext != nullptr) pT = pT->pNext;
+                    pT->pNext = new Courses;
+                    pT = pT->pNext;
+                    pT->No = atoi(b.c_str());
+                    enroll >> pT->CourseID;
+                    enroll >> pT->CourseName;
+                    enroll >> pT->Credits >> pT->Maximum >> pT->TeacherName;
+                    char temp[4];
+                    enroll >> temp;
+                    strcpy(pT->time1,temp);
+                    enroll >> temp;
+                    strcpy(pT->time2,temp);
+                    char temp2[6];
+                    enroll >>temp2;
+                    strcpy(pT->weekday1,temp2);
+                    enroll.ignore();
+                    enroll.getline(pT->weekday2,4);
+                    pT->pNext = nullptr;
+                    }
+                    pTemp->numberofCourse3++;
                     }
                 }
                 ++k;
@@ -2659,10 +3055,112 @@ void readCurrentSemester(SchoolYear *pHead)
     if (pCurr != nullptr)
     {
         Semester *pTemp = pCurr->pSemester;
-        int b;
+        string b;
         input >> b;
-        while (pTemp != nullptr && pTemp->No !=b ) pTemp = pTemp->pNext;
-        if (pTemp!= nullptr) pCurrentSemester = pTemp;
+        if (b == "") return;
+        while (pTemp != nullptr && pTemp->No !=atoi(b.c_str()) ) pTemp = pTemp->pNext;
+        if (pTemp!= nullptr) 
+            pCurrentSemester = pTemp;
     }
     input.close();
+}
+void importScoreBoardOfCourse(SchoolYear *pHead, Courses*pCourse)
+{
+    if (pHead != nullptr)
+    {
+        ifstream input(".\\" + pHead->years + "\\" + "semester " + to_string(pCurrentSemester->No) + "\\"+ pCourse->CourseID+"_student_list.csv");
+        if (input)
+        {
+            ScoreOfStudentInBoard *pCurr = pCourse->pScore;
+            string a ="";
+            getline(input,a);
+            while (!input.eof())
+            {
+                getline(input,a,',');
+                if (a == "") break;
+                if (pCourse->pScore == nullptr)
+                {
+                    pCourse->pScore = new ScoreOfStudentInBoard;
+                    pCourse->pScore->No = atoi(a.c_str());
+                    getline(input,a,',');
+                    pCourse->pScore->StudentID = atoi(a.c_str());
+                    getline(input,a,',');
+                    pCourse->pScore->FirstName = a;
+                    getline(input,a,',');
+                    pCourse->pScore->LastName = a;
+                    getline(input,a,',');
+                    pCourse->pScore->DateOfBirth = a;
+                    getline(input,a,',');
+                    pCourse->pScore->classID = a;
+                    getline(input,a,',');
+                    pCourse->pScore->Midterm = atof(a.c_str());
+                    getline(input,a,',');
+                    pCourse->pScore->Finalterm = atof(a.c_str());
+                    getline(input,a,',');
+                    pCourse->pScore->OtherScore = atof(a.c_str());
+                    getline(input,a);
+                    pCourse->pScore->Overall = atof(a.c_str());
+                    pCourse->pScore->next =nullptr;
+                    pCurr = pCourse->pScore;
+                }
+                else
+                {
+                    pCurr->next = new ScoreOfStudentInBoard;
+                    pCurr = pCurr->next;
+                    pCurr = new ScoreOfStudentInBoard;
+                    pCurr->No = atoi(a.c_str());
+                    getline(input,a,',');
+                    pCurr->StudentID = atoi(a.c_str());
+                    getline(input,a,',');
+                    pCurr->FirstName = a;
+                    getline(input,a,',');
+                    pCurr->LastName = a;
+                    getline(input,a,',');
+                    pCurr->DateOfBirth = a;
+                    getline(input,a,',');
+                    pCurr->classID = a;
+                    getline(input,a,',');
+                    pCurr->Midterm = atof(a.c_str());
+                    getline(input,a,',');
+                    pCurr->Finalterm = atof(a.c_str());
+                    getline(input,a,',');
+                    pCurr->OtherScore = atof(a.c_str());
+                    getline(input,a);
+                    pCurr->Overall = atof(a.c_str());
+                    pCurr->next =nullptr;
+                }
+            }
+            cout << "Import done.\n";
+            return;
+        }
+        else
+        {
+            cout << "No CSV found.\n";
+            return;
+        }
+    }   
+}
+void deleteScoreOfStudentInBoard(SchoolYear*pHead)
+{
+    SchoolYear *pCurr = pHead;
+    while (pCurr != nullptr)
+    {
+        Semester *pS = pHead->pSemester;
+        while (pS != nullptr)
+        {
+            Courses *pC = pS->pCourse;
+            while (pC != nullptr)
+            {
+                while (pC->pScore != nullptr)
+                {
+                   ScoreOfStudentInBoard *pTemp = pC->pScore;
+                   pC->pScore = pC->pScore->next;
+                   delete pTemp;
+                }
+                pC = pC->pNext;
+            }
+            pS = pS->pNext;
+        }
+        pCurr = pCurr->pNext;
+    }
 }

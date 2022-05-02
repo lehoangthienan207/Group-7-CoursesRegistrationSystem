@@ -23,7 +23,7 @@ struct ScoreBoardOfStudent;
 struct Courses;
 struct Semester;
 struct ScoreOfStudentInBoard;
-
+bool checkremove = false;
 struct SignIn {
 	string ID{};
 	string Password{};
@@ -36,8 +36,12 @@ struct SignIn {
 	string Gender{};
 	string Class{};
 	Courses *pCStudent = nullptr;
+	Courses *pCStudent2 = nullptr;
+	Courses *pCStudent3 = nullptr;
 	SignIn* pNext{};
 	int numberofCourse = 0;
+	int numberofCourse2= 0;
+	int numberofCourse3 =0;
 };
 struct DoB {
 	int day{};
@@ -69,6 +73,7 @@ struct ScoreBoardOfCourse {
 	ScoreOfStudentInBoard *pStudent = nullptr;
 	ScoreBoardOfCourse* pNext{};
 };
+
 struct ScoreOfStudentInBoard{
 	int No{};
 	int StudentID{};
@@ -110,6 +115,7 @@ struct Semester
 	DoB startDate{};
 	DoB endDate{};
 	Courses *pCourse = nullptr;
+	
 	Semester *pNext;
 };
 
@@ -210,4 +216,5 @@ void readCourses(SchoolYear *pHead);
 bool readfile();
 void checkDate();
 void ExportStudentInCourse(SignIn* pStudent, SchoolYear *pHead);
-void importScoreBoardOfACourse(SchoolYear *pHead,Courses *pCourseD);
+//void importScoreBoardOfACourse(SchoolYear *pHead,Courses *pCourseD);
+void importScoreBoardOfCourse(SchoolYear *pHead, Courses*pCourse);
