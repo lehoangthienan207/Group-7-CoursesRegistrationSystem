@@ -35,6 +35,7 @@ int main()
 	delete pCurrentSemester;
 	delete pCurrentStaff;
 	deleteScoreOfStudentInBoard(pHead);
+	deleteScoreOfStudentInClass(pHead);
 	deleteCourses(pHead->pSemester->pCourse);
 	deleteClasses(pHead->pClass);
 	deleteSemester(pHead->pSemester);

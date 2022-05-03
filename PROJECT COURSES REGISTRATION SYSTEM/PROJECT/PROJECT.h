@@ -23,7 +23,10 @@ struct ScoreBoardOfStudent;
 struct Courses;
 struct Semester;
 struct ScoreOfStudentInBoard;
+struct Score;
+struct StudentScoreInClass;
 bool checkremove = false;
+//int checkImport[100];
 struct SignIn {
 	string ID{};
 	string Password{};
@@ -57,6 +60,8 @@ struct Students
 	string Gender{};
 	string DateOfBirth{};
 	int SocialID{}; 
+	float gpa{};
+	Score *point = nullptr;
 	Students* pNext{};
 };
 struct Classes{
@@ -92,7 +97,19 @@ struct ScoreBoardOfStudent {
 	ScoreBoardOfCourse* pHead = nullptr;
 	ScoreBoardOfStudent* pNext{};
 };
+struct Score{
+	string CourseName{};
+	float overall{};
+	Score *next;
+};
+struct StudentScoreInClass{
+	
+	string Class{};
+	
+	Students *pStudent = nullptr;
+	StudentScoreInClass *next;
 
+};
 struct Courses {
 	int semester;
 	int No{};
@@ -115,7 +132,6 @@ struct Semester
 	DoB startDate{};
 	DoB endDate{};
 	Courses *pCourse = nullptr;
-	
 	Semester *pNext;
 };
 
@@ -124,6 +140,7 @@ struct SchoolYear{
 	Classes *pClass = nullptr;
 	Semester *pSemester = nullptr;
 	SchoolYear *pNext{};
+	StudentScoreInClass *pScore = nullptr;
 };
 SignIn *pStudentEnroll = nullptr;
 SignIn *pStudentTemp = nullptr;
@@ -218,3 +235,8 @@ void checkDate();
 void ExportStudentInCourse(SignIn* pStudent, SchoolYear *pHead);
 //void importScoreBoardOfACourse(SchoolYear *pHead,Courses *pCourseD);
 void importScoreBoardOfCourse(SchoolYear *pHead, Courses*pCourse);
+void deleteScoreOfStudentInBoard(SchoolYear*pHead);
+void createScoreBoardOfStudentInClass(SchoolYear *pHead);
+void printScoreOfStudentInClass(SchoolYear *pHead, Classes *pClass);
+void deleteScoreOfStudentInClass(SchoolYear *pHead);
+void printScoreBoardStudent(SchoolYear *pHead);
