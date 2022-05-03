@@ -1538,6 +1538,7 @@ back1:
                 clrscr();
                pTempp = pTempp->pNext;
             }
+            foutCourses(pHead);
             goto backtocase2;
             break;
         }
