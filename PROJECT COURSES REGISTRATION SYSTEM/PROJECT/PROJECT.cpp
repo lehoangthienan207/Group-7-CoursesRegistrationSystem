@@ -1474,6 +1474,8 @@ back1:
             //cout << "\n\nCreate successfully!\n\n";
             system("pause");
             clrscr();
+            foutSchoolYear(pHead);
+            foutClasses(pHead);
             goto backtocase2;
             break;
         }
@@ -1489,8 +1491,10 @@ back1:
                 }
             else
                 cout << "Empty\n";
+            
             CreateSemester(pHead);
             //cout << "\n\nCreate successfully!\n\n";
+            foutSemester(pHead);
             system("pause");
             clrscr();
             goto backtocase2;
@@ -1650,6 +1654,7 @@ back1:
             if (pTemp != nullptr)
             {
                 PrintScoreBoard(pTemp->pScore);
+                cout << "\n";
                 updateStudentResult(pTemp->pScore);
             }
             else 
