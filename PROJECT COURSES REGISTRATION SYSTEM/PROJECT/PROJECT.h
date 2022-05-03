@@ -12,7 +12,7 @@
 #include <stdlib.h>
 #include <queue>
 using namespace std;
-
+bool scoreboardCheck = false;
 bool importStudent = false;
 bool publishcheck = false;
 struct SignIn;

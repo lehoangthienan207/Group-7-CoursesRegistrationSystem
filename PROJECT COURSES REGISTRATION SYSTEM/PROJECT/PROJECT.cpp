@@ -1751,7 +1751,7 @@ back1:
                 if (pTempp->pClass != nullptr)
                 {
                     createScoreBoardOfStudentInClass(pTempp);
-                    cout << pTempp->pScore->Class << " " << pTempp->pScore->pStudent->StudentID << " " << pTempp->pScore->pStudent->point->overall << "\n";
+                    //cout << pTempp->pScore->Class << " " << pTempp->pScore->pStudent->StudentID << " " << pTempp->pScore->pStudent->point->overall << "\n";
                     printScoreOfStudentInClass(pTempp,pTempp->pClass);
                     deleteScoreOfStudentInBoard(pTempp);
                 }
@@ -1759,6 +1759,7 @@ back1:
                 {
                     cout << "No class found.";
                 }
+                scoreboardCheck = true;
             }
             else
                 cout << "No school year found.";
@@ -2002,7 +2003,10 @@ stuback1:
     }
     case '6':
     {
-        printScoreBoardStudent(pHead);
+        if (scoreboardCheck)
+            printScoreBoardStudent(pHead);
+        else
+            cout << "Not avaiable.\n";
             system("pause");
             clrscr();
         goto stuback1;
