@@ -364,16 +364,7 @@ void GeneralMenu(SignIn *pStaff, SignIn* pStudent,SchoolYear *&pHead,SchoolYear 
         foutCurrentSemester(pHead);
         foutEnrolled(pHead,pStudent);
         clrscr();
-        delete pCurrentSemester;
-	delete pCurrentStaff;
-	deleteScoreOfStudentInBoard(pHead);
-	deleteScoreOfStudentInClass(pHead);
-	deleteCourses(pHead->pSemester->pCourse);
-	deleteClasses(pHead->pClass);
-	deleteSemester(pHead->pSemester);
-	deleteSchoolYear(pHead);
-	deleteSignIn(pStaff);
-	deleteSignIn(pStudent);
+     
         exit(0);
     }
     else
@@ -432,6 +423,10 @@ void CreateSchoolYear(SchoolYear *&pHead, SchoolYear *&pCurr) //chỗ này có t
             {
                 ifstream studentInClass(".\\"+pHead->years + "\\" + pTemp->Name+".csv");
                 InputStudent(pTemp->pStudent,studentInClass);
+                if (importStudent)
+                    cout << "Import Successfully.\n";
+                else
+                    cout << "File not found.\n";
             }
             else
             {
@@ -494,6 +489,10 @@ void CreateSchoolYear(SchoolYear *&pHead, SchoolYear *&pCurr) //chỗ này có t
                 {
                     ifstream studentInClass(".\\"+pCurr->years + "\\" + pTemp->Name+".csv");
                     InputStudent(pTemp->pStudent,studentInClass);
+                    if (importStudent)
+                    cout << "Import Successfully.\n";
+                else
+                    cout << "File not found.\n";
                 }
                 else
                 {
@@ -554,6 +553,10 @@ void CreateSchoolYear(SchoolYear *&pHead, SchoolYear *&pCurr) //chỗ này có t
                 {
                     ifstream studentInClass(pTemp->Name + "." + "csv");
                     InputStudent(pTemp->pStudent,studentInClass);
+                    if (importStudent)
+                    cout << "Import Successfully.\n";
+                else
+                    cout << "File not found.\n";
                 }
                 else
                 {
@@ -817,10 +820,11 @@ void InputStudent(Students *& pHead, ifstream &studentInput)
         pCurr->Gender = key;
         pCurr->pNext = nullptr;
     }}
-    cout << "\nCreate successfully.\n";}
+        importStudent = true;
+    }
     else
-        cout << "\nFile Not Found.\n";
-    system("pause");
+        importStudent = false;
+    //system("pause");
 }
 
 void PrintStudentsListInClass(Classes* pHead)
@@ -1497,11 +1501,17 @@ back1:
             SchoolYear *pTempp = pHead;
             while (pTempp != nullptr)
             {
-                while(pTempp->pSemester != nullptr && pTempp->pSemester->pNext !=nullptr) pTempp->pSemester = pTempp->pSemester->pNext;
-                if (pTempp->pSemester != nullptr)
-                PrintClassesList(pTempp->pClass);
+                while (pTempp->pClass != nullptr)
+                {
+                    string name = pTempp->pClass->Name;
+                    PrintClassesList(pTempp->pClass);
+                    
+                    pTempp->pClass =pTempp->pClass->pNext;
+                }
                 pTempp = pTempp->pNext;
             }
+            //readSchoolYearList(pHead,pCurr);
+            readClassList(pHead);
             //View the list of all classes
             system("pause");
             clrscr();

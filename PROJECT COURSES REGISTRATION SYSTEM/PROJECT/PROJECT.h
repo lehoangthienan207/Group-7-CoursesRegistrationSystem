@@ -13,6 +13,7 @@
 #include <queue>
 using namespace std;
 
+bool importStudent = false;
 bool publishcheck = false;
 struct SignIn;
 struct DoB;
@@ -222,7 +223,7 @@ void foutEnrolled(SchoolYear *pHead,SignIn *pStudent);
 void foutCurrentSemester(SchoolYear *pHead);
 
 //readfile
-void readSchoolYearlist(SchoolYear *&pHead,SchoolYear *&pCurr);
+void readSchoolYearList(SchoolYear *&pHead,SchoolYear *&pCurr);
 //void readClassListAndStudent(SchoolYear *pHead);
 void readClassList(SchoolYear *pHead);
 void readEnrolled(SchoolYear *pHead,SignIn *pStudent);
