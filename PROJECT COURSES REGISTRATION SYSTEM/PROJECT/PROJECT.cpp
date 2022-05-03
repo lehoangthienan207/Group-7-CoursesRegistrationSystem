@@ -3058,7 +3058,7 @@ void importScoreBoardOfCourse(SchoolYear *pHead, Courses*pCourse)
 {
     if (pHead != nullptr)
     {
-        ifstream input(".\\" + pHead->years + "\\" + "semester " + to_string(pCurrentSemester->No) + "\\"+ pCourse->CourseID+"_student_list.csv");
+        ifstream input(".\\" + pHead->years + "\\" + "semester " + to_string(pCurrentSemester->No) + "\\"+ pCourse->CourseName+"_student_list.csv");
         if (input)
         {
             ScoreOfStudentInBoard *pCurr = pCourse->pScore;
